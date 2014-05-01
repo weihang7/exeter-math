@@ -25,6 +25,7 @@ class User(webapp2_extras.appengine.auth.models.User):
             return user, timestamp
         return None, None
 
+# Decorator for requiring login.
 def login_required(handler):
     def check_login(self, *args, **kwargs):
         auth = self.auth
