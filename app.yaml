@@ -1,0 +1,27 @@
+application: exeter-math
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: /bower_components
+  static_dir: bower_components
+- url: /create_team
+  script: routes.application
+- url: /edit_info
+  script: routes.application
+- url: /register
+  script: routes.application
+- url: /login
+  script: routes.application
+- url: /(.+)
+  static_files: static/\1
+  upload: static/(.+)
+- url: /
+  static_files: static/index.html
+  upload: static/index.html
+
+libraries:
+- name: webapp2
+  version: latest

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>Register | Exeter Math Club Competition</title>
+
+        <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
+        <link href="main.css" rel="stylesheet"/>
+        <script src="register.js"></script>
+
+    </head>
+    <body>
+        <!-- Navbar -->
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                    </button>
+                    <a class="navbar-brand" href="index.html">HackExeter</a>
+                </div>
+
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="index.html">Home</a></li>
+                        <li class="active"><a href="register.html">Register</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="rules.html">Rules</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="page-header">
+                <h1>Register</h1>
+            </div>
+            <h2>Account Name</h2>
+            <div class="input-group spaced">
+                <span class="input-group-addon">Name</span>
+                <input type="text" class="form-control" id="user" placeholder="Joe Ordinary"/>
+            </div>
+            <h2>Teams</h2>
+            <div id="teams_list">
+            </div>
+            <div id="individuals_list">
+            </div>
+            <button class="btn btn-secondary btn-sm" id="add_team"><span class="glyphicon glyphicon-plus" style="opacity:0.7"></span> team</button>
+            <button class="btn btn-secondary btn-sm" id="add_individual"><span class="glyphicon glyphicon-plus" style="opacity:0.7"></span> individual</button>
+            <br/><br/>
+            <hr/>
+            <button class="btn btn-primary btn-lg pull-right" id="submit">Register</button>
+        </div>
+
+        <script src="bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    </body>
+</html>
