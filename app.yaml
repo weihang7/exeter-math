@@ -26,13 +26,16 @@ handlers:
   login: admin
 - url: /bower_components
   static_dir: bower_components
+- url: /
+  static_files: static/index.html
+  upload: static/index.html
+- url: /index.html
+  static_files: static/index.html
+  upload: static/index.html
 - url: /(.+)
   static_files: static/\1
   upload: static/(.+)
   application_readable: true
-- url: /
-  static_files: static/index.html
-  upload: static/index.html
 
 libraries:
 - name: webapp2
