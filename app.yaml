@@ -21,6 +21,9 @@ handlers:
   script: routes.application
 - url: /reset/(.+)
   script: routes.application
+- url: /cleanup
+  script: routes.application
+  login: admin
 - url: /bower_components
   static_dir: bower_components
 - url: /(.+)

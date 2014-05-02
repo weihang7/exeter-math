@@ -1,0 +1,4 @@
+cron:
+- description: cleanup tokens every day
+  url: /cleanup
+  schedule: every day 00:00

@@ -18,5 +18,6 @@ application = webapp2.WSGIApplication([
     Route('/create_team', 'handlers.team.CreateTeamHandler'),
     Route('/edit_info', 'handlers.team.EditInfoHandler'),
     Route('/reset/<user_id:\d+>-<signup_token:.+>', 'handlers.template.ResetPasswordHandler', name='reset'),
-    Route('/reset', 'handlers.account.SetPasswordHandler')
+    Route('/reset', 'handlers.account.SetPasswordHandler'),
+    Route('/cleanup', 'handlers.account.CleanupHandler')
 ], debug=True, config=config)

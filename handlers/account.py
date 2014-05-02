@@ -1,5 +1,6 @@
 import json
 import time
+import datetime
 
 from google.appengine.api import mail
 from google.appengine.ext import ndb
@@ -125,3 +126,11 @@ class SetPasswordHandler(BaseHandler):
         self.response.write(json.dumps({
             'success': True
         }))
+
+class CleanupHandler(BaseHandler):
+
+    def get(self):
+        expiredTokens = User.token_model.query(User.token_model.created <= (datetime.datetime.utcnow() - datetime.timedelta(1)))
+        while expiredTokens.count() > 0:
+            keys = expiredTokens.fetch(100, keys_only=True)
+            ndb.delete_multi(keys)
