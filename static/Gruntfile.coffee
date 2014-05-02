@@ -1,26 +1,39 @@
 module.exports = (grunt) ->
     grunt.initConfig
         pkg: grunt.file.readJSON 'package.json'
+        coffeelint:
+            all:
+                files:
+                    src: ['src/*.coffee']
+                options:
+                    'indentation':
+                        'value': 4
         coffee:
             options:
                 sourceMap: true
             build:
-                files:
-                    'register.js': ['register.coffee']
-                    'login.js': ['login.coffee']
-                    'forgot.js': ['forgot.coffee']
-                    'reset.js': ['reset.coffee']
+                expand: true
+                cwd: 'src'
+                src: ['**/*.coffee']
+                dest: 'build'
+                ext: '.js'
         uglify:
-            my_target:
-                options:
-                    sourceMap: true
-                files:
-                    'register.min.js': ['register.js']
-                    'login.min.js': ['login.js']
-                    'forgot.min.js': ['forgot.js']
-                    'reset.min.js': ['reset.js']
+            dist:
+                files:[
+                    expand: true
+                    cwd: 'build/'
+                    src: ['**/*.js']
+                    dest: 'build/'
+                    ext: '.min.js'
+                    extDot: 'first'
+                ]
+        watch:
+            files: ['src/**/*.coffee']
+            tasks: ['coffee', 'uglify']
 
+    grunt.loadNpmTasks 'grunt-coffeelint'
     grunt.loadNpmTasks 'grunt-contrib-coffee'
+    grunt.loadNpmTasks 'grunt-contrib-watch'
     grunt.loadNpmTasks 'grunt-contrib-uglify'
 
-    grunt.registerTask 'default', ['coffee', 'uglify']
+    grunt.registerTask 'default', ['coffeelint', 'coffee', 'uglify']

@@ -3,6 +3,8 @@ window.addEventListener 'load', ->
     email_control = $ '#email-control'
     submit = $ '#submit'
     alert = $ '#info'
+    notification = 'A link to reset your password has been sent to your email.'
+
 
     submit.click ->
         submit.prop('disabled', true)
@@ -15,7 +17,8 @@ window.addEventListener 'load', ->
             dataType: 'json'
             success: (data) ->
                 if data.success
-                    alert.addClass('alert alert-success').text('A link to reset your password has been sent to your email.')
+                    alert.addClass('alert alert-success')
+                    alert.text notification
                 else
                     submit.prop('disabled', false)
                     email_control.addClass 'has-error'
