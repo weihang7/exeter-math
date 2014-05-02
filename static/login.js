@@ -1,10 +1,13 @@
 (function() {
   window.addEventListener('load', function() {
-    var email, password, submit;
+    var email, email_control, password, password_control, submit;
     email = $('#email');
     password = $('#password');
+    email_control = $('#email-control');
+    password_control = $('#password-control');
     submit = $('#submit');
     return submit.click(function() {
+      submit.prop('disabled', true);
       return $.ajax({
         url: '/login',
         method: 'POST',
@@ -17,7 +20,9 @@
           if (data.success) {
             return location.href = '/';
           } else {
-            return alert(JSON.stringify(data));
+            submit.prop('disabled', false);
+            email_control.addClass('has-error');
+            return password_control.addClass('has-error');
           }
         }
       });

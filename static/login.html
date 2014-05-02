@@ -8,11 +8,11 @@
 
         <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
         <link href="main.css" rel="stylesheet"/>
-        <script src="login.js"></script>
+        <script src="login.min.js"></script>
     </head>
     <body>
         <!-- Navbar -->
-        <div class="navbar navbar-fixed-top" role="navigation">
+        <div class="navbar" role="navigation">
             <div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -29,7 +29,7 @@
                         <li><a href="travel.html">Travel</a></li>
                         <li><a href="contact.html">Contact</a></li>
                     </ul>
-                    <ul class="nav pull-right">
+                    <ul class="nav navbar-right">
                         <li><a href="login.html">Login</a></li>
                     </ul>
                 </div>
@@ -40,16 +40,24 @@
             <div class="page-header">
                 <h1>Login</h1>
             </div>
-            <div class="form-group">
-                <label for="email">Email: </label>
-                <input type="email" class="form-control" id="email" placeholder="Enter email" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password: </label>
-                <input type="password" class="form-control" id="password" placeholder="Password" required>
-            </div>
-            <div class="form-actions span6 text-center">
-                <button class="btn btn-primary btn-lg" id="submit">Login</button>
+            <div class="form-horizontal">
+                <div class="form-group" id="email-control">
+                    <label for="email" class="col-sm-2 control-label">Email: </label>
+                    <div class="col-sm-10">
+                        <input type="email" class="form-control" id="email" placeholder="Enter email" required>
+                    </div>
+                </div>
+                <div class="form-group" id="password-control">
+                    <label for="password" class="col-sm-2 control-label">Password: </label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="password" placeholder="Password" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button class="btn btn-default" id="submit">Login</button>
+                    </div>
+                </div>
             </div>
         </div>
 

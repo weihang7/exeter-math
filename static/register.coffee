@@ -3,8 +3,10 @@ window.addEventListener 'load', ->
     password = $ '#password'
     institution = $ '#institution'
     submit = $ '#submit'
+    email_control = $ '#email-control'
 
     submit.click ->
+        submit.prop('disabled', true)
         $.ajax
             url: '/register'
             method: 'POST'
@@ -17,3 +19,7 @@ window.addEventListener 'load', ->
             success: (data) ->
                 if data.success
                     location.href = '/'
+                else
+                    submit.prop('disabled', false)
+                    email.val("")
+                    email_control.addClass 'has-error'
