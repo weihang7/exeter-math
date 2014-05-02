@@ -43,3 +43,11 @@ libraries:
 inbound_services:
 - mail
 - warmup
+
+skip_files:
+- ^(.*/)?#.*#$
+- ^(.*/)?.*~$
+- ^(.*/)?.*\.py[co]$
+- ^(.*/)?.*/RCS/.*$
+- ^(.*/)?\..*$
+- ^(.*/)?node_modules$
