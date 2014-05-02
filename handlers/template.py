@@ -10,7 +10,6 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 
 class ResetPasswordHandler(BaseHandler):
     def get(self, *args, **kwargs):
-        print(os.path.join(os.path.dirname(__file__), '..'))
         user_id = kwargs['user_id']
         signup_token = kwargs['signup_token']
         user, ts = self.user_model.get_by_auth_token(int(user_id), signup_token, 'signup')

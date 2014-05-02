@@ -6,12 +6,17 @@ window.addEventListener 'load', ->
     email_control = $ '#email-control'
     password_control  = $ '#password-control'
 
-    submit.click ->
+    register = ->
+        console.log 'clicked'
         if email.val() is ""
             email_control.addClass 'has-error'
+        else
+            email_control.removeClass 'has-error'
         if password.val() is ""
             password_control.addClass 'has-error'
         else
+            password_control.removeClass 'has-error'
+        if email.val() is not "" and password.val() is not ""
             submit.prop('disabled', true)
             $.ajax
                 url: '/register'
@@ -29,3 +34,5 @@ window.addEventListener 'load', ->
                         submit.prop('disabled', false)
                         email.val("")
                         email_control.addClass 'has-error'
+
+    submit.click register
