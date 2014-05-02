@@ -42,3 +42,4 @@ libraries:
 
 inbound_services:
 - mail
+- warmup
