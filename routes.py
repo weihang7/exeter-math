@@ -1,4 +1,5 @@
 import webapp2
+from webapp2 import Route
 
 config = {}
 config['webapp2_extras.auth'] = {
@@ -10,8 +11,12 @@ config['webapp2_extras.sessions'] = {
 }
 
 application = webapp2.WSGIApplication([
-    ('/register', 'handlers.account.RegisterHandler'),
-    ('/login', 'handlers.account.LoginHandler'),
-    ('/create_team', 'handlers.team.CreateTeamHandler'),
-    ('/edit_info', 'handlers.team.EditInfoHandler')
+    Route('/register', 'handlers.account.RegisterHandler'),
+    Route('/login', 'handlers.account.LoginHandler'),
+    Route('/logout', 'handlers.account.LogoutHandler'),
+    Route('/forgot', 'handlers.account.ForgotPasswordHandler'),
+    Route('/create_team', 'handlers.team.CreateTeamHandler'),
+    Route('/edit_info', 'handlers.team.EditInfoHandler'),
+    Route('/reset/<user_id:\d+>-<signup_token:.+>', 'handlers.template.ResetPasswordHandler', name='reset'),
+    Route('/reset', 'handlers.account.SetPasswordHandler')
 ], debug=True, config=config)

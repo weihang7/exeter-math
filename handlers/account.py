@@ -1,8 +1,9 @@
 import json
+import time
 
+from google.appengine.api import mail
 from google.appengine.ext import ndb
 import webapp2_extras.appengine.auth.models
-from google.appengine.ext.webapp import template
 from webapp2_extras import security
 from webapp2_extras import auth
 
@@ -74,7 +75,53 @@ class LoginHandler(BaseHandler):
             'problem': problem
         }))
 
+class ForgotPasswordHandler(BaseHandler):
+    def post(self):
+        email = self.request.get('email')
+
+        success = True
+        user = self.user_model.get_by_auth_id(email)
+        if not user:
+            success = False
+        else:
+            user_id = user.get_id()
+            token = self.user_model.create_signup_token(user_id)
+
+            mail.send_mail(sender='Exeter Math Club Competition <emcc-do-not-reply@exeter-math.appspot.com>',
+                    to=email,
+                    subject='EMCC Reset Password',
+                    body="""Hi,
+
+Thank you for contacting us. Click the link below to reset your password. This link is valid for one use only.
+%s
+
+Best,
+Exeter Math Club Competition""" % self.uri_for('reset', user_id=user_id, signup_token=token, _full=True))
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.write(json.dumps({
+            'success': success
+        }))
+
 class LogoutHandler(BaseHandler):
     def get(self):
         self.auth.unset_session()
         self.redirect('/')
+
+class SetPasswordHandler(BaseHandler):
+
+    @login_required
+    def post(self):
+        password = self.request.get('password')
+        old_token = self.request.get('token')
+
+        user = self.user
+        user.set_password(password)
+        user.put()
+
+        # remove signup token
+        self.user_model.delete_signup_token(user.get_id(), old_token)
+
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.write(json.dumps({
+            'success': True
+        }))

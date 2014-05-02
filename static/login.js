@@ -19,6 +19,10 @@
         success: function(data) {
           if (data.success) {
             return location.href = '/';
+          } else if (data.problem.indexOf('Password') > -1) {
+            submit.prop('disabled', false);
+            email_control.removeClass('has-error');
+            return password_control.addClass('has-error');
           } else {
             submit.prop('disabled', false);
             email_control.addClass('has-error');

@@ -5,7 +5,6 @@ from account import User
 from base import BaseHandler
 
 from google.appengine.ext import ndb
-from google.appengine.ext.webapp import template
 
 class Team(ndb.Model):
     name = ndb.StringProperty(indexed=False)

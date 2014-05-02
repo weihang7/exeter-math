@@ -4,22 +4,28 @@ window.addEventListener 'load', ->
     institution = $ '#institution'
     submit = $ '#submit'
     email_control = $ '#email-control'
+    password_control  = $ '#password-control'
 
     submit.click ->
-        submit.prop('disabled', true)
-        $.ajax
-            url: '/register'
-            method: 'POST'
-            data: {
-                email: email.val()
-                password: password.val()
-                institution: institution.val()
-            }
-            dataType: 'json'
-            success: (data) ->
-                if data.success
-                    location.href = '/'
-                else
-                    submit.prop('disabled', false)
-                    email.val("")
-                    email_control.addClass 'has-error'
+        if email.val() is ""
+            email_control.addClass 'has-error'
+        if password.val() is ""
+            password_control.addClass 'has-error'
+        else
+            submit.prop('disabled', true)
+            $.ajax
+                url: '/register'
+                method: 'POST'
+                data: {
+                    email: email.val()
+                    password: password.val()
+                    institution: institution.val()
+                }
+                dataType: 'json'
+                success: (data) ->
+                    if data.success
+                        location.href = '/'
+                    else
+                        submit.prop('disabled', false)
+                        email.val("")
+                        email_control.addClass 'has-error'
