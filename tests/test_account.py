@@ -54,7 +54,7 @@ class AppTest(unittest.TestCase):
     self.assertTrue(json.loads(response.normal_body)[u'success'])
     params = {'email': email, 'password': 'wrong_password'}
     response = self.testapp.post('/login', params)
-    # The login request should succeed.
+    # The login request should fail.
     self.assertEqual(response.status_int, 200)
     self.assertEqual(response.content_type, 'application/json')
     self.assertFalse(json.loads(response.normal_body)[u'success'])
