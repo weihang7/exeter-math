@@ -5,14 +5,14 @@ window.addEventListener 'load', ->
     password_control = $ '#password-control'
     submit = $ '#submit'
 
-    submit.click ->
+    login = (email, password) ->
         submit.prop('disabled', true)
         $.ajax
             url: '/login'
             method: 'POST'
             data: {
-                email: email.val()
-                password: password.val()
+                email: email
+                password: password
             }
             dataType: 'json'
             success: (data) ->
@@ -26,3 +26,10 @@ window.addEventListener 'load', ->
                     submit.prop('disabled', false)
                     email_control.addClass 'has-error'
                     password_control.addClass 'has-error'
+
+    submit.click ->
+        login(email.val(), password.val())
+
+    password.keypress (e) ->
+        if e and e.keyCode is 13
+            login(email.val(), password.val())
