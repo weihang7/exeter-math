@@ -24,13 +24,17 @@
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
                         <li><a href="index.html">Home</a></li>
-                        <li class="active"><a href="register.html">Register</a></li>
+                        <li><a href="register.html">Register</a></li>
                         <li><a href="contest.html">Contest</a></li>
                         <li><a href="travel.html">Travel</a></li>
                         <li><a href="contact.html">Contact</a></li>
                     </ul>
                     <ul class="nav navbar-right">
+                        {% if user %}
+                        <li><a href="/logout">Logout</a></li>
+                        {% else %}
                         <li><a href="login.html">Login</a></li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
@@ -44,17 +48,18 @@
                 <div class="form-group" id="email-control">
                     <label for="email" class="col-sm-2 control-label">Email</label>
                     <div class="col-sm-10">
-                        <input type="email" class="form-control" id="email" placeholder="Enter email" required>
+                        <input type="email" class="form-control" id="email" placeholder="Email" required autofocus>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button class="btn btn-default" id="submit">Submit</button>
+                        <button class="btn btn-lg btn-primary" id="submit">Submit</button>
                     </div>
                 </div>
             </div>
             <div id="info"></div>
         </div>
+        {% include 'footer.html' %}
 
         <script src="bower_components/jquery/dist/jquery.min.js"></script>
         <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>

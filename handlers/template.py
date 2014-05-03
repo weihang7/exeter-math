@@ -23,3 +23,12 @@ class ResetPasswordHandler(BaseHandler):
         }
         template = JINJA_ENVIRONMENT.get_template('reset.html')
         self.response.out.write(template.render(params))
+
+class StaticFileHandler(BaseHandler):
+    def get(self, filename='index'):
+        auth = self.auth
+        params = {
+                'user': auth.get_user_by_session()
+        }
+        template = JINJA_ENVIRONMENT.get_template(filename + '.html')
+        self.response.out.write(template.render(params))

@@ -36,25 +36,29 @@ class AppTest(unittest.TestCase):
     self.testbed.init_datastore_v3_stub()
     self.testbed.init_memcache_stub()
     params = {'email': email, 'password': password, 'institution': institution}
+
     # Then pass those values to the handler.
     response = self.testapp.post('/register', params)
     # The registration request should return true.
     self.assertEqual(response.status_int, 200)
     self.assertEqual(response.content_type, 'application/json')
     self.assertTrue(json.loads(response.normal_body)[u'success'])
+
     # Verify that the passed-in values are actually stored in database.
     ret = User.get_by_auth_password(email, password)
     self.assertEqual(ret.auth_ids[0], email)
     self.assertEqual(ret.institution, institution)
+
     params = {'email': email, 'password': password}
     response = self.testapp.post('/login', params)
     # The login request should succeed.
     self.assertEqual(response.status_int, 200)
     self.assertEqual(response.content_type, 'application/json')
     self.assertTrue(json.loads(response.normal_body)[u'success'])
+
     params = {'email': email, 'password': 'wrong_password'}
     response = self.testapp.post('/login', params)
-    # The login request should fail.
+    # The login request with a wrong password should fail.
     self.assertEqual(response.status_int, 200)
     self.assertEqual(response.content_type, 'application/json')
     self.assertFalse(json.loads(response.normal_body)[u'success'])
