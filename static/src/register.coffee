@@ -48,3 +48,9 @@ window.addEventListener 'load', ->
                         email_control.addClass 'has-error'
 
     submit.click register
+    password.keypress (e) ->
+        if e and e.keyCode is 13
+            register()
+    institution.keypress (e) ->
+        if e and e.keyCode is 13
+            register()
