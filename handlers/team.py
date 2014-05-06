@@ -13,7 +13,7 @@ class Team(ndb.Model):
 class Individual(ndb.Model):
     name = ndb.StringProperty(indexed=False)
     team = ndb.KeyProperty(kind=Team, indexed=True)
-    user = ndb.StringProperty(indexed=True)
+    user = ndb.KeyProperty(kind=User, indexed=True)
 
 # CreateTeamHandler
 # The handler that listens on /register
