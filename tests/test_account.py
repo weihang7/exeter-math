@@ -1,6 +1,8 @@
 from google.appengine.ext import testbed
 import webapp2
 import webtest
+import cookielib
+import urllib
 import unittest
 import json
 import imp
@@ -75,8 +77,7 @@ class LoginTest(unittest.TestCase):
   
   def testLogin(self):
     # Register the user first.
-    params = {'email': self.email, 'password': self.password, 'institution': self.institution}
-    self.testapp.post('/register', params)
+    User.create_user(self.email, password_raw=self.password, institution=self.institution)
 
     params = {'email': self.email, 'password': self.password}
     response = self.testapp.post('/login', params)
@@ -91,3 +92,58 @@ class LoginTest(unittest.TestCase):
     self.assertEqual(response.status_int, 200)
     self.assertEqual(response.content_type, 'application/json')
     self.assertFalse(json.loads(response.normal_body)[u'success'])
+
+class ResetTest(unittest.TestCase):
+  # First define an email and password to be registered.
+  email = 'example@example.com'
+  password = 'example'
+  institution = 'example'
+
+  def setUp(self):
+    app = routes.application
+    self.testapp = webtest.TestApp(app, cookiejar=cookielib.CookieJar())
+    self.testbed = testbed.Testbed()
+    self.testbed.activate()
+    # Initialize the testing environment
+    self.testbed.init_datastore_v3_stub()
+    self.testbed.init_memcache_stub()
+    self.testbed.init_mail_stub()
+    self.mail_stub = self.testbed.get_stub(testbed.MAIL_SERVICE_NAME)
+
+  def tearDown(self):
+     self.testbed.deactivate()
+  
+  def testReset(self):
+    # Register the user first.
+    User.create_user(self.email, password_raw=self.password, institution=self.institution)
+
+    params = {'email': self.email}
+    response = self.testapp.post('/forgot', params)
+    # The forgot password request should succeed.
+    self.assertEqual(response.status_int, 200)
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertTrue(json.loads(response.normal_body)[u'success'])
+
+    params = {'email': 'nonexistent_email@na.na'}
+    response = self.testapp.post('/forgot', params)
+    # The forgot password request with nonexistent email should fail.
+    self.assertEqual(response.status_int, 200)
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertFalse(json.loads(response.normal_body)[u'success'])
+
+    messages = self.mail_stub.get_sent_messages(to=self.email)
+    # There should be only one email sent.
+    self.assertEqual(1, len(messages))
+    email = urllib.unquote(messages[0].body.decode())
+    url = email.split('\n')[3]
+    # Get the cookie
+    self.testapp.get(url)
+    token = url.split('-')[1]
+
+    params = {'token': token, 'password': 'new_password'}
+    response = self.testapp.post('/reset', params)
+    # The reset request should succeed.
+    self.assertEqual(response.status_int, 200)
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertTrue(json.loads(response.normal_body)[u'success'])
+
