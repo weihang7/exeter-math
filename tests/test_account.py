@@ -8,6 +8,7 @@ import json
 import imp
 import routes
 from handlers.account import User
+from webapp2_extras import auth
 
 config = {}
 config['webapp2_extras.auth'] = {
@@ -18,12 +19,12 @@ config['webapp2_extras.sessions'] = {
     'secret_key': 'ikrm~BbMF2/7v]yljeL|v^9K}]S+-@4?p-;^cCzrG9RjYda}is`:}=(n<S~o.J,z',
 }
 
-class RegisterTest(unittest.TestCase):
-  # First define an email and password to be registered.
-  email = 'example@example.com'
-  password = 'example'
-  institution = 'example'
+# First define an email and password to be registered.
+email = 'example@example.com'
+password = 'example'
+institution = 'example'
 
+class RegisterTest(unittest.TestCase):
   def setUp(self):
     app = routes.application
     self.testapp = webtest.TestApp(app)
@@ -36,7 +37,7 @@ class RegisterTest(unittest.TestCase):
      self.testbed.deactivate()
   
   def testRegister(self):
-    params = {'email': self.email, 'password': self.password, 'institution': self.institution}
+    params = {'email': email, 'password': password, 'institution': institution}
 
     # Pass those values to the handler.
     response = self.testapp.post('/register', params)
@@ -53,16 +54,11 @@ class RegisterTest(unittest.TestCase):
     self.assertFalse(json.loads(response.normal_body)[u'success'])
 
     # Verify that the passed-in values are actually stored in database.
-    ret = User.get_by_auth_password(self.email, self.password)
-    self.assertEqual(ret.auth_ids[0], self.email)
-    self.assertEqual(ret.institution, self.institution)
+    ret = User.get_by_auth_password(email, password)
+    self.assertEqual(ret.auth_ids[0], email)
+    self.assertEqual(ret.institution, institution)
 
 class LoginTest(unittest.TestCase):
-  # First define an email and password to be registered.
-  email = 'example@example.com'
-  password = 'example'
-  institution = 'example'
-
   def setUp(self):
     app = routes.application
     self.testapp = webtest.TestApp(app)
@@ -77,16 +73,16 @@ class LoginTest(unittest.TestCase):
   
   def testLogin(self):
     # Register the user first.
-    User.create_user(self.email, password_raw=self.password, institution=self.institution)
+    User.create_user(email, password_raw=password, institution=institution)
 
-    params = {'email': self.email, 'password': self.password}
+    params = {'email': email, 'password': password}
     response = self.testapp.post('/login', params)
     # The login request should succeed.
     self.assertEqual(response.status_int, 200)
     self.assertEqual(response.content_type, 'application/json')
     self.assertTrue(json.loads(response.normal_body)[u'success'])
 
-    params = {'email': self.email, 'password': 'wrong_password'}
+    params = {'email': email, 'password': 'wrong_password'}
     response = self.testapp.post('/login', params)
     # The login request with a wrong password should fail.
     self.assertEqual(response.status_int, 200)
@@ -94,14 +90,10 @@ class LoginTest(unittest.TestCase):
     self.assertFalse(json.loads(response.normal_body)[u'success'])
 
 class ResetTest(unittest.TestCase):
-  # First define an email and password to be registered.
-  email = 'example@example.com'
-  password = 'example'
-  institution = 'example'
 
   def setUp(self):
-    app = routes.application
-    self.testapp = webtest.TestApp(app, cookiejar=cookielib.CookieJar())
+    self.app = routes.application
+    self.testapp = webtest.TestApp(self.app)
     self.testbed = testbed.Testbed()
     self.testbed.activate()
     # Initialize the testing environment
@@ -115,9 +107,9 @@ class ResetTest(unittest.TestCase):
   
   def testReset(self):
     # Register the user first.
-    User.create_user(self.email, password_raw=self.password, institution=self.institution)
+    User.create_user(email, password_raw=password, institution=institution)
 
-    params = {'email': self.email}
+    params = {'email': email}
     response = self.testapp.post('/forgot', params)
     # The forgot password request should succeed.
     self.assertEqual(response.status_int, 200)
@@ -131,19 +123,21 @@ class ResetTest(unittest.TestCase):
     self.assertEqual(response.content_type, 'application/json')
     self.assertFalse(json.loads(response.normal_body)[u'success'])
 
-    messages = self.mail_stub.get_sent_messages(to=self.email)
+    messages = self.mail_stub.get_sent_messages(to=email)
     # There should be only one email sent.
     self.assertEqual(1, len(messages))
-    email = urllib.unquote(messages[0].body.decode())
-    url = email.split('\n')[3]
-    # Get the cookie
-    self.testapp.get(url)
-    token = url.split('-')[1]
+    content = urllib.unquote(messages[0].body.decode())
+    url = content.split('\n')[3]
+    data = url.split('/')[4]
+    user_id, token = data.split('-')
 
-    params = {'token': token, 'password': 'new_password'}
+    params = {'id': user_id, 'token': token, 'password': 'new_password'}
     response = self.testapp.post('/reset', params)
     # The reset request should succeed.
     self.assertEqual(response.status_int, 200)
     self.assertEqual(response.content_type, 'application/json')
     self.assertTrue(json.loads(response.normal_body)[u'success'])
+
+    user = auth.get_store(app=self.app).validate_password(email, 'new_password')
+    self.assertIsNotNone(user)
 

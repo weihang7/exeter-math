@@ -16,9 +16,7 @@ class ResetPasswordHandler(BaseHandler):
 
         if not user:
             self.abort(404)
-        self.auth.set_session(self.auth.store.user_to_dict(user), remember=True)
         params = {
-                'user': user,
                 'token': signup_token
         }
         template = JINJA_ENVIRONMENT.get_template('reset.html')

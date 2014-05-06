@@ -13,6 +13,7 @@ window.addEventListener 'load', ->
                 data: {
                     password: password.val()
                     token: token.val()
+                    id: parseInt(location.pathname.substr(7).split('-')[0])
                 }
                 dataType: 'json'
                 success: (data) ->

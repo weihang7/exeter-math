@@ -110,12 +110,12 @@ class LogoutHandler(BaseHandler):
 
 class SetPasswordHandler(BaseHandler):
 
-    @login_required
     def post(self):
         password = self.request.get('password')
         old_token = self.request.get('token')
+        user_id = int(self.request.get('id'))
 
-        user = self.user
+        user, ts = self.user_model.get_by_auth_token(user_id, old_token, 'signup')
         user.set_password(password)
         user.put()
 
