@@ -51,7 +51,7 @@ class RegisterHandler(BaseHandler):
         if not user_data[0]:
             success = False
         else:
-            self.auth.get_user_by_password(email, password, remember=True, save_session=True)
+            self.auth.set_session(self.auth.store.user_to_dict(user_data[1]), remember=True)
         
         self.response.headers['Content-Type'] = 'application/json'
         self.response.write(json.dumps({
