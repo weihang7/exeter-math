@@ -17,7 +17,7 @@ window.addEventListener 'load', ->
             dataType: 'json'
             success: (data) ->
                 if data.success
-                    location.href = '/'
+                    location.href = '/register_team.html'
                 else if data.problem.indexOf('Password') > -1
                     submit.prop('disabled', false)
                     email_control.removeClass 'has-error'
@@ -32,4 +32,4 @@ window.addEventListener 'load', ->
 
     password.keypress (e) ->
         if e and e.keyCode is 13
-            login(email.val(), password.val())
+            submit.click()

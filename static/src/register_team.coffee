@@ -23,34 +23,27 @@ window.addEventListener 'load', ->
         }
 
     addTeam.click ->
-        $.ajax
-            url: '/create_team'
-            data: {
-                'user': userInput.val()
-            }
-            dataType: 'json'
-            success: (data) ->
-                for i in [1..4]
-                    memberInputs = createLabelledInput(i.toString(), "Jane Doe")
-                nameInput = createLabelledInput 'Team Name', 'Clarke A'
+        memberInputs = []
+        for i in [1..4]
+            memberInputs.push createLabelledInput(i.toString(), "John Smith")
+        nameInput = createLabelledInput 'Team Name', 'Clarke A'
 
-                teamInputs.push {
-                    id: data.id
-                    name: nameInput.input
-                    members: memberInputs.map (x) -> x.input
-                }
+        teamInputs.push {
+            name: nameInput.input
+            members: memberInputs.map (x) -> x.input
+        }
 
-                newTeamDiv = $ '<div>'
+        newTeamDiv = $ '<div class="form-group">'
 
-                input.group.css('margin-left', '30px') for input in memberInputs
-                
-                newTeamDiv.append nameInput.group
-                newTeamDiv.append input.group for input in memberInputs
-                
-                teamsDiv.append newTeamDiv
+        input.group.css('margin-left', '30px') for input in memberInputs
+        
+        newTeamDiv.append nameInput.group
+        newTeamDiv.append input.group for input in memberInputs
+        
+        teamsDiv.append newTeamDiv
 
     addIndividual.click ->
-        input = createLabelledInput 'Individual', 'Phillip Pirrip'
+        input = createLabelledInput 'Individual', 'John Smith'
 
         individualInputs.push input.input
 
@@ -68,11 +61,10 @@ window.addEventListener 'load', ->
             for memberInput in teamInput.members
                 members.push {
                     name: memberInput.val()
-                    team: teamInput.id
+                    team: teamInput.name
                 }
 
             teams.push {
-                id: teamInput.id
                 name: teamName
             }
 
@@ -84,7 +76,7 @@ window.addEventListener 'load', ->
             }
 
         $.ajax
-            url: '/edit_info'
+            url: '/register_team'
             data: {
                 'user': userInput.val()
                 'teams': JSON.stringify teams

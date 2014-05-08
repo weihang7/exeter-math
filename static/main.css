@@ -58,6 +58,6 @@ body {
     color: #999;
     margin-top: 20px;
 }
-.navbar-brand, .nav a {
+.navbar-brand, nav a {
     font-weight: 500;
 }

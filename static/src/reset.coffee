@@ -7,11 +7,12 @@ window.addEventListener 'load', ->
 
     submit.click ->
         if confirm.val() is password.val()
+            shaObj = new jsSHA(password.val(), 'TEXT')
             $.ajax
                 url: '/reset'
                 method: 'POST'
                 data: {
-                    password: password.val()
+                    password: shaObj.getHash('SHA-512', 'B64')
                     token: token.val()
                     id: parseInt(location.pathname.substr(7).split('-')[0])
                 }

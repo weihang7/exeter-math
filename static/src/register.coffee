@@ -30,18 +30,19 @@ window.addEventListener 'load', ->
     register = ->
         if verify(email.val(), password.val(), confirm.val())
             submit.prop('disabled', true)
+            shaObj = new jsSHA(password.val(), 'TEXT')
             $.ajax
                 url: '/register'
                 method: 'POST'
                 data: {
                     email: email.val()
-                    password: password.val()
+                    password: shaObj.getHash('SHA-512', 'B64')
                     institution: institution.val()
                 }
                 dataType: 'json'
                 success: (data) ->
                     if data.success
-                        location.href = '/'
+                        location.href = '/register_team.html'
                     else
                         submit.prop('disabled', false)
                         email.val("")

@@ -4,7 +4,7 @@
         <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <title>Register | Exeter Math Club Competition</title>
+        <title>Register Team | Exeter Math Club Competition</title>
 
         <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
         <link href="main.css" rel="stylesheet"/>
@@ -15,23 +15,19 @@
         {% include 'navbar.html' %}
         <div class="container">
             <div class="page-header">
-                <h1>Register</h1>
+                <h1>Register Team</h1>
             </div>
-            <h2>Account Name</h2>
-            <div class="input-group spaced">
-                <span class="input-group-addon">Name</span>
-                <input type="text" class="form-control" id="user" placeholder="Joe Ordinary"/>
-            </div>
-            <h2>Teams</h2>
             <div id="teams_list">
             </div>
             <div id="individuals_list">
             </div>
-            <button class="btn btn-secondary btn-sm" id="add_team"><span class="glyphicon glyphicon-plus" style="opacity:0.7"></span> team</button>
-            <button class="btn btn-secondary btn-sm" id="add_individual"><span class="glyphicon glyphicon-plus" style="opacity:0.7"></span> individual</button>
-            <br/><br/>
-            <hr/>
-            <button class="btn btn-primary btn-lg pull-right" id="submit">Register</button>
+            <div class="form-group">
+                <button class="btn btn-secondary btn-sm" id="add_team"><span class="glyphicon glyphicon-plus" style="opacity:0.7"></span> team</button>
+                <button class="btn btn-secondary btn-sm" id="add_individual"><span class="glyphicon glyphicon-plus" style="opacity:0.7"></span> individual</button>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary btn-lg" id="submit">Register</button>
+            </div>
         </div>
         {% include 'footer.html' %}
 
