@@ -26,7 +26,7 @@ window.addEventListener 'load', ->
         memberInputs = []
         for i in [1..4]
             memberInputs.push createLabelledInput(i.toString(), "John Smith")
-        nameInput = createLabelledInput 'Team Name', 'Clarke A'
+        nameInput = createLabelledInput 'Team Name', 'Hogwarts A'
 
         teamInputs.push {
             name: nameInput.input
