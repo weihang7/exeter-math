@@ -5,7 +5,7 @@ Steps 1-5 should all have associated unit tests. Unit tests should act as docume
 Steps 6-9 should each be showcased to the rest of the EMCC team before they are called complete. You will know when these steps are completed, because you or someone near you will be asked to review the site UI.
 
 Note that not all steps are expected to take the same amount of time. The time a step should take is roughly proportional to the number of tick marks it has in the list underneath it, with the exception of steps 1 and 2. Steps 1 and 2 are expected to take extremely long, as they are core elements and will have to be constructed with great care.
-------------------
+
 
 1. [ ] Create api-level database interface for coach login. Operations that should be done here (implemented in this order):
   - [x] Create user
@@ -46,7 +46,7 @@ Note that not all steps are expected to take the same amount of time. The time a
   - [ ] Create individual
   - [ ] Create team
   - [ ] Assign individual to team
-  - [ ] (re-)Generate individual IDs (given room #s)
+  - [ ] \(re-\)Generate individual IDs (given room #s)
   - [ ] Delete team + all associated individuals
   - [ ] Enter/lookup payment information for teams
 
@@ -59,7 +59,6 @@ Note that not all steps are expected to take the same amount of time. The time a
   - [ ] Create team from member list
   - [ ] Create individual
   - [ ] Assign individual to team
-
   - [ ] View individual scores
   - [ ] View team scores
   - [ ] Check team payment status
@@ -68,11 +67,10 @@ Note that not all steps are expected to take the same amount of time. The time a
   - [ ] Create individual (will be registered under special "admin" user; used for emergencies that require manual intervention)
   - [ ] Create team
   - [ ] Assign individual to team
-
   - [ ] Enter payment status information
   - [ ] Delete/edit team info
   - [ ] Email the coach of a team
 
-9. [ ] Create scoring interface. Action items:
+9. [ ] Create grading interface. Action items:
   - [ ] Enter scores for a round
   - [ ] View currently-entered scores for a round
