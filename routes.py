@@ -20,6 +20,7 @@ application = webapp2.WSGIApplication([
     Route('/reset/<user_id:\d+>-<signup_token:.+>', 'handlers.template.ResetPasswordHandler', name='reset'),
     Route('/reset', 'handlers.account.SetPasswordHandler'),
     Route('/cleanup', 'handlers.account.CleanupHandler'),
+    Route('/add_legacy', 'handlers.account.AddLegacyUserHandler'),
     Route('/', 'handlers.template.StaticFileHandler'),
     Route('/<filename:.+>.html', 'handlers.template.StaticFileHandler')
 ], debug=True, config=config)

@@ -1,12 +1,14 @@
 import json
 import time
+import hashlib
 import datetime
 
 from google.appengine.api import mail
 from google.appengine.ext import ndb
+import sys
+sys.modules['ndb'] = ndb
 import webapp2_extras.appengine.auth.models
 from webapp2_extras import security
-from webapp2_extras import auth
 
 from webapp2_extras.auth import InvalidAuthIdError
 from webapp2_extras.auth import InvalidPasswordError
@@ -27,6 +29,12 @@ class User(webapp2_extras.appengine.auth.models.User):
             return user, timestamp
         return None, None
 
+class LegacyUser(ndb.Model):
+    email = ndb.StringProperty()
+    salt = ndb.StringProperty()
+    hash = ndb.StringProperty()
+    institution = ndb.StringProperty()
+
 # Decorator for requiring login.
 def login_required(handler):
     def check_login(self, *args, **kwargs):
@@ -43,15 +51,18 @@ class RegisterHandler(BaseHandler):
         email = self.request.get('email')
         password = self.request.get('password')
         institution = self.request.get('institution')
-        
-        user_data = self.user_model.create_user(email,
-                password_raw=password, institution=institution)
-
         success = True
-        if not user_data[0]:
+        
+        if LegacyUser.query(LegacyUser.email == email).count():
             success = False
         else:
-            self.auth.set_session(self.auth.store.user_to_dict(user_data[1]), remember=True)
+            user_data = self.user_model.create_user(email,
+                    password_raw=password, institution=institution)
+    
+            if not user_data[0]:
+                success = False
+            else:
+                self.auth.set_session(self.auth.store.user_to_dict(user_data[1]), remember=True)
         
         self.response.headers['Content-Type'] = 'application/json'
         self.response.write(json.dumps({
@@ -65,12 +76,34 @@ class LoginHandler(BaseHandler):
 
         success = True
         problem = ""
+        query = LegacyUser.query(LegacyUser.email == email)
 
-        try:
-            u = self.auth.get_user_by_password(email, password, remember=True, save_session=True)
-        except (InvalidAuthIdError, InvalidPasswordError) as e:
-            success = False
-            problem = str(type(e))
+        if query.count() == 0:
+            try:
+                u = self.auth.get_user_by_password(email, password, remember=True, save_session=True)
+            except (InvalidAuthIdError, InvalidPasswordError) as e:
+                success = False
+                problem = str(type(e))
+        else:
+            user = query.get()
+            salt = user.salt
+            _hash = user.hash
+            hashfun = hashlib.sha512()
+            hashfun.update(salt)
+            hashfun.update(password.encode())
+            hashval = hashfun.hexdigest()
+            if hashval == _hash:
+                success = True
+                user_data = self.user_model.create_user(email,
+                    password_raw=password, institution=user.institution)
+                if not user_data[0]:
+                    success = False
+                else:
+                    self.auth.set_session(self.auth.store.user_to_dict(user_data[1]), remember=True)
+                user.key.delete()
+            else:
+                success = False
+                problem = 'InvalidPasswordError'
 
         self.response.headers['Content-Type'] = 'application/json'
         self.response.write(json.dumps({
@@ -116,18 +149,35 @@ class SetPasswordHandler(BaseHandler):
         password = self.request.get('password')
         old_token = self.request.get('token')
         user_id = int(self.request.get('id'))
+        success = True
 
         user, ts = self.user_model.get_by_auth_token(user_id, old_token, 'signup')
-        user.set_password(password)
-        user.put()
+        if ts < time.time():
+            success = False
+        else:
+            user.set_password(password)
+            user.put()
 
         # remove signup token
         self.user_model.delete_signup_token(user.get_id(), old_token)
 
         self.response.headers['Content-Type'] = 'application/json'
         self.response.write(json.dumps({
-            'success': True
+            'success': success
         }))
+
+class AddLegacyUserHandler(BaseHandler):
+    
+    def post(self):
+        email = self.request['email']
+        salt = self.request['salt']
+        _hash = self.request['hash']
+        institution = self.request['institution']
+        query = LegacyUser.query(LegacyUser.email == email)
+        
+        if query.count() == 0:
+            user = LegacyUser(email=email, salt=salt, hash=_hash, institution=institution)
+            user.put()
 
 class CleanupHandler(BaseHandler):
 
