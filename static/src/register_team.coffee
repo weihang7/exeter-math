@@ -21,24 +21,32 @@ createLabelledInput = (label, placeholder) ->
     }
 
 addTeam.click ->
-    memberInputs = []
-    for i in [1..4]
-        memberInputs.push createLabelledInput(i.toString(), "John Smith")
-    nameInput = createLabelledInput 'Team Name', 'Hogwarts A'
+    $.ajax
+        url: '/create_team'
+        dataType: 'json'
+        success: (data) ->
+            memberInputs = []
 
-    teamInputs.push {
-        name: nameInput.input
-        members: memberInputs.map (x) -> x.input
-    }
+            for i in [1..4]
+                memberInputs.push createLabelledInput(i.toString(),
+                  "John Smith")
 
-    newTeamDiv = $ '<div class="form-group">'
+            nameInput = createLabelledInput 'Team Name', 'Hogwarts A'
 
-    input.group.css('margin-left', '30px') for input in memberInputs
-    
-    newTeamDiv.append nameInput.group
-    newTeamDiv.append input.group for input in memberInputs
-    
-    teamsDiv.append newTeamDiv
+            teamInputs.push {
+                name: nameInput.input
+                members: memberInputs.map (x) -> x.input
+                id: data.id
+            }
+
+            newTeamDiv = $ '<div class="form-group">'
+
+            input.group.css('margin-left', '30px') for input in memberInputs
+            
+            newTeamDiv.append nameInput.group
+            newTeamDiv.append input.group for input in memberInputs
+            
+            teamsDiv.append newTeamDiv
 
 addIndividual.click ->
     input = createLabelledInput 'Individual', 'John Smith'
@@ -53,28 +61,27 @@ submit.click ->
     members = []
     teams = []
     for teamInput in teamInputs
-      
         teamName = teamInput.name.val()
       
         for memberInput in teamInput.members
             members.push {
                 name: memberInput.val()
-                team: teamInput.name
+                team: teamInput.id
             }
 
         teams.push {
             name: teamName
+            id: teamInput.id
         }
 
     for individualInput in individualInputs
-
         members.push {
             name: individualInput.val()
             team: -1
         }
 
     $.ajax
-        url: '/register_team'
+        url: '/edit_info'
         data: {
             'user': userInput.val()
             'teams': JSON.stringify teams

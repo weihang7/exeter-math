@@ -27,6 +27,9 @@ module.exports = (grunt) ->
                     ext: '.min.js'
                     extDot: 'first'
                 ]
+            options:
+              sourceMap: true
+            
         watch:
             files: ['src/**/*.coffee']
             tasks: ['coffee', 'uglify']

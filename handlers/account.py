@@ -79,8 +79,10 @@ class LoginHandler(BaseHandler):
         query = LegacyUser.query(LegacyUser.email == email)
 
         if query.count() == 0:
+            print 'Query count is 0'
             try:
                 u = self.auth.get_user_by_password(email, password, remember=True, save_session=True)
+                print u
             except (InvalidAuthIdError, InvalidPasswordError) as e:
                 success = False
                 problem = str(type(e))

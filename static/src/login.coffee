@@ -1,17 +1,17 @@
 email = $ '#email'
-password = $ '#password'
+password_el = $ '#password'
 email_control = $ '#email-control'
 password_control = $ '#password-control'
 submit = $ '#submit'
 
 login = (email, password) ->
-    submit.prop('disabled', true)
+    shaObj = new jsSHA password, 'TEXT'
     $.ajax
         url: '/login'
         method: 'POST'
         data: {
             email: email
-            password: password
+            password: shaObj.getHash('SHA-512', 'B64')
         }
         dataType: 'json'
         success: (data) ->
@@ -27,8 +27,8 @@ login = (email, password) ->
                 password_control.addClass 'has-error'
 
 submit.click ->
-    login(email.val(), password.val())
+    login(email.val(), password_el.val())
 
-password.keypress (e) ->
+password_el.keypress (e) ->
     if e and e.keyCode is 13
         submit.click()

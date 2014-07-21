@@ -9,7 +9,7 @@
   "devDependencies": {
     "grunt": "latest",
     "grunt-contrib-coffee": "latest",
-    "grunt-contrib-uglify": "~0.4.0",
+    "grunt-contrib-uglify": "latest",
     "grunt-contrib-watch": "~0.6.1",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-coffeelint": "0.0.10"
