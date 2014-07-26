@@ -15,10 +15,10 @@ Note that not all steps are expected to take the same amount of time. The time a
   - [x] Reset password
 
 2. [ ] Create api-level database interface for teams. Operations that should be done here (implemented in this order):
-  - [ ] Create individual
-  - [ ] Create team
-  - [ ] Assign individual to a team
-  - [ ] Automatically create team, individuals, and assign individuals to teams when given a list of individuals and a team name
+  - [x] Create individual
+  - [x] Create team
+  - [x] Assign individual to a team
+  - [x] Automatically create team, individuals, and assign individuals to teams when given a list of individuals and a team name
   - [ ] Delete individual
   - [ ] Delete team
   - [ ] Delete team + all associated individuals
@@ -31,14 +31,14 @@ Note that not all steps are expected to take the same amount of time. The time a
   - [ ] Enter/lookup scores for team rounds
   - [ ] Query awards (top individuals, top per round, top per team)
 
-3. [ ] Create cgi wrappers for coach login. CGI backends:
-  - [ ] Login (given password hash)
+3. [x] Create cgi wrappers for coach login. CGI backends:
+  - [x] Login (given password hash)
 
 4. [ ] Create cgi wrappers for end-user teams database. CGI backends (all require coach authentication):
-  - [ ] Create individual
-  - [ ] Create team
-  - [ ] Assign individual to team
-  - [ ] Automatically create team, individuals, and assign individuals to teams when given a list of individuals and a team name
+  - [x] Create individual
+  - [x] Create team
+  - [x] Assign individual to team
+  - [x] Automatically create team, individuals, and assign individuals to teams when given a list of individuals and a team name
   - [ ] Lookup scores for individuals
   - [ ] Lookup scores for teams
 
@@ -52,7 +52,7 @@ Note that not all steps are expected to take the same amount of time. The time a
 
 6. [ ] Create front-end for user registration. Action items:
   - [x] Register new user
-  - [ ] Login
+  - [x] Login
 
 7. [ ] Create front-end for team registration. Action items:
   - [ ] Create team
