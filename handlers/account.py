@@ -93,8 +93,6 @@ class LoginHandler(BaseHandler):
             hashfun.update(salt)
             hashfun.update(password.encode())
             hashval = hashfun.hexdigest()
-            print "Server: ", _hash
-            print "Client: ", hashval
             if hashval == _hash:
                 success = True
                 user_data = self.user_model.create_user(email,
