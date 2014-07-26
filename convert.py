@@ -11,5 +11,4 @@ with sqlite3.connect('auth.db') as conn:
                 'email': user[6],
                 'institution': user[3]
         }
-        print payload
         r = requests.post('http://localhost:8080/add_legacy', data=payload)
