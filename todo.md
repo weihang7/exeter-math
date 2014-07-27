@@ -55,10 +55,10 @@ Note that not all steps are expected to take the same amount of time. The time a
   - [x] Login
 
 7. [ ] Create front-end for team registration. Action items:
-  - [ ] Create team
-  - [ ] Create team from member list
-  - [ ] Create individual
-  - [ ] Assign individual to team
+  - [x] Create team
+  - [x] Create team from member list
+  - [x] Create individual
+  - [x] Assign individual to team
   - [ ] View individual scores
   - [ ] View team scores
   - [ ] Check team payment status
