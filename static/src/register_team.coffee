@@ -8,6 +8,12 @@ teamsDiv = $ '#teams_list'
 individualsDiv = $ '#individuals_list'
 userInput = $ '#user'
 
+submit = $ '#submit'
+
+invalidate = ->
+    submit.text 'Save'
+    submit.removeAttr 'disabled'
+
 createLabelledInput = (label, placeholder) ->
     input = $ "<input class='form-control' placeholder='#{placeholder}'>"
     span = $ "<span class='input-group-addon'>#{label}</span>"
@@ -21,6 +27,7 @@ createLabelledInput = (label, placeholder) ->
     }
 
 addTeam.click ->
+    invalidate()
     $.ajax
         url: '/create_team'
         dataType: 'json'
@@ -32,6 +39,7 @@ addTeam.click ->
                   "John Smith")
 
             nameInput = createLabelledInput 'Team Name', 'Hogwarts A'
+            nameInput.input.on 'input', invalidate
 
             teamInputs.push {
                 name: nameInput.input
@@ -50,12 +58,11 @@ addTeam.click ->
 
 addIndividual.click ->
     input = createLabelledInput 'Individual', 'John Smith'
+    input.input.on 'input', invalidate
 
     individualInputs.push input.input
 
     individualsDiv.append input.group
-
-submit = $ '#submit'
 
 submit.click ->
     members = []
@@ -87,6 +94,9 @@ submit.click ->
             'teams': JSON.stringify teams
             'individuals': JSON.stringify members
         }
+        success: ->
+            submit.text 'Saved'
+            submit.attr 'disabled', ''
 
 $.ajax
     url: '/list'
@@ -94,22 +104,26 @@ $.ajax
     success: (data) ->
         for team_id, team of data.teams
             team.members.length = Math.max team.members.length, 4
+            team.members.sort().reverse()
 
             memberInputs = []
 
             for memberName, i in team.members
-                memberInputs.push input = createLabelledInput(i.toString(),
+                memberInputs.push input = createLabelledInput((i + 1).toString(),
                     'John Smith')
                 if memberName?
                     input.input.val memberName
 
+                input.input.on 'input', invalidate
+
             nameInput = createLabelledInput 'Team Name', 'Hogwarts A'
             nameInput.input.val team.name
+            nameInput.input.on 'input', invalidate
 
             teamInputs.push {
                 name: nameInput.input
                 members: memberInputs.map (x) -> x.input
-                id: team_id
+                id: Number team_id
             }
 
             newTeamDiv = $ '<div class="form-group">'
@@ -123,7 +137,8 @@ $.ajax
 
         for individualName in data.individuals
             input = createLabelledInput 'Individual', 'John Smith'
-            input.value = individualName
+            input.input.val individualName
+            input.input.on 'input', invalidate
 
             individualInputs.push input.input
 

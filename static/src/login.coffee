@@ -11,7 +11,7 @@ login = (email, password) ->
         method: 'POST'
         data: {
             email: email
-            password: shaObj.getHash('SHA-512', 'HEX')
+            password: shaObj.getHash('SHA-512', 'B64')
         }
         dataType: 'json'
         success: (data) ->

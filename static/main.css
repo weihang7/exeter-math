@@ -61,3 +61,7 @@ body {
 .navbar-brand, nav a {
     font-weight: 500;
 }
+
+#individuals_list .input-group {
+  padding-bottom: 5px;
+}

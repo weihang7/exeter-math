@@ -40,7 +40,7 @@ class EditInfoHandler(BaseHandler):
         
         # Create and insert a record
         # for this registration.
-        user = self.auth.get_user_by_session()['user_id']
+        user = int(self.auth.get_user_by_session()['user_id'])
         query = Individual.query(Individual.user == user)
 
         for member in query:
@@ -81,7 +81,7 @@ class ListHandler(BaseHandler):
         query = Individual.query(Individual.user == user)
 
         for member in query:
-            if member.team is not None:
+            if member.team != -1:
                 if member.team in teams:
                     teams[member.team]['members'].append(member.serialize())
                 else:
@@ -94,7 +94,7 @@ class ListHandler(BaseHandler):
         for team_id in teams:
             record = Team.get_by_id(team_id)
             teams[team_id]['name'] = record.name
-            teams[team_id]['id'] = team_id
+            teams[team_id]['id'] = int(team_id)
         
         # Inform the client of success.
         self.response.headers['Content-Type'] = 'application/json'
