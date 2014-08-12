@@ -28,7 +28,6 @@ handlers:
   login: admin
 - url: /add_legacy
   script: routes.application
-  login: admin
 - url: /
   script: routes.application
 - url: /(.*).html

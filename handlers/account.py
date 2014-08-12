@@ -79,7 +79,6 @@ class LoginHandler(BaseHandler):
         query = LegacyUser.query(LegacyUser.email == email)
 
         if query.count() == 0:
-            print 'Query count is 0'
             try:
                 u = self.auth.get_user_by_password(email, password, remember=True, save_session=True)
                 print u
@@ -171,10 +170,10 @@ class SetPasswordHandler(BaseHandler):
 class AddLegacyUserHandler(BaseHandler):
     
     def post(self):
-        email = self.request['email']
-        salt = self.request['salt']
-        _hash = self.request['hash']
-        institution = self.request['institution']
+        email = self.request.get('email')
+        salt = self.request.get('salt')
+        _hash = self.request.get('hash')
+        institution = self.request.get('institution')
         query = LegacyUser.query(LegacyUser.email == email)
         
         if query.count() == 0:
