@@ -15,6 +15,9 @@ class Individual(ndb.Model):
     team = ndb.IntegerProperty(indexed=True)
     user = ndb.IntegerProperty(indexed=True)
 
+    def serialize(self):
+        return self.name
+
 # CreateTeamHandler
 # The handler that listens on /register
 # for signup submissions
@@ -67,7 +70,7 @@ class EditInfoHandler(BaseHandler):
             'success': True
         }))
 
-class ListTeamshandler(BaseHandler):
+class ListHandler(BaseHandler):
     def get(self):
         teams = {}
         individuals = []
@@ -89,7 +92,7 @@ class ListTeamshandler(BaseHandler):
                 individuals.append(member.serialize())
 
         for team_id in teams:
-            record = Team.get_by_id(team['id'])
+            record = Team.get_by_id(team_id)
             teams[team_id]['name'] = record.name
             teams[team_id]['id'] = team_id
         

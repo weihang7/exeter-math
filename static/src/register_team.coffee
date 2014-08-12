@@ -87,3 +87,44 @@ submit.click ->
             'teams': JSON.stringify teams
             'individuals': JSON.stringify members
         }
+
+$.ajax
+    url: '/list'
+    dataType: 'json'
+    success: (data) ->
+        for team_id, team of data.teams
+            team.members.length = Math.max team.members.length, 4
+
+            memberInputs = []
+
+            for memberName, i in team.members
+                memberInputs.push input = createLabelledInput(i.toString(),
+                    'John Smith')
+                if memberName?
+                    input.input.val memberName
+
+            nameInput = createLabelledInput 'Team Name', 'Hogwarts A'
+            nameInput.input.val team.name
+
+            teamInputs.push {
+                name: nameInput.input
+                members: memberInputs.map (x) -> x.input
+                id: team_id
+            }
+
+            newTeamDiv = $ '<div class="form-group">'
+
+            input.group.css('margin-left', '30px') for input in memberInputs
+
+            newTeamDiv.append nameInput.group
+            newTeamDiv.append input.group for input in memberInputs
+
+            teamsDiv.append newTeamDiv
+
+        for individualName in data.individuals
+            input = createLabelledInput 'Individual', 'John Smith'
+            input.value = individualName
+
+            individualInputs.push input.input
+
+            individualsDiv.append input.group
