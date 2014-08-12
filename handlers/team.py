@@ -66,3 +66,36 @@ class EditInfoHandler(BaseHandler):
         self.response.write(json.dumps({
             'success': True
         }))
+
+class ListTeamshandler(BaseHandler):
+    def get(self):
+        teams = {}
+        individuals = []
+
+        # Create and insert a record
+        # for this registration.
+        user = self.auth.get_user_by_session()['user_id']
+        query = Individual.query(Individual.user == user)
+
+        for member in query:
+            if member.team is not None:
+                if member.team in teams:
+                    teams[member.team]['members'].append(member.serialize())
+                else:
+                    teams[member.team] = {
+                        'members': [member.serialize()]
+                    }
+            else:
+                individuals.append(member.serialize())
+
+        for team_id in teams:
+            record = Team.get_by_id(team['id'])
+            teams[team_id]['name'] = record.name
+            teams[team_id]['id'] = team_id
+        
+        # Inform the client of success.
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.write(json.dumps({
+            'teams': teams,
+            'individuals': individuals
+        }))

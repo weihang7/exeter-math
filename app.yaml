@@ -9,6 +9,8 @@ handlers:
   script: routes.application
 - url: /edit_info
   script: routes.application
+- url: /list
+  script: routes.application
 - url: /register
   script: routes.application
 - url: /login
