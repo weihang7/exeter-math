@@ -35,7 +35,7 @@ register = ->
             method: 'POST'
             data: {
                 email: email.val()
-                password: shaObj.getHash('SHA-512', 'B64')
+                password: shaObj.getHash('SHA-512', 'HEX')
                 institution: institution.val()
             }
             dataType: 'json'

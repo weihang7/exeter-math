@@ -11,7 +11,7 @@ submit.click ->
             url: '/reset'
             method: 'POST'
             data: {
-                password: shaObj.getHash('SHA-512', 'B64')
+                password: shaObj.getHash('SHA-512', 'HEX')
                 token: token.val()
                 id: parseInt(location.pathname.substr(7).split('-')[0])
             }

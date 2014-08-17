@@ -52,18 +52,18 @@ class RegisterHandler(BaseHandler):
         password = self.request.get('password')
         institution = self.request.get('institution')
         success = True
-        
+
         if LegacyUser.query(LegacyUser.email == email).count():
             success = False
         else:
             user_data = self.user_model.create_user(email,
                     password_raw=password, institution=institution)
-    
+
             if not user_data[0]:
                 success = False
             else:
                 self.auth.set_session(self.auth.store.user_to_dict(user_data[1]), remember=True)
-        
+
         self.response.headers['Content-Type'] = 'application/json'
         self.response.write(json.dumps({
             'success': success
@@ -93,6 +93,8 @@ class LoginHandler(BaseHandler):
             hashfun.update(salt)
             hashfun.update(password.encode())
             hashval = hashfun.hexdigest()
+            print('Provided: ' + hashval)
+            print('Actual: '+ _hash)
             if hashval == _hash:
                 success = True
                 user_data = self.user_model.create_user(email,
@@ -168,14 +170,14 @@ class SetPasswordHandler(BaseHandler):
         }))
 
 class AddLegacyUserHandler(BaseHandler):
-    
+
     def post(self):
         email = self.request.get('email')
         salt = self.request.get('salt')
         _hash = self.request.get('hash')
         institution = self.request.get('institution')
         query = LegacyUser.query(LegacyUser.email == email)
-        
+
         if query.count() == 0:
             user = LegacyUser(email=email, salt=salt, hash=_hash, institution=institution)
             user.put()

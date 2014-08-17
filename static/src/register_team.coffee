@@ -109,7 +109,8 @@ $.ajax
             memberInputs = []
 
             for memberName, i in team.members
-                memberInputs.push input = createLabelledInput((i + 1).toString(),
+                memberInputs.push input =
+                  createLabelledInput((i + 1).toString(),
                     'John Smith')
                 if memberName?
                     input.input.val memberName
