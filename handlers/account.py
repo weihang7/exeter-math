@@ -3,6 +3,9 @@ import time
 import hashlib
 import datetime
 
+from team_schema import Team
+from team_schema import Individual
+
 from google.appengine.api import mail
 from google.appengine.ext import ndb
 import sys
@@ -93,8 +96,6 @@ class LoginHandler(BaseHandler):
             hashfun.update(salt)
             hashfun.update(password.encode())
             hashval = hashfun.hexdigest()
-            print('Provided: ' + hashval)
-            print('Actual: '+ _hash)
             if hashval == _hash:
                 success = True
                 user_data = self.user_model.create_user(email,
@@ -102,6 +103,20 @@ class LoginHandler(BaseHandler):
                 if not user_data[0]:
                     success = False
                 else:
+                    # Re-attribute any teams belonging to the legacy user
+                    # to the new user.
+                    query = Team.query(Team.user == user.key.id())
+                    for team in query:
+                        print 'Reattributing ' + team.name
+                        team.user = user_data[1].key.id()
+                        team.put()
+
+                    query = Individual.query(Individual.user == user.key.id())
+                    for individual in query:
+                        print 'Reattributing ' + individual.name
+                        individual.user = user_data[1].key.id()
+                        individual.put()
+
                     self.auth.set_session(self.auth.store.user_to_dict(user_data[1]), remember=True)
                 user.key.delete()
             else:

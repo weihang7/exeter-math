@@ -65,3 +65,9 @@ body {
 #individuals_list .input-group {
   padding-bottom: 5px;
 }
+.score-correct {
+  background-color: #0F0;
+}
+.score-incorrect {
+  background-color: #F00;
+}

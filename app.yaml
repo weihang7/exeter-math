@@ -11,6 +11,8 @@ handlers:
   script: routes.application
 - url: /list
   script: routes.application
+- url: /list_all
+  script: routes.application
 - url: /register
   script: routes.application
 - url: /login
@@ -23,10 +25,15 @@ handlers:
   script: routes.application
 - url: /reset/(.+)
   script: routes.application
+- url: /admin_list
+  script: routes.application
+  login: admin
 - url: /cleanup
   script: routes.application
   login: admin
 - url: /add_legacy
+  script: routes.application
+- url: /add_legacy_team
   script: routes.application
 - url: /
   script: routes.application

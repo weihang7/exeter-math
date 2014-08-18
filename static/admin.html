@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>Register Team | Exeter Math Club Competition</title>
+
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"/>
+        <link href="main.css" rel="stylesheet"/>
+        <script src="respond.min.js"></script>
+        <link rel="shortcut icon" href="favicon.ico" />
+    </head>
+    <body>
+        {% include 'navbar.html' %}
+        <div class="container">
+            <div class="page-header">
+                <h1>Registered Teams</h1>
+            </div>
+            <table id="teams_list" class="table">
+              <tr><th>Coach</th><th>Name</th><th colspan='4'>Members</th></tr>
+            </table>
+        </div>
+        {% include 'footer.html' %}
+
+        <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <script src="build/admin.js"></script>
+    </body>
+</html>

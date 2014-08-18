@@ -29,7 +29,7 @@ module.exports = (grunt) ->
                 ]
             options:
               sourceMap: true
-            
+
         watch:
             files: ['src/**/*.coffee']
             tasks: ['coffee', 'uglify']
