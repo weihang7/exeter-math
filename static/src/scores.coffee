@@ -56,7 +56,7 @@ $.ajax
 
             team_div.append $ """
               <div>
-                Speed
+                Accuracy
                 <table class='table'>
                   #{
                     (format_scores(member.name,
