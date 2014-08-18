@@ -67,7 +67,9 @@ body {
 }
 .score-correct {
   background-color: #0F0;
+  height: 36px;
 }
 .score-incorrect {
   background-color: #F00;
+  height: 36px;
 }

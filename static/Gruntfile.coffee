@@ -9,7 +9,7 @@ module.exports = (grunt) ->
                     'indentation':
                         'value': 4
                     'max_line_length':
-                        'value': 100
+                        'value': 120
         coffee:
             options:
                 sourceMap: true
@@ -32,13 +32,8 @@ module.exports = (grunt) ->
             options:
               sourceMap: true
 
-        watch:
-            files: ['src/**/*.coffee']
-            tasks: ['coffee', 'uglify']
-
     grunt.loadNpmTasks 'grunt-coffeelint'
     grunt.loadNpmTasks 'grunt-contrib-coffee'
-    grunt.loadNpmTasks 'grunt-contrib-watch'
     grunt.loadNpmTasks 'grunt-contrib-uglify'
 
     grunt.registerTask 'default', ['coffeelint', 'coffee', 'uglify']
