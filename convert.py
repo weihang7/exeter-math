@@ -13,4 +13,4 @@ with sqlite3.connect('auth.db') as conn:
                     'email': user[6],
                     'institution': user[3]
             }
-            r = requests.post('http://localhost:8080/add_legacy', data=payload)
+            r = requests.post('http://exeter-math.appspot.com/add_legacy', data=payload)

@@ -8,6 +8,8 @@ module.exports = (grunt) ->
                 options:
                     'indentation':
                         'value': 4
+                    'max_line_length':
+                        'value': 100
         coffee:
             options:
                 sourceMap: true
