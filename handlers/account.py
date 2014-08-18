@@ -141,7 +141,7 @@ class ForgotPasswordHandler(BaseHandler):
             user_id = user.get_id()
             token = self.user_model.create_signup_token(user_id)
 
-            mail.send_mail(sender='Exeter Math Club Competition <emcc-do-not-reply@exeter-math.appspot.com>',
+            mail.send_mail(sender='Exeter Math Club Competition <emcc-do-not-reply@exeter-math.appspotmail.com>',
                     to=email,
                     subject='EMCC Reset Password',
                     body="""Hi,
