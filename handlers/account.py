@@ -173,7 +173,9 @@ class SetPasswordHandler(BaseHandler):
         success = True
 
         user, ts = self.user_model.get_by_auth_token(user_id, old_token, 'signup')
-        if ts < time.time():
+        print ts
+        print time.time()
+        if ts + 24 * 3600 < time.time():
             success = False
         else:
             user.set_password(password)

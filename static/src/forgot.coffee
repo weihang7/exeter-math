@@ -6,7 +6,6 @@ notification = 'A link to reset your password has been sent to your email.'
 
 
 submit.click ->
-    submit.prop('disabled', true)
     $.ajax
         url: '/forgot'
         method: 'POST'
