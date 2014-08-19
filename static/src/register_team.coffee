@@ -41,6 +41,16 @@ addTeam.click ->
             nameInput = createLabelledInput 'Team Name', 'Hogwarts A'
             nameInput.input.on 'input', invalidate
 
+            deleteButton = $ "<button class='btn btn-danger' data-id='#{data.id}'>Delete</button>"
+            deleteButton.click (event) ->
+                id = ($ event.target).data('id')
+                for i in [0...teamInputs.size()]
+                    if id == teamInputs[i].id
+                        teamInputs.splice(i, 1)
+                        break
+                ($ event.target).parent().remove()
+                invalidate()
+
             teamInputs.push {
                 name: nameInput.input
                 members: memberInputs.map (x) -> x.input
@@ -53,6 +63,7 @@ addTeam.click ->
             
             newTeamDiv.append nameInput.group
             newTeamDiv.append input.group for input in memberInputs
+            newTeamDiv.append deleteButton
             
             teamsDiv.append newTeamDiv
 
@@ -120,6 +131,15 @@ $.ajax
             nameInput = createLabelledInput 'Team Name', 'Hogwarts A'
             nameInput.input.val team.name
             nameInput.input.on 'input', invalidate
+            deleteButton = $ "<button class='btn btn-danger' data-id='#{Number team_id}'>Delete</button>"
+            deleteButton.click (event) ->
+                id = ($ event.target).data('id')
+                for i in [0...teamInputs.length]
+                    if id == teamInputs[i].id
+                        teamInputs.splice(i, 1)
+                        break
+                ($ event.target).parent().remove()
+                invalidate()
 
             teamInputs.push {
                 name: nameInput.input
@@ -133,6 +153,7 @@ $.ajax
 
             newTeamDiv.append nameInput.group
             newTeamDiv.append input.group for input in memberInputs
+            newTeamDiv.append deleteButton
 
             teamsDiv.append newTeamDiv
 

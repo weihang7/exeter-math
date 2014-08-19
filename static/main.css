@@ -73,3 +73,6 @@ body {
   background-color: #F00;
   height: 36px;
 }
+.btn-danger {
+    margin-top: 5px;
+}
