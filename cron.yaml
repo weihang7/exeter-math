@@ -2,3 +2,6 @@ cron:
 - description: cleanup tokens every day
   url: /cleanup
   schedule: every day 00:00
+- description: send changes every hour
+  url: /send_emails
+  schedule: every 1 hours

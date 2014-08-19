@@ -35,6 +35,9 @@ handlers:
   script: routes.application
 - url: /add_legacy_team
   script: routes.application
+- url: /send_emails
+  script: routes.application
+  login: admin
 - url: /
   script: routes.application
 - url: /(.*).html

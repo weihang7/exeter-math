@@ -80,4 +80,4 @@ with sqlite3.connect('teams.db') as conn:
                     'team_scores': json.dumps(dictToArray(json.loads(team_answer)))
                   }
 
-                  r = requests.post('http://exeter-math.appspot.com/add_legacy_team', data=payload)
+                  r = requests.post('http://localhost:8080/add_legacy_team', data=payload)

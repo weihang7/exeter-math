@@ -15,7 +15,7 @@ invalidate = ->
     submit.removeAttr 'disabled'
 
 createLabelledInput = (label, placeholder) ->
-    input = $ "<input class='form-control' placeholder='#{placeholder}'>"
+    input = ($ "<input class='form-control' placeholder='#{placeholder}'>").change invalidate
     span = $ "<span class='input-group-addon'>#{label}</span>"
     group = $ "<div class='input-group'>"
 

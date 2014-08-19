@@ -7,6 +7,7 @@ from team_schema import Team
 from team_schema import Individual
 from base import BaseHandler
 
+from google.appengine.api import mail
 from google.appengine.ext import ndb
 
 import datetime
@@ -22,7 +23,7 @@ class CreateTeamHandler(BaseHandler):
 
         # Create and insert a record
         # for this registration.
-        record = Team(user=self.auth.get_user_by_session()['user_id'])
+        record = Team(user=self.auth.get_user_by_session()['user_id'], paid=False)
         record.put()
 
         # Inform the client of success.
@@ -171,7 +172,8 @@ class AddLegacyTeamHandler(BaseHandler):
             name = team_name,
             user = user_id,
             guts_scores = self.request.get('guts_scores'),
-            team_scores = self.request.get('team_scores')
+            team_scores = self.request.get('team_scores'),
+            paid = False
         )
         team.put()
 
@@ -237,3 +239,56 @@ class ListAllHandler(BaseHandler):
             'teams': teams,
             'individuals': individuals
         }))
+
+class SendEmailHandler(BaseHandler):
+
+    def get(self):
+        users = self.user_model.query(self.user_model.updated >= (datetime.datetime.today() - datetime.timedelta(hours=1))).fetch()
+        for user in users:
+            teams = {}
+            individuals = []
+
+            query = Individual.query(Individual.user == user.key.id(), Individual.year == get_year())
+
+            for member in query:
+                if member.team != -1:
+                    if member.team in teams:
+                        teams[member.team]['members'].append(member.serialize())
+                    else:
+                        teams[member.team] = {
+                            'members': [member.serialize()]
+                        }
+                else:
+                    individuals.append(member.serialize())
+
+            for team_id in teams:
+                record = Team.get_by_id(team_id)
+                teams[team_id]['name'] = record.name
+            values = teams.values()
+            body = ""
+            for team in values:
+                body += """
+%s
+
+%s
+%s
+%s
+%s
+                """ % (team['name'], team['members'][0], team['members'][1], team['members'][2], team['members'][3])
+            if len(individuals) > 0:
+                body += """
+Individuals
+
+"""
+                for individual in individuals:
+                    body += individual + '\n'
+            mail.send_mail(sender='Exeter Math Club Competition <emcc-do-not-reply@exeter-math.appspotmail.com>',
+                    to=user.auth_ids[0],
+                    subject='EMCC Team Information Change',
+                    body="""Hi,
+
+This email is to confirm that you have made changes to your registered teams and the list of teams and individuals registered is now:
+%s
+
+Best,
+Exeter Math Club Competition""" % (body,))
