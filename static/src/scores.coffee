@@ -20,41 +20,46 @@ $.ajax
               </div>
             """
 
-            team_div.append $ """
-              <div>
-                <h3>Speed</h3>
-                <table class='table table-bordered'>
-                  <tr><th>#</th>#{
-                      if team.members[0].speed_scores?
-                          ("<th>#{i}</th>" for i in [1..team.members[0].speed_scores.length]).join('')
-                      else
-                          ''
-                  }</tr>
-                  #{
-                    (format_scores(member.name,
-                        member.speed_scores) for member in team.members).join ''
-                  }
-                </table>
-                </div>
-            """
+            # If any member has speed round scores, display them
+            speedMember = null
+            accuracyMember = null
+            for member, i in team.members
+                if member.speed_scores? then speedMember = member
+                if member.accuracy_scores? then accuracyMember = member
 
-            team_div.append $ """
-              <div>
-                <h3>Accuracy</h3>
-                <table class='table table-bordered'>
-                  <tr><th>#</th>#{
-                      if team.members[0].accuracy_scores?
-                          ("<th>#{i}</th>" for i in [1..team.members[0].accuracy_scores.length]).join('')
-                      else
-                          ''
-                  }</tr>
-                  #{
-                    (format_scores(member.name,
-                        member.accuracy_scores) for member in team.members).join ''
-                  }
-                </table>
-                </div>
-            """
+                if speedMember and accuracyMember? then break
+
+            if speedMember.speed_scores?
+                team_div.append $ """
+                  <div>
+                    <h3>Speed</h3>
+                    <table class='table table-bordered'>
+                      <tr><th>#</th>#{
+                          ("<th>#{i}</th>" for i in [1..speedMember.speed_scores.length]).join('')
+                      }</tr>
+                      #{
+                        (format_scores(member.name,
+                            member.speed_scores) for member in team.members).join ''
+                      }
+                    </table>
+                    </div>
+                """
+
+            if accuracyMember.accuracy_scores?
+                team_div.append $ """
+                  <div>
+                    <h3>Accuracy</h3>
+                    <table class='table table-bordered'>
+                      <tr><th>#</th>#{
+                          ("<th>#{i}</th>" for i in [1..accuracyMember.accuracy_scores.length]).join('')
+                      }</tr>
+                      #{
+                        (format_scores(member.name,
+                            member.accuracy_scores) for member in team.members).join ''
+                      }
+                    </table>
+                    </div>
+                """
 
             if team.team_scores?
                 team_div.append $ """
