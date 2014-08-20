@@ -24,7 +24,12 @@ $.ajax
               <div>
                 <h3>Speed</h3>
                 <table class='table table-bordered'>
-                  <tr><th>#</th>#{("<th>#{i}</th>" for i in [1..team.members[0].speed_scores.length]).join('')}</tr>
+                  <tr><th>#</th>#{
+                      if team.members[0].speed_scores?
+                          ("<th>#{i}</th>" for i in [1..team.members[0].speed_scores.length]).join('')
+                      else
+                          ''
+                  }</tr>
                   #{
                     (format_scores(member.name,
                         member.speed_scores) for member in team.members).join ''
@@ -37,7 +42,12 @@ $.ajax
               <div>
                 <h3>Accuracy</h3>
                 <table class='table table-bordered'>
-                  <tr><th>#</th>#{("<th>#{i}</th>" for i in [1..team.members[0].accuracy_scores.length]).join('')}</tr>
+                  <tr><th>#</th>#{
+                      if team.members[0].accuracy_scores?
+                          ("<th>#{i}</th>" for i in [1..team.members[0].accuracy_scores.length]).join('')
+                      else
+                          ''
+                  }</tr>
                   #{
                     (format_scores(member.name,
                         member.accuracy_scores) for member in team.members).join ''
