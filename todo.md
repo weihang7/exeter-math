@@ -20,13 +20,13 @@ Note that not all steps are expected to take the same amount of time. The time a
   - [x] Assign individual to a team
   - [x] Automatically create team, individuals, and assign individuals to teams when given a list of individuals and a team name
   - [ ] Delete individual
-  - [ ] Delete team
-  - [ ] Delete team + all associated individuals
+  - [x] Delete team
+  - [x] Delete team + all associated individuals
   - [ ] Send automatic email about team registration and payment status
   - [ ] Send automatic email invoice with recieved payment information
   - [ ] Generate individual IDs (given room #s)
   - [ ] Enter/lookup payment information for a team or individual
-  - [ ] Lookup individual/team by ID
+  - [x] Lookup individual/team by ID
   - [ ] Enter/lookup scores for individual rounds
   - [ ] Enter/lookup scores for team rounds
   - [ ] Query awards (top individuals, top per round, top per team)
