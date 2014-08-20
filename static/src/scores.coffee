@@ -16,7 +16,7 @@ $.ajax
         for id, team of data.teams
             team_div = $ """
               <div>
-                <h2>#{team.name}</h2>
+                <h2>#{team.name} (#{team.year})</h2>
               </div>
             """
 
@@ -29,7 +29,10 @@ $.ajax
 
                 if speedMember and accuracyMember? then break
 
-            if speedMember.speed_scores?
+            showedAnyScores = false
+
+            if speedMember?
+                showedAnyScores = true
                 team_div.append $ """
                   <div>
                     <h3>Speed</h3>
@@ -45,7 +48,8 @@ $.ajax
                     </div>
                 """
 
-            if accuracyMember.accuracy_scores?
+            if accuracyMember?
+                showedAnyScores = true
                 team_div.append $ """
                   <div>
                     <h3>Accuracy</h3>
@@ -62,6 +66,7 @@ $.ajax
                 """
 
             if team.team_scores?
+                showedAnyScores = true
                 team_div.append $ """
                   <div>
                     <h3>Team</h3>
@@ -75,6 +80,7 @@ $.ajax
                 """
 
             if team.guts_scores?
+                showedAnyScores = true
                 team_div.append $ """
                   <div>
                     <h3>Guts</h3>
@@ -86,5 +92,10 @@ $.ajax
                     </table>
                     </div>
                 """
+
+            unless showedAnyScores
+                team_div.append '''
+                    There are no scores for this team yet.
+                '''
 
             teams_list.append team_div

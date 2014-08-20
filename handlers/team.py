@@ -23,7 +23,11 @@ class CreateTeamHandler(BaseHandler):
 
         # Create and insert a record
         # for this registration.
-        record = Team(user=self.auth.get_user_by_session()['user_id'], paid=False)
+        record = Team(
+            user=self.auth.get_user_by_session()['user_id'],
+            paid=False,
+            year = get_year()
+        )
         record.put()
 
         # Inform the client of success.
@@ -173,7 +177,8 @@ class AddLegacyTeamHandler(BaseHandler):
             user = user_id,
             guts_scores = self.request.get('guts_scores'),
             team_scores = self.request.get('team_scores'),
-            paid = False
+            paid = False,
+            year = 2013
         )
         team.put()
 
@@ -230,6 +235,7 @@ class ListAllHandler(BaseHandler):
             teams[team_id]['name'] = record.name
             teams[team_id]['id'] = int(team_id)
             teams[team_id]['paid'] = record.paid
+            teams[team_id]['year'] = record.year
             teams[team_id]['guts_scores'] = parse_or_none(record.guts_scores)
             teams[team_id]['team_scores'] = parse_or_none(record.team_scores)
 
@@ -239,6 +245,27 @@ class ListAllHandler(BaseHandler):
             'teams': teams,
             'individuals': individuals
         }))
+
+"""
+# For the team year emergency
+class UpdateTeamYearHandler(BaseHandler):
+    def get(self):
+        teams = Team.query()
+
+        teams_dict = {}
+
+        for team in teams:
+            individuals = Individual.query(Individual.team == team.key.id())
+            for individual in individuals:
+                team.year = individual.year
+            teams_dict[team.key.id()] = team.year
+            team.put()
+
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.write(json.dumps({
+            'teams': teams_dict
+        }))
+"""
 
 class SendEmailHandler(BaseHandler):
 

@@ -29,3 +29,4 @@ application = webapp2.WSGIApplication([
     Route('/', 'handlers.template.StaticFileHandler'),
     Route('/<filename:.+>.html', 'handlers.template.StaticFileHandler')
 ], debug=True, config=config)
+
