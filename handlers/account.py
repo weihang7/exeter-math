@@ -22,6 +22,9 @@ class User(webapp2_extras.appengine.auth.models.User):
     def set_password(self, password):
         self.password = security.generate_password_hash(password)
 
+    def refresh(self):
+        self.updated = datetime.datetime.today()
+
     @classmethod
     def get_by_auth_token(cls, user_id, token, subject='auth'):
         token_key = cls.token_model.get_key(user_id, subject, token)

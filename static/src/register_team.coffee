@@ -44,7 +44,7 @@ addTeam.click ->
             deleteButton = $ "<button class='btn btn-danger' data-id='#{data.id}'>Delete</button>"
             deleteButton.click (event) ->
                 id = ($ event.target).data('id')
-                for i in [0...teamInputs.size()]
+                for i in [0...teamInputs.length]
                     if id == teamInputs[i].id
                         teamInputs.splice(i, 1)
                         break

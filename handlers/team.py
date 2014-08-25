@@ -100,6 +100,10 @@ class ListHandler(BaseHandler):
             teams[team_id]['id'] = int(team_id)
             teams[team_id]['paid'] = record.paid
 
+        muser = self.user_model.get_by_id(user)
+        muser.refresh()
+        muser.put()
+
         # Inform the client of success.
         self.response.headers['Content-Type'] = 'application/json'
         self.response.write(json.dumps({
