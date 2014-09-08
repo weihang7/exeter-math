@@ -13,17 +13,19 @@
     </head>
     <body>
         {% include 'navbar.html' %}
-        <div class="container">
-            <div class="page-header">
+        <div class="jumbotron">
+            <div class="container">
                 <h1>Exeter Math Club Competition</h1>
-            </div>
-            <div class="post">
-                <p>
-                This year's contest will be held on <b>January 24th, 2015</b>.
-                </p>
                 <p>
                 The Exeter Math Club Competition (EMCC) is a middle-school math competition held at Phillips Exeter Academy in Exeter, New Hampshire.
                 </p>
+                <p>
+                This year's contest will be held on <b>January 24th, 2015</b>.
+                </p>
+            </div>
+        </div>
+        <div class="container">
+            <div class="post">
                 <p>
                 EMCC is an excellent opportunity for young aspiring mathematicians to develop their mathematical talents, get tournament experience, bond with their friends, and connect with other students from different schools. The tournament is being run mostly by Exeter Math Club students, but with some help from our teachers. Most of us have participated in math contests in middle school and all of us participate in high school contests. We've tried to incorporate some of our favorite parts of those competitions into EMCC.
                 </p>
@@ -37,8 +39,8 @@
                 EMCC is open to traveling teams from outside the local region; as a result, last year we had over 180 students, with teams from far-flung places including China and Illinois and the numbers keep increasing. This year too, we're looking to keep the competition open for any teams willing to travel. Teams would be able to leave for home Saturday afternoon by 4:00 (we have finished on or ahead of schedule in past years), and we will work to provide transportation to the airport if needed.) For additional information regarding traveling, click <a href="travel.html">here</a>.
                 </p>
             </div>
+            {% include 'footer.html' %}
         </div>
-        {% include 'footer.html' %}
 
         <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
