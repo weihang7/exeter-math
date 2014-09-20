@@ -28,7 +28,7 @@ nav.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
               | 
               a.btn.btn-primary.navbar-btn(href='/logout') Logout
             script.
-              if (document.cookie.indexOf('auth') !== -1) {
+              if (document.cookie.indexOf('logged_in') !== -1) {
                 document.getElementById('noauth').className = 'hidden';
                 document.getElementById('auth').className = '';
               }

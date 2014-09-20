@@ -29,7 +29,7 @@
           <div id="noauth"><a href="/login.html" class="btn btn-primary navbar-btn">Login</a> <a href="/register.html" class="btn btn-primary navbar-btn">Register</a></div>
           <div id="auth" class="hidden"><a href="/scores.html" class="btn btn-primary navbar-btn">View Scores</a> <a href="/register_team.html" class="btn btn-primary navbar-btn">Register Team</a> <a href="/logout" class="btn btn-primary navbar-btn">Logout</a></div>
           <script>
-            if (document.cookie.indexOf('auth') !== -1) {
+            if (document.cookie.indexOf('logged_in') !== -1) {
               document.getElementById('noauth').className = 'hidden';
               document.getElementById('auth').className = '';
             }
