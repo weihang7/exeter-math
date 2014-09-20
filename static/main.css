@@ -1,12 +1,3 @@
-@font-face {
-    font-family: 'fleurons';
-    src: url('fonts/fleurons.eot');
-    src: url('fonts/fleurons.eot?#iefix') format('embedded-opentype'),
-    url('fonts/fleurons.woff') format('woff'),
-    url('fonts/fleurons.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
 body {
     padding-top: 50px;
     padding-bottom: 20px;
@@ -28,10 +19,7 @@ body {
 #about h1 {
     text-align:center;
 }
-.fleur {
-    font-family: "fleurons";
-    font-size: 50px;
-}
+
 .navbar-brand, nav a {
     font-weight: 500;
 }
@@ -49,4 +37,7 @@ body {
 }
 .btn-danger {
     margin-top: 5px;
+}
+.hidden {
+  visibility: hidden;
 }

@@ -1,0 +1,36 @@
+doctype html
+html(lang='en')
+head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    title Login | Exeter Math Club Competition
+    link(href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css', rel='stylesheet')
+    link(href='main.css', rel='stylesheet')
+    link(href='login.css', rel='stylesheet')
+    script(src='respond.min.js')
+  body
+    include navbar.jade
+    .container
+      .page-header
+        h1 Login
+      form.form-horizontal(role='form')
+        #email-control.form-group
+          label.col-sm-2.control-label(for='email') Email
+          .col-sm-5
+            input#email.form-control(type='email', placeholder='Email', tabindex='1', required='required', autofocus='autofocus')
+        #password-control.form-group
+          label.col-sm-2.control-label(for='password')
+            | Password
+            | 
+            a(href='forgot.html') (forgot)
+          .col-sm-5
+            input#password.form-control(type='password', placeholder='Password', tabindex='2', required='required')
+        .form-group
+          .col-sm-offset-2.col-sm-5
+            button#submit.btn.btn-lg.btn-primary(type='button') Login
+      include footer.jade
+    script(src='//code.jquery.com/jquery-1.11.0.min.js')
+    script(src='//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js')
+    script(src='sha512.js')
+    script(src='build/login.min.js')

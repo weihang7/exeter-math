@@ -4,7 +4,7 @@ module.exports = (grunt) ->
         coffeelint:
             all:
                 files:
-                    src: ['src/*.coffee']
+                    src: ['src/script/*.coffee']
                 options:
                     'indentation':
                         'value': 4
@@ -15,7 +15,7 @@ module.exports = (grunt) ->
                 sourceMap: true
             build:
                 expand: true
-                cwd: 'src'
+                cwd: 'src/script/'
                 src: ['**/*.coffee']
                 dest: 'build'
                 ext: '.js'
@@ -31,9 +31,28 @@ module.exports = (grunt) ->
                 ]
             options:
               sourceMap: true
+        jade:
+            build:
+                options:
+                    pretty: true
+                files: {
+                    'index.html': 'src/index.jade'
+                    'contest.html': 'src/contest.jade'
+                    'archive.html': 'src/archive.jade'
+                    'travel.html': 'src/travel.jade'
+                    'contact.html': 'src/contact.jade'
+                    'login.html': 'src/login.jade'
+                    'register.html': 'src/register.jade'
+                    'admin.html': 'src/admin.jade'
+                    'scores.html': 'src/scores.jade'
+                    'register_team.html': 'src/register_team.jade'
+                    'forgot.html': 'src/forgot.jade'
+                    'reset.html': 'src/reset.jade'
+                }
 
     grunt.loadNpmTasks 'grunt-coffeelint'
     grunt.loadNpmTasks 'grunt-contrib-coffee'
     grunt.loadNpmTasks 'grunt-contrib-uglify'
+    grunt.loadNpmTasks 'grunt-contrib-jade'
 
-    grunt.registerTask 'default', ['coffeelint', 'coffee', 'uglify']
+    grunt.registerTask 'default', ['coffeelint', 'coffee', 'uglify', 'jade']

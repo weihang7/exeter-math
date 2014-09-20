@@ -126,6 +126,7 @@ class LoginHandler(BaseHandler):
                 success = False
                 problem = 'InvalidPasswordError'
 
+        self.response.set_cookie('logged_in', 'true')
         self.response.headers['Content-Type'] = 'application/json'
         self.response.write(json.dumps({
             'success': success,
@@ -165,6 +166,7 @@ Exeter Math Club Competition""" % self.uri_for('reset', user_id=user_id, signup_
 class LogoutHandler(BaseHandler):
     def get(self):
         self.auth.unset_session()
+        self.response.delete_cookie('logged_in')
         self.redirect('/')
 
 class SetPasswordHandler(BaseHandler):

@@ -7,13 +7,16 @@ submit = $ '#submit'
 submit.click ->
     if confirm.val() is password.val()
         shaObj = new jsSHA(password.val(), 'TEXT')
+        info = location.pathname.substr(7).split('-')
+        token = info[1]
+        id = parseInt(info[0])
         $.ajax
             url: '/reset'
             method: 'POST'
             data: {
                 password: shaObj.getHash('SHA-512', 'HEX')
-                token: token.val()
-                id: parseInt(location.pathname.substr(7).split('-')[0])
+                token: token
+                id: id
             }
             dataType: 'json'
             success: (data) ->

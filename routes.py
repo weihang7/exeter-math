@@ -4,6 +4,7 @@ from webapp2 import Route
 config = {}
 config['webapp2_extras.auth'] = {
     'user_model': 'handlers.account.User',
+    'token_cache_age': None,
     'user_attributes': ['institution']
 }
 config['webapp2_extras.sessions'] = {
@@ -25,8 +26,6 @@ application = webapp2.WSGIApplication([
     Route('/reset', 'handlers.account.SetPasswordHandler'),
     Route('/cleanup', 'handlers.account.CleanupHandler'),
     Route('/send_emails', 'handlers.team.SendEmailHandler'),
-    Route('/add_legacy', 'handlers.account.AddLegacyUserHandler'),
-    Route('/', 'handlers.template.StaticFileHandler'),
-    Route('/<filename:.+>.html', 'handlers.template.StaticFileHandler')
+    Route('/add_legacy', 'handlers.account.AddLegacyUserHandler')
 ], debug=True, config=config)
 

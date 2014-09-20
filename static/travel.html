@@ -1,54 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8"/>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <title>Travel Information | Exeter Math Club Competition</title>
-
-        <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"/>
-        <link href="main.css" rel="stylesheet"/>
-        <script src="respond.min.js"></script>
-        <link rel="shortcut icon" href="favicon.ico" />
-    </head>
-    <body>
-        {% include 'navbar.html' %}
-        <div class="container">
-            <div class="page-header">
-                <h1>Travel Information</h1>
-            </div>
-            <section id="CampusMap">
-                <h2>Campus Map</h2>
-                <p>
-                Campus map and driving direction is available on Phillips Exeter Academy website <a href="http://www.exeter.edu/about_us/171_240.aspx">here</a>.
-                </p>
-                <p>
-                A printable campus map is available <a href="http://www.exeter.edu/media/content/accessible10.2010.pdf">here</a>.
-                </p>
-            </section>
-            <section id="Parking">
-                <h2>Parking</h2>
-                <p>
-                Visitors to the Academy may park in the semi-circle in front of Jeremiah Smith Hall, in front of and behind Admissions (Bissell House), in any parking lot with assigned visitor parking and on nearby public streets. The closest parking for EMCC participants is the roadside parking on Front Street, Tan Lane, and other public streets nearby.
-                </p>
-            </section>
-            <section id="Transportation">
-                <h2>Transportation</h2>
-                <p>
-                For contestants, coaches, and parents flying in, please refer to Phillips Exeter Academy's "Transportation and Fare" web page for information <a href="http://www.exeter.edu/about_us/171_252.aspx">here</a>.
-                </p>
-            </section>
-            <section id="Lodging">
-                <h2>Lodging</h2>
-                <p>
-                We now provide 1 night of hotel stay at the local Fairfield Inn, Marriott for each traveling team traveling from outside a 300 mile radius from the school(3 rooms per team). We can also contact Flightline, an airport shuttle service to and from Boston and Manchester, if you would like; however, you will have to cover the expense of the shuttle yourself.
-                If you are interested, please email us at <a href="mailto:emcc2014@gmail.com">emcc2014@gmail.com</a> for details.
-                </p>
-            </section>
-            {% include 'footer.html' %}
+<html lang="en"></html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Travel Information | Exeter Math Club Competition</title>
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+  <link href="main.css" rel="stylesheet">
+  <script src="respond.min.js"></script>
+  <link rel="shortcut icon" href="favicon.ico">
+</head>
+<body>
+  <nav role="navigation" class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" data-toggle="collapse" data-target=".navbar-collapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span></button><a href="/index.html" class="navbar-brand">Exeter Math Club Competition</a>
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li><a href="/index.html">Home</a></li>
+          <li><a href="/contest.html">Contest</a></li>
+          <li><a href="/archive.html">Archive</a></li>
+          <li><a href="/travel.html">Travel</a></li>
+          <li><a href="/contact.html">Contact</a></li>
+        </ul>
+        <div class="navbar-right">
+          <div id="noauth"><a href="/login.html" class="btn btn-primary navbar-btn">Login</a> <a href="/register.html" class="btn btn-primary navbar-btn">Register</a></div>
+          <div id="auth" class="hidden"><a href="/scores.html" class="btn btn-primary navbar-btn">View Scores</a> <a href="/register_team.html" class="btn btn-primary navbar-btn">Register Team</a> <a href="/logout" class="btn btn-primary navbar-btn">Logout</a></div>
+          <script>
+            if (document.cookie.indexOf('auth') !== -1) {
+              document.getElementById('noauth').className = 'hidden';
+              document.getElementById('auth').className = '';
+            }
+          </script>
         </div>
-
-        <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-    </body>
-</html>
+      </div>
+    </div>
+  </nav>
+  <div class="container">
+    <div class="page-header">
+      <h1>Travel Information</h1>
+    </div>
+    <section id="CampusMap">
+      <h2>Campus Map</h2>
+      <p>Campus map and driving direction is available on Phillips Exeter Academy website <a href="http://www.exeter.edu/about_us/171_240.aspx">here</a>.</p>
+      <p>A printable campus map is available <a href="http://www.exeter.edu/media/content/accessible10.2010.pdf">here</a>.</p>
+    </section>
+    <section id="Parking">
+      <h2>Parking</h2>
+      <p>Visitors to the Academy may park in the semi-circle in front of Jeremiah Smith Hall, in front of and behind Admissions (Bissell House), in any parking lot with assigned visitor parking and on nearby public streets. The closest parking for EMCC participants is the roadside parking on Front Street, Tan Lane, and other public streets nearby.</p>
+    </section>
+    <section id="Transportation">
+      <h2>Transportation</h2>
+      <p>For contestants, coaches, and parents flying in, please refer to Phillips Exeter Academy's "Transportation and Fare" web page for information <a href="http://www.exeter.edu/about_us/171_252.aspx">here</a>.</p>
+    </section>
+    <section id="Lodging">
+      <h2>Lodging</h2>
+      <p>
+        We now provide 1 night of hotel stay at the local Fairfield Inn, Marriott for each traveling team traveling from outside a 300 mile radius from the school(3 rooms per team). We can also contact Flightline, an airport shuttle service to and from Boston and Manchester, if you would like; however, you will have to cover the expense of the shuttle yourself.
+        If you are interested, please email us at <a href="mailto:emcc2014@gmail.com">emcc2014@gmail.com</a> for details.
+      </p>
+    </section>
+    <hr>
+    <footer>
+      <p>The Exeter Math Club Competition is sponsored by <a href="http://janestreet.com"><img id="jane_logo" src="/logo.png" alt="Jane Street Capital" width="99" height="25"></a></p>
+    </footer>
+  </div>
+  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+</body>

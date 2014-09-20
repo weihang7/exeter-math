@@ -1,0 +1,31 @@
+doctype html
+html(lang='en')
+head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    title Register Team | Exeter Math Club Competition
+    link(href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css', rel='stylesheet')
+    link(href='main.css', rel='stylesheet')
+    script(src='respond.min.js')
+    link(rel='shortcut icon', href='favicon.ico')
+  body
+    include navbar.jade
+    .container
+      .page-header
+        h1 Register Team
+      #teams_list
+      #individuals_list.form-group
+      .form-group
+        button#add_team.btn.btn-secondary.btn-sm
+          span.glyphicon.glyphicon-plus
+          | team
+        button#add_individual.btn.btn-secondary.btn-sm
+          span.glyphicon.glyphicon-plus
+          | individual
+      .form-group
+        button#submit.btn.btn-primary.btn-lg(disabled='disabled') Saved
+      include footer.jade
+    script(src='//code.jquery.com/jquery-1.11.0.min.js')
+    script(src='//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js')
+    script(src='build/register_team.js')

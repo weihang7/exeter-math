@@ -24,7 +24,8 @@ handlers:
 - url: /reset
   script: routes.application
 - url: /reset/(.+)
-  script: routes.application
+  static_files: static/reset.html
+  upload: static/reset.html
 - url: /admin_list
   script: routes.application
   login: admin
@@ -38,14 +39,16 @@ handlers:
 - url: /send_emails
   script: routes.application
   login: admin
+- url: /admin.html
+  static_files: static/admin.html
+  upload: static/admin.html
+  login: admin
 - url: /
-  script: routes.application
-- url: /(.*).html
-  script: routes.application
+  static_files: static/index.html
+  upload: static/index.html
 - url: /(.+)
   static_files: static/\1
   upload: static/(.+)
-  application_readable: true
 
 libraries:
 - name: webapp2
@@ -64,3 +67,4 @@ skip_files:
 - ^(.*/)?.*/RCS/.*$
 - ^(.*/)?\..*$
 - ^(.*/)?node_modules$
+- ^(.*/)?src$
