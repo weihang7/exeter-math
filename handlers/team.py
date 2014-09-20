@@ -274,7 +274,7 @@ class UpdateTeamYearHandler(BaseHandler):
 class SendEmailHandler(BaseHandler):
 
     def get(self):
-        users = self.user_model.query(self.user_model.updated >= (datetime.datetime.today() - datetime.timedelta(hours=1))).fetch()
+        users = self.user_model.query(self.user_model.team_updated >= (datetime.datetime.today() - datetime.timedelta(hours=1))).fetch()
         for user in users:
             teams = {}
             individuals = []

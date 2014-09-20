@@ -3,9 +3,7 @@ from webapp2 import Route
 
 config = {}
 config['webapp2_extras.auth'] = {
-    'user_model': 'handlers.account.User',
-    'token_cache_age': None,
-    'user_attributes': ['institution']
+    'user_model': 'handlers.account.User'
 }
 config['webapp2_extras.sessions'] = {
     'secret_key': 'ikrm~BbMF2/7v]yljeL|v^9K}]S+-@4?p-;^cCzrG9RjYda}is`:}=(n<S~o.J,z',
