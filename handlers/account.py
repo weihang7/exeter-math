@@ -19,7 +19,6 @@ from webapp2_extras.auth import InvalidPasswordError
 from base import BaseHandler
 
 class User(webapp2_extras.appengine.auth.models.User):
-    
     team_updated = ndb.DateTimeProperty()
 
     def set_password(self, password):
@@ -130,7 +129,7 @@ class LoginHandler(BaseHandler):
                 problem = 'InvalidPasswordError'
 
         if success:
-            self.response.set_cookie('logged_in', 'true')
+            self.response.set_cookie('logged_in', 'true', max_age=86400*7*3)
         self.response.headers['Content-Type'] = 'application/json'
         self.response.write(json.dumps({
             'success': success,
