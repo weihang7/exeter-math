@@ -129,7 +129,8 @@ class LoginHandler(BaseHandler):
                 success = False
                 problem = 'InvalidPasswordError'
 
-        self.response.set_cookie('logged_in', 'true')
+        if success:
+            self.response.set_cookie('logged_in', 'true')
         self.response.headers['Content-Type'] = 'application/json'
         self.response.write(json.dumps({
             'success': success,
