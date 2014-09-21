@@ -323,3 +323,47 @@ This email is to confirm that you have made changes to your registered teams and
 
 Best,
 Exeter Math Club Competition""" % (body,))
+
+class GradeHandler(BaseHandler):
+
+    def post(self):
+        password = self.request.get('password')
+        problem = ''
+        if password != 'adidasTwilight':
+            success = False
+            problem = 'password'
+        else:
+            rnd = self.request.get('round')
+            _id = int(self.request.get('id'))
+            score = self.request.get('score')
+            if rnd in ('speed', 'accuracy'):
+                ind = Individual.query(Individual.assigned_id == _id)
+                if ind.count() != 0:
+                    if rnd == 'speed':
+                        ind.speed_scores = score
+                    else:
+                        ind.accuracy_scores = score
+                    ind.put()
+                else:
+                    success = False
+                    problem = 'id'
+            else:
+                team = Team.query(Team.assigned_id == _id)
+                if team.count() != 0:
+                    if rnd == 'team':
+                        team.team_scores = score
+                    else:
+                        guts_round = int(self.request.get('guts_round'))
+                        loaded = json.loads(team.guts_scores)
+                        loaded[guts_round*3-3:guts_round*3-1] = json.loads(score)
+                        team.guts_scores = json.dumps(loaded)
+                    team.put()
+                else:
+                    success = False
+                    problem = 'id'
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.write(json.dumps({
+            'success': success,
+            'problem': problem
+        }))
+

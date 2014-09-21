@@ -12,6 +12,7 @@ class Team(ndb.Model):
     user = ndb.IntegerProperty(indexed=True)
     paid = ndb.BooleanProperty(indexed=True)
     year = ndb.IntegerProperty(indexed=True)
+    assigned_id = ndb.IntegerProperty(indexed=True)
 
     guts_scores = ndb.StringProperty(indexed=False)
     team_scores = ndb.StringProperty(indexed=False)
@@ -22,6 +23,7 @@ class Individual(ndb.Model):
     user = ndb.IntegerProperty(indexed=True)
     paid = ndb.BooleanProperty(indexed=True)
     year = ndb.IntegerProperty(indexed=True)
+    assigned_id = ndb.IntegerProperty(indexed=True)
 
     speed_scores = ndb.StringProperty(indexed=False)
     accuracy_scores = ndb.StringProperty(indexed=False)

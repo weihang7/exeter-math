@@ -39,6 +39,8 @@ handlers:
 - url: /send_emails
   script: routes.application
   login: admin
+- url: /grade
+  script: routes.application
 - url: /admin.html
   static_files: static/admin.html
   upload: static/admin.html

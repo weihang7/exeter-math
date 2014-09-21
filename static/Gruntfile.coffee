@@ -48,6 +48,7 @@ module.exports = (grunt) ->
                     'register_team.html': 'src/register_team.jade'
                     'forgot.html': 'src/forgot.jade'
                     'reset.html': 'src/reset.jade'
+                    'grading.html': 'src/grading.jade'
                 }
 
     grunt.loadNpmTasks 'grunt-coffeelint'
