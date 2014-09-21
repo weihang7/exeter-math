@@ -25,6 +25,7 @@ application = webapp2.WSGIApplication([
     Route('/cleanup', 'handlers.account.CleanupHandler'),
     Route('/send_emails', 'handlers.team.SendEmailHandler'),
     Route('/add_legacy', 'handlers.account.AddLegacyUserHandler'),
-    Route('/grade', 'handlers.team.GradeHandler')
+    Route('/grade', 'handlers.team.GradeHandler'),
+    Route('/check', 'handlers.team.CheckHandler')
 ], debug=True, config=config)
 

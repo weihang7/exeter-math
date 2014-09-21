@@ -68,6 +68,7 @@ refresh = ->
             checkboxes.append($ "<div class='checkbox'>
             <label>#{i}<input type='checkbox'></label>
             </div>")
+        guts_round_control.addClass 'hidden'
     else
         guts_round_control.removeClass 'hidden'
         refresh_guts()
@@ -79,6 +80,22 @@ refresh_guts = ->
         <label>#{i}<input type='checkbox'></label>
         </div>")
 
+check = ->
+    $.ajax
+        url: '/check'
+        method: 'GET'
+        data: {
+            round: round.val()
+            id: id.val()
+            guts_round: guts_round.val()
+        }
+        success: (data) ->
+            if data.length > 0
+                ($ '#graded').text 'Graded'
+            else
+                ($ '#graded').text ''
+
 refresh()
 round.change refresh
 guts_round.change refresh_guts
+id.keyup check

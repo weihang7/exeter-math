@@ -367,3 +367,27 @@ class GradeHandler(BaseHandler):
             'problem': problem
         }))
 
+class CheckHandler(BaseHandler):
+
+    def get(self):
+        rnd = self.request.get('round')
+        _id = int(self.request.get('id'))
+        ret = '[]'
+        if rnd in ('speed', 'accuracy'):
+            ind = Individual.query(Individual.assigned_id == _id)
+            if ind.count() > 0:
+                if rnd == 'speed':
+                    ret = ind.speed_scores
+                else:
+                    ret = ind.accuracy_scores
+        else:
+            team = Team.query(Team.assigned_id == _id)
+            if team.count() > 0:
+                if rnd == 'team':
+                    ret = team.team_scores
+                else:
+                    guts_round = int(self.request.get('guts_round'))
+                    ret = json.dumps(json.loads(team.guts_scores)[guts_round*3-3:guts_round*3-1])
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.write(ret)
+

@@ -11,8 +11,6 @@ module.exports = (grunt) ->
                     'max_line_length':
                         'value': 120
         coffee:
-            options:
-                sourceMap: true
             build:
                 expand: true
                 cwd: 'src/script/'

@@ -32,10 +32,6 @@ html(lang='en')
               option(value='accuracy') Accuracy
               option(value='team') Team
               option(value='guts') Guts
-        #id-control.form-group
-          label.col-sm-2.control-label(for='id') ID
-          .col-sm-10
-            input#id.form-control(type='text', required='required')
         #guts-round-control.form-group.hidden
           label.col-sm-2.control-label(for='guts-round') Guts Round
           .col-sm-10
@@ -48,6 +44,12 @@ html(lang='en')
               option(value='6') 6
               option(value='7') 7
               option(value='8') 8
+        #id-control.form-group
+          label.col-sm-2.control-label(for='id') ID
+          .col-sm-10
+            .input-group
+              input#id.form-control(type='text', required='required')
+              span#graded.input-group-addon
         #checkboxes.form-group
         .form-group
           .col-sm-offset-2.col-sm-10
