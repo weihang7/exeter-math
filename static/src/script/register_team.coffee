@@ -108,6 +108,8 @@ submit.click ->
         success: ->
             submit.text 'Saved'
             submit.attr 'disabled', ''
+        error: ->
+            location.href = 'login.html'
 
 $.ajax
     url: '/list'
@@ -165,3 +167,5 @@ $.ajax
             individualInputs.push input.input
 
             individualsDiv.append input.group
+    error: ->
+        location.href = 'login.html'

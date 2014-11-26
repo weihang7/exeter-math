@@ -17,6 +17,7 @@ handlers:
   script: routes.application
 - url: /login
   script: routes.application
+  secure: always
 - url: /logout
   script: routes.application
 - url: /forgot
@@ -47,12 +48,15 @@ handlers:
   static_files: static/admin.html
   upload: static/admin.html
   login: admin
+  secure: always
 - url: /
   static_files: static/index.html
   upload: static/index.html
+  secure: always
 - url: /(.+)
   static_files: static/\1
   upload: static/(.+)
+  secure: always
 
 libraries:
 - name: webapp2

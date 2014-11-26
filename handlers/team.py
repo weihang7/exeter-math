@@ -84,40 +84,43 @@ class ListHandler(BaseHandler):
 
         # Create and insert a record
         # for this registration.
-        user = self.auth.get_user_by_session()['user_id']
-        query = Individual.query(Individual.user == user, Individual.year == get_year())
+        user_dict = self.auth.get_user_by_session()
+        if user_dict:
+            user = user_dict['user_id']
+            query = Individual.query(Individual.user == user, Individual.year == get_year())
 
-        for member in query:
-            if member.team != -1:
-                if member.team in teams:
-                    teams[member.team]['members'].append(member.serialize())
+            for member in query:
+                if member.team != -1:
+                    if member.team in teams:
+                        teams[member.team]['members'].append(member.serialize())
+                    else:
+                        teams[member.team] = {
+                            'members': [member.serialize()]
+                        }
                 else:
-                    teams[member.team] = {
-                        'members': [member.serialize()]
-                    }
-            else:
-                individuals.append(member.serialize())
+                    individuals.append(member.serialize())
 
-        for team_id in teams:
-            record = Team.get_by_id(team_id)
-            teams[team_id]['name'] = record.name
-            teams[team_id]['id'] = int(team_id)
-            teams[team_id]['paid'] = record.paid
+            for team_id in teams:
+                record = Team.get_by_id(team_id)
+                teams[team_id]['name'] = record.name
+                teams[team_id]['id'] = int(team_id)
+                teams[team_id]['paid'] = record.paid
 
-        # Inform the client of success.
-        self.response.headers['Content-Type'] = 'application/json'
-        self.response.write(json.dumps({
-            'teams': teams,
-            'individuals': individuals
-        }))
+            # Inform the client of success.
+            self.response.headers['Content-Type'] = 'application/json'
+            self.response.write(json.dumps({
+                'teams': teams,
+                'individuals': individuals
+            }))
+        else:
+            self.abort(403)
 
 class AdminListHandler(BaseHandler):
     def get(self):
         teams = {}
         individuals = []
 
-        # Create and insert a record
-        # for this registration.
+        # Query all users registered this year.
         query = Individual.query(Individual.year == get_year())
 
         for member in query:
@@ -387,7 +390,7 @@ class CheckHandler(BaseHandler):
                     ret = team.team_scores
                 else:
                     guts_round = int(self.request.get('guts_round'))
-                    ret = json.dumps(json.loads(team.guts_scores)[guts_round*3-3:guts_round*3-1])
+                    ret = json.dumps(json.loads(team.guts_scores)[guts_round * 3 - 3 : guts_round * 3 - 1])
         self.response.headers['Content-Type'] = 'application/json'
         self.response.write(ret)
 

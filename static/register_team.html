@@ -41,19 +41,36 @@
     <div class="page-header">
       <h1>Register Team</h1>
     </div>
-    <div id="teams_list"></div>
-    <div id="individuals_list" class="form-group"></div>
-    <div class="form-group">
-      <button id="add_team" class="btn btn-secondary btn-sm"><span class="glyphicon glyphicon-plus"></span>team</button>
-      <button id="add_individual" class="btn btn-secondary btn-sm"><span class="glyphicon glyphicon-plus"></span>individual</button>
+    <div class="col-md-6 col-xs-12">
+      <div id="teams_list"></div>
+      <div id="individuals_list" class="form-group"></div>
+      <div class="form-group">
+        <button id="add_team" class="btn btn-secondary btn-sm"><span class="glyphicon glyphicon-plus"></span>team</button>
+        <button id="add_individual" class="btn btn-secondary btn-sm"><span class="glyphicon glyphicon-plus"></span>individual</button>
+      </div>
+      <div class="form-group">
+        <button id="submit" disabled="disabled" class="btn btn-primary btn-lg">Saved</button>
+      </div>
     </div>
-    <div class="form-group">
-      <button id="submit" disabled="disabled" class="btn btn-primary btn-lg">Saved</button>
+    <div class="col-md-6 col-xs-12">
+      <h2>Payment</h2>
+      <div>
+        <p>The registration fee is $50 for a team of four students and $15 for an individual.</p>
+        <p>The registration fee includes a pizza lunch.</p>
+        <p>Payment by check only. Please make them out to <b>Exeter Math Club Competition</b>, and send them to:</p><br>
+        <address id="feng">
+          Zuming Feng <br>
+          20 Main Street <br>
+          Exeter, NH 03833
+        </address>
+      </div>
     </div>
-    <hr>
-    <footer>
-      <p>The Exeter Math Club Competition is sponsored by <a href="http://janestreet.com"><img id="jane_logo" src="/logo.png" alt="Jane Street Capital" width="99" height="25"></a></p>
-    </footer>
+    <div class="col-md-12">
+      <hr>
+      <footer>
+        <p>The Exeter Math Club Competition is sponsored by <a href="http://janestreet.com"><img id="jane_logo" src="/logo.png" alt="Jane Street Capital" width="99" height="25"></a></p>
+      </footer>
+    </div>
   </div>
   <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
