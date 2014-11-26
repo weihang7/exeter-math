@@ -41,8 +41,8 @@ class EditInfoHandler(BaseHandler):
 
         # Create and insert a record
         # for this registration.
-        user = int(self.auth.get_user_by_session()['user_id'])
-        query = Individual.query(Individual.user == user, Individual.year == get_year())
+        user_id = int(self.auth.get_user_by_session()['user_id'])
+        query = Individual.query(Individual.user == user_id, Individual.year == get_year())
 
         for member in query:
             member.key.delete()
@@ -51,11 +51,11 @@ class EditInfoHandler(BaseHandler):
 
         for individual in individuals:
             record = Individual(
-                    name=individual['name'],
-                    team=individual['team'],
-                    user=user,
-                    paid=(individual['paid'] if 'paid' in individual else False),
-                    year=get_year()
+                    name = individual['name'],
+                    team = individual['team'],
+                    user = user_id,
+                    paid = (individual['paid'] if 'paid' in individual else False),
+                    year = get_year()
             )
             record.put()
 
@@ -66,6 +66,10 @@ class EditInfoHandler(BaseHandler):
             record = Team.get_by_id(team['id'])
             record.name = team['name']
             record.put()
+
+        user = self.user_model.get_by_id(user_id)
+        user.refresh()
+        user.put()
 
         # Inform the client of success.
         self.response.headers['Content-Type'] = 'application/json'
@@ -99,10 +103,6 @@ class ListHandler(BaseHandler):
             teams[team_id]['name'] = record.name
             teams[team_id]['id'] = int(team_id)
             teams[team_id]['paid'] = record.paid
-
-        muser = self.user_model.get_by_id(user)
-        muser.refresh()
-        muser.put()
 
         # Inform the client of success.
         self.response.headers['Content-Type'] = 'application/json'
