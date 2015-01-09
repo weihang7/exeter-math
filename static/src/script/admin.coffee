@@ -13,3 +13,10 @@ $.ajax
             """
 
             teams_list.append team_tr
+        for individual in data.individuals
+            tr = $ """
+              <tr><td><a href="mailto:#{data.users[individual.user]}">#{data.users[individual.user]}</a></td>
+              <td>#{individual.name}</td><td>#{individual.paid}</td></tr>
+            """
+
+            individuals_list.append tr
