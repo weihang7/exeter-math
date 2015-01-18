@@ -40,3 +40,8 @@ class Individual(ndb.Model):
 
     def isPaid(self):
         return self.paid or Team.get_by_id(self.team).paid
+
+class GutsTime(ndb.Model):
+    startTime = ndb.DatetimeProperty()
+    endTime = ndb.DatetimeProperty()
+

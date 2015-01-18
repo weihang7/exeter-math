@@ -394,3 +394,8 @@ class CheckHandler(BaseHandler):
         self.response.headers['Content-Type'] = 'application/json'
         self.response.write(ret)
 
+class GutsRoundUpdateHandler(BaseHandler):
+    teams = Team.query().fetch(projection=[Team.guts_scores])
+    self.response.headers['Content-Type'] = 'application/json'
+    self.response.write(json.dumps(teams))
+
