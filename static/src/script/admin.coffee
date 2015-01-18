@@ -5,11 +5,14 @@ $.ajax
     url: '/admin_list'
     dataType: 'json'
     success: (data) ->
+        number = 0
         for id, team of data.teams
             team_tr = $ """
               <tr><td><a href="mailto:#{data.users[team.user]}">#{data.users[team.user]}</a></td><td>#{team.name}</td>#{
                 ("<td>#{member}</td>" for member in team.members).join ''
               }<td>#{team.paid}</td></tr>
             """
+            number++
 
             teams_list.append team_tr
+        teams_list.prepend number + " teams."

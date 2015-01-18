@@ -121,7 +121,7 @@ class AdminListHandler(BaseHandler):
         individuals = []
 
         # Query all users registered this year.
-        query = Individual.query(Individual.year == get_year())
+        query = Individual.query(ndb.OR(Individual.year == get_year(), Individual.year == 2014))
 
         for member in query:
             if member.team != -1:
