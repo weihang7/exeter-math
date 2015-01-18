@@ -12,7 +12,12 @@ $.ajax
                 ("<td>#{member}</td>" for member in team.members).join ''
               }<td>#{team.paid}</td></tr>
             """
-            number++
 
             teams_list.append team_tr
-        teams_list.prepend number + " teams."
+        for individual in data.individuals
+            tr = $ """
+              <tr><td><a href="mailto:#{data.users[individual.user]}">#{data.users[individual.user]}</a></td>
+              <td>#{individual.name}</td><td>#{individual.paid}</td></tr>
+            """
+
+            individuals_list.append tr

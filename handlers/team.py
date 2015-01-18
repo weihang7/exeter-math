@@ -134,7 +134,7 @@ class AdminListHandler(BaseHandler):
             else:
                 individuals.append({
                     'name': member.serialize(),
-                    'user': member.team
+                    'user': member.user
                 })
 
         for team_id in teams:
@@ -253,18 +253,19 @@ class ListAllHandler(BaseHandler):
             'individuals': individuals
         }))
 
-"""
 # For the team year emergency
-class UpdateTeamYearHandler(BaseHandler):
+class EmergencyYearReset(BaseHandler):
     def get(self):
-        teams = Team.query()
+        teams = Team.query(Team.year == get_year() - 1)
 
         teams_dict = {}
 
         for team in teams:
+            team.year = get_year()
             individuals = Individual.query(Individual.team == team.key.id())
             for individual in individuals:
-                team.year = individual.year
+                individual.year = team.year
+                individual.put()
             teams_dict[team.key.id()] = team.year
             team.put()
 
@@ -272,7 +273,6 @@ class UpdateTeamYearHandler(BaseHandler):
         self.response.write(json.dumps({
             'teams': teams_dict
         }))
-"""
 
 class SendEmailHandler(BaseHandler):
 
@@ -398,4 +398,3 @@ class GutsRoundUpdateHandler(BaseHandler):
     teams = Team.query().fetch(projection=[Team.guts_scores])
     self.response.headers['Content-Type'] = 'application/json'
     self.response.write(json.dumps(teams))
-
