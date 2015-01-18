@@ -332,16 +332,18 @@ class GradeHandler(BaseHandler):
     def post(self):
         password = self.request.get('password')
         problem = ''
+        success = True
         if password != 'adidasTwilight':
             success = False
             problem = 'password'
         else:
             rnd = self.request.get('round')
-            _id = int(self.request.get('id'))
+            _id = self.request.get('id')
             score = self.request.get('score')
             if rnd in ('speed', 'accuracy'):
                 ind = Individual.query(Individual.assigned_id == _id)
                 if ind.count() != 0:
+                    ind = ind.fetch()[0]
                     if rnd == 'speed':
                         ind.speed_scores = score
                     else:
@@ -374,11 +376,12 @@ class CheckHandler(BaseHandler):
 
     def get(self):
         rnd = self.request.get('round')
-        _id = int(self.request.get('id'))
+        _id = self.request.get('id')
         ret = '[]'
         if rnd in ('speed', 'accuracy'):
             ind = Individual.query(Individual.assigned_id == _id)
             if ind.count() > 0:
+                ind = ind.fetch()[0]
                 if rnd == 'speed':
                     ret = ind.speed_scores
                 else:
@@ -395,6 +398,82 @@ class CheckHandler(BaseHandler):
         self.response.write(ret)
 
 class GutsRoundUpdateHandler(BaseHandler):
-    teams = Team.query().fetch(projection=[Team.guts_scores])
-    self.response.headers['Content-Type'] = 'application/json'
-    self.response.write(json.dumps(teams))
+    def get(self):
+        teams = Team.query().fetch()
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.write(json.dumps([{"score": team.guts_scores, "name": team.name} for team in teams]))
+
+class ListScoresHandler(BaseHandler):
+    def get(self):
+        teams = Team.query(Team.year == get_year()).fetch() # TODO CHANGE
+        individuals = Individual.query(Individual.year == get_year()).fetch() # TODO CHANGE
+        teamsDict = {}
+
+        for team in teams:
+            teamsDict[team.key.id()] = {
+                'id': team.assigned_id,
+                'name': team.name,
+                'team_scores': json.loads(team.team_scores if team.team_scores is not None else 'null'),
+                'guts_scores': json.loads(team.guts_scores if team.guts_scores is not None else 'null'),
+                'members': []
+            }
+
+        for individual in individuals:
+            if individual.team > 0:
+                print(individual.speed_scores is not None)
+                teamsDict[individual.team]["members"].append({
+                    'name': individual.name,
+                    'id': individual.assigned_id,
+                    'speed_scores': json.loads(individual.speed_scores if (individual.speed_scores is not None) else 'null'),
+                    'accuracy_scores': json.loads(individual.accuracy_scores if (individual.accuracy_scores is not None) else 'null')
+                })
+
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.write(json.dumps(teamsDict))
+
+'''
+# Obsoleted autoassign
+
+class AssignIdsHandler(BaseHandler):
+    def get(self):
+        teams = Team.query(Team.year == get_year()).fetch()
+        individuals = Individual.query(Individual.year == get_year()).fetch()
+
+        ids = json.loads(self.request.get('room_ids'))
+        assignationDict = {}
+
+        for team in teams:
+            team.assigned_id = ids.pop()
+            assignationDict[team.key.id()] = {
+                'id': str(team.assigned_id),
+                'n': 0
+            }
+            team.put()
+
+        for individual in individuals:
+            if individual.team > 0:
+                individual.assigned_id = str(assignationDict[individual.team]['id']) + '-' + str(assignationDict[individual.team]['n'])
+                assignationDict[individual.team]['n'] += 1
+                individual.put()
+
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.write(json.dumps(assignationDict))
+'''
+
+class AssignIdHandler(BaseHandler):
+    def get(self):
+        old_id = int(self.request.get('primary_id'))
+        new_id = self.request.get('assigned_id')
+        team = Team.get_by_id(old_id)
+        team.put()
+
+        individuals = Individual.query(Individual.team == old_id)
+        n = 1
+        for individual in individuals:
+            individual.assigned_id = new_id + str(n)
+            individual.put()
+            n += 1
+
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.write(json.dumps({'success': True}))
+

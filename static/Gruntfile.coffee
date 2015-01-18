@@ -44,6 +44,8 @@ module.exports = (grunt) ->
                     'admin.html': 'src/admin.jade'
                     'scores.html': 'src/scores.jade'
                     'register_team.html': 'src/register_team.jade'
+                    'list_scores.html': 'src/list_scores.jade'
+                    'assign_ids.html': 'src/assign_ids.jade'
                     'forgot.html': 'src/forgot.jade'
                     'reset.html': 'src/reset.jade'
                     'grading.html': 'src/grading.jade'

@@ -7,6 +7,11 @@ threadsafe: true
 handlers:
 - url: /create_team
   script: routes.application
+- url: /list_scores
+  script: routes.application
+- url: /assign_id
+  script: routes.application
+  login: admin
 - url: /edit_info
   script: routes.application
 - url: /list

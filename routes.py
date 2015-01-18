@@ -27,6 +27,8 @@ application = webapp2.WSGIApplication([
     Route('/add_legacy', 'handlers.account.AddLegacyUserHandler'),
     Route('/grade', 'handlers.team.GradeHandler'),
     Route('/check', 'handlers.team.CheckHandler'),
+    Route('/list_scores', 'handlers.team.ListScoresHandler'),
+    Route('/assign_id', 'handlers.team.AssignIdHandler'),
     Route('/_emergency_year_reset', 'handlers.team.EmergencyYearReset')
 ], debug=True, config=config)
 
