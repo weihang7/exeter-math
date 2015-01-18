@@ -27,6 +27,9 @@ application = webapp2.WSGIApplication([
     Route('/add_legacy', 'handlers.account.AddLegacyUserHandler'),
     Route('/grade', 'handlers.team.GradeHandler'),
     Route('/check', 'handlers.team.CheckHandler'),
-    Route('/_emergency_year_reset', 'handlers.team.EmergencyYearReset')
+    Route('/_emergency_year_reset', 'handlers.team.EmergencyYearReset'),
+    Route('/guts_time_sync', 'handlers.team.GutsTimeSyncHandler'),
+    Route('/guts_round_update', 'handlers.team.GutsRoundUpdateHandler'),
+    Route('/start_guts', 'handlers.team.StartGutsHandler')
 ], debug=True, config=config)
 

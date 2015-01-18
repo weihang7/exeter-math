@@ -5,12 +5,14 @@ from account import User
 from account import LegacyUser
 from team_schema import Team
 from team_schema import Individual
+from team_schema import GutsTime
 from base import BaseHandler
 
 from google.appengine.api import mail
 from google.appengine.ext import ndb
 
 import datetime
+import time
 
 def get_year():
     return datetime.datetime.today().year
@@ -332,6 +334,7 @@ class GradeHandler(BaseHandler):
     def post(self):
         password = self.request.get('password')
         problem = ''
+        success = True
         if password != 'adidasTwilight':
             success = False
             problem = 'password'
@@ -351,12 +354,16 @@ class GradeHandler(BaseHandler):
                     success = False
                     problem = 'id'
             else:
-                team = Team.query(Team.assigned_id == _id)
-                if team.count() != 0:
+                #team = Team.query(Team.assigned_id == _id).fetch()[0]
+                teams = Team.query().fetch()
+                if len(teams) != 0:
+                    team = teams[0]
                     if rnd == 'team':
                         team.team_scores = score
                     else:
                         guts_round = int(self.request.get('guts_round'))
+                        if team.guts_scores is None:
+                            team.guts_scores = '[]'
                         loaded = json.loads(team.guts_scores)
                         loaded[guts_round*3-3:guts_round*3-1] = json.loads(score)
                         team.guts_scores = json.dumps(loaded)
@@ -395,6 +402,34 @@ class CheckHandler(BaseHandler):
         self.response.write(ret)
 
 class GutsRoundUpdateHandler(BaseHandler):
-    teams = Team.query().fetch(projection=[Team.guts_scores])
-    self.response.headers['Content-Type'] = 'application/json'
-    self.response.write(json.dumps(teams))
+    def get(self):
+        teams = Team.query().fetch()
+        ret = []
+        for team in teams:
+            ret.append({
+                'name': team.name,
+                'scores': team.guts_scores
+            })
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.write(json.dumps({
+            'teams': ret
+        }))
+
+class StartGutsHandler(BaseHandler):
+    def get(self):
+        ndb.delete_multi(GutsTime.query().fetch(keys_only=True))
+        record = GutsTime(endTime = datetime.datetime.fromtimestamp(time.time()) + datetime.timedelta(seconds=4500))
+        record.put()
+
+class GutsTimeSyncHandler(BaseHandler):
+    def get(self):
+        time_end = int(GutsTime.query().fetch()[0].endTime.strftime("%s"))
+        time_now = int(time.time())
+        ret = {
+                'time_end': time_end,
+                'time_now': time.time(),
+                'time': time_end - time_now
+        }
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.write(json.dumps(ret))
+
