@@ -11,6 +11,8 @@ handlers:
   script: routes.application
 - url: /assign_id
   script: routes.application
+- url: /assign_individual_id
+  script: routes.application
   login: admin
 - url: /edit_info
   script: routes.application

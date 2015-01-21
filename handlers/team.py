@@ -355,6 +355,7 @@ class GradeHandler(BaseHandler):
             else:
                 team = Team.query(Team.assigned_id == _id)
                 if team.count() != 0:
+                    team = team.fetch()[0]
                     if rnd == 'team':
                         team.team_scores = score
                     else:
@@ -465,15 +466,19 @@ class AssignIdHandler(BaseHandler):
         old_id = int(self.request.get('primary_id'))
         new_id = self.request.get('assigned_id')
         team = Team.get_by_id(old_id)
+        team.assigned_id = new_id
         team.put()
-
-        individuals = Individual.query(Individual.team == old_id)
-        n = 1
-        for individual in individuals:
-            individual.assigned_id = new_id + str(n)
-            individual.put()
-            n += 1
 
         self.response.headers['Content-Type'] = 'application/json'
         self.response.write(json.dumps({'success': True}))
 
+class AssignIndivIdHandler(BaseHandler):
+    def get(self):
+        old_id = int(self.request.get('primary_id'))
+        new_id = self.request.get('assigned_id')
+        individual = Individual.get_by_id(old_id)
+        individual.assigned_id = new_id
+        individual.put()
+
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.write(json.dumps({'success': True}))

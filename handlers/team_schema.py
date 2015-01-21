@@ -29,11 +29,17 @@ class Individual(ndb.Model):
     accuracy_scores = ndb.StringProperty(indexed=False)
 
     def serialize(self):
-        return self.name
+        return {
+            'name': self.name,
+            'id': self.key.id(),
+            'assigned_id': self.assigned_id
+        }
 
     def serialize_full(self):
         return {
             'name': self.name,
+            'id': self.key.id(),
+            'assigned_id': self.assigned_id,
             'speed_scores': json.loads(self.speed_scores) if self.speed_scores is not None else None,
             'accuracy_scores': json.loads(self.accuracy_scores) if self.speed_scores is not None else None
         }
