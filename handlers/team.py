@@ -5,12 +5,14 @@ from account import User
 from account import LegacyUser
 from team_schema import Team
 from team_schema import Individual
+from team_schema import GutsTime
 from base import BaseHandler
 
 from google.appengine.api import mail
 from google.appengine.ext import ndb
 
 import datetime
+import time
 
 def get_year():
     return datetime.datetime.today().year
@@ -360,6 +362,8 @@ class GradeHandler(BaseHandler):
                         team.team_scores = score
                     else:
                         guts_round = int(self.request.get('guts_round'))
+                        if team.guts_scores is None:
+                            team.guts_scores = '[]'
                         loaded = json.loads(team.guts_scores)
                         loaded[guts_round*3-3:guts_round*3-1] = json.loads(score)
                         team.guts_scores = json.dumps(loaded)
@@ -401,8 +405,34 @@ class CheckHandler(BaseHandler):
 class GutsRoundUpdateHandler(BaseHandler):
     def get(self):
         teams = Team.query().fetch()
+        ret = []
+        for team in teams:
+            ret.append({
+                'name': team.name,
+                'scores': team.guts_scores
+            })
         self.response.headers['Content-Type'] = 'application/json'
-        self.response.write(json.dumps([{"score": team.guts_scores, "name": team.name} for team in teams]))
+        self.response.write(json.dumps({
+            'teams': ret
+        }))
+
+class StartGutsHandler(BaseHandler):
+    def get(self):
+        ndb.delete_multi(GutsTime.query().fetch(keys_only=True))
+        record = GutsTime(endTime = datetime.datetime.fromtimestamp(time.time()) + datetime.timedelta(seconds=4500))
+        record.put()
+
+class GutsTimeSyncHandler(BaseHandler):
+    def get(self):
+        time_end = int(GutsTime.query().fetch()[0].endTime.strftime("%s"))
+        time_now = int(time.time())
+        ret = {
+                'time_end': time_end,
+                'time_now': time.time(),
+                'time': time_end - time_now
+        }
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.write(json.dumps(ret))
 
 class ListScoresHandler(BaseHandler):
     def get(self):

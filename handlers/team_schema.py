@@ -14,8 +14,8 @@ class Team(ndb.Model):
     year = ndb.IntegerProperty(indexed=True)
     assigned_id = ndb.StringProperty(indexed=True)
 
-    guts_scores = ndb.StringProperty(indexed=False)
-    team_scores = ndb.StringProperty(indexed=False)
+    guts_scores = ndb.StringProperty()
+    team_scores = ndb.StringProperty()
 
 class Individual(ndb.Model):
     name = ndb.StringProperty(indexed=False)
@@ -48,6 +48,5 @@ class Individual(ndb.Model):
         return self.paid or Team.get_by_id(self.team).paid
 
 class GutsTime(ndb.Model):
-    startTime = ndb.DateTimeProperty()
     endTime = ndb.DateTimeProperty()
 

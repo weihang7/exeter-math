@@ -53,6 +53,13 @@ handlers:
   script: routes.application
 - url: /_emergency_year_reset
   script: routes.application
+- url: /guts_time_sync
+  script: routes.application
+- url: /guts_round_update
+  script: routes.application
+- url: /start_guts
+  script: routes.application
+  login: admin
 - url: /admin.html
   static_files: static/admin.html
   upload: static/admin.html
