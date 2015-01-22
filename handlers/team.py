@@ -405,10 +405,11 @@ class GutsRoundUpdateHandler(BaseHandler):
         teams = Team.query(Team.year == get_year()).fetch()
         ret = []
         for team in teams:
-            ret.append({
-                'name': team.name,
-                'scores': team.guts_scores
-            })
+            if team.name is not None:
+                ret.append({
+                    'name': team.name,
+                    'scores': team.guts_scores
+                    })
         self.response.headers['Content-Type'] = 'application/json'
         self.response.write(json.dumps({
             'teams': ret
