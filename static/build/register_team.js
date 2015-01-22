@@ -139,7 +139,7 @@
     url: '/list',
     dataType: 'json',
     success: function(data) {
-      var deleteButton, i, individualName, input, memberInputs, memberName, nameInput, newTeamDiv, team, team_id, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2, _results;
+      var deleteButton, i, individual, input, memberInputs, memberName, nameInput, newTeamDiv, team, team_id, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2, _results;
       _ref = data.teams;
       for (team_id in _ref) {
         team = _ref[team_id];
@@ -194,9 +194,9 @@
       _ref2 = data.individuals;
       _results = [];
       for (_l = 0, _len3 = _ref2.length; _l < _len3; _l++) {
-        individualName = _ref2[_l];
+        individual = _ref2[_l];
         input = createLabelledInput('Individual', 'John Smith');
-        input.input.val(individualName);
+        input.input.val(individual.name);
         input.input.on('input', invalidate);
         individualInputs.push(input.input);
         _results.push(individualsDiv.append(input.group));

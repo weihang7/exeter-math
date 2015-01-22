@@ -12,8 +12,8 @@ $.ajax
             team_tr = $ "<tr></tr>"
             team_tr.append $ "<td>#{data.users[team.user]}</td>"
             team_tr.append $ "<td>#{team.name}</td>"
-            team_tr.append $("<td></td>").append $("<input class='form-control'/>").val(team.assigned_id)
-              .on('change', ->
+            team_tr.append $("<td></td>").append($("<input class='form-control'/>").val(team.assigned_id)
+            .on('change', ->
                 $.ajax
                     url: '/assign_id'
                     data: {
@@ -24,6 +24,7 @@ $.ajax
                 for input in indiv_inputs
                     input.val (@value + input.val()[current_value.length...])
                 current_value = @value
+            )
             for member in team.members then do (member) ->
                 team_tr.append $("<td></td>").append input = $("<input class='form-control' placeholder='#{
                   member.name}' title='#{member.name}'/>").tooltipster().val(member.assigned_id).on 'change', ->
