@@ -405,7 +405,7 @@ class GutsRoundUpdateHandler(BaseHandler):
         teams = Team.query(Team.year == get_year()).fetch()
         ret = []
         for team in teams:
-            if team.name is not None:
+            if team.name is not None and team.assigned_id is not None and team.assigned_id is not '':
                 ret.append({
                     'name': team.name,
                     'scores': team.guts_scores
