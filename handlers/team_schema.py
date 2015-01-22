@@ -12,7 +12,7 @@ class Team(ndb.Model):
     user = ndb.IntegerProperty(indexed=True)
     paid = ndb.BooleanProperty(indexed=True)
     year = ndb.IntegerProperty(indexed=True)
-    assigned_id = ndb.IntegerProperty(indexed=True)
+    assigned_id = ndb.StringProperty(indexed=True)
 
     guts_scores = ndb.StringProperty()
     team_scores = ndb.StringProperty()
@@ -23,17 +23,24 @@ class Individual(ndb.Model):
     user = ndb.IntegerProperty(indexed=True)
     paid = ndb.BooleanProperty(indexed=True)
     year = ndb.IntegerProperty(indexed=True)
-    assigned_id = ndb.IntegerProperty(indexed=True)
+    assigned_id = ndb.StringProperty(indexed=True)
 
     speed_scores = ndb.StringProperty(indexed=False)
     accuracy_scores = ndb.StringProperty(indexed=False)
 
     def serialize(self):
-        return self.name
+        return {
+            'user': self.user,
+            'name': self.name,
+            'id': self.key.id(),
+            'assigned_id': self.assigned_id
+        }
 
     def serialize_full(self):
         return {
             'name': self.name,
+            'id': self.key.id(),
+            'assigned_id': self.assigned_id,
             'speed_scores': json.loads(self.speed_scores) if self.speed_scores is not None else None,
             'accuracy_scores': json.loads(self.accuracy_scores) if self.speed_scores is not None else None
         }

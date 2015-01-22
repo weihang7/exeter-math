@@ -6,6 +6,7 @@ html(lang='en')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     title Registered Teams | Exeter Math Club Competition
     link(href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css', rel='stylesheet')
+    link(href='tooltipster.css', rel='stylesheet')
     link(href='main.css', rel='stylesheet')
     script(src='respond.min.js')
     link(rel='shortcut icon', href='favicon.ico')
@@ -18,17 +19,9 @@ html(lang='en')
         tr
           th Coach
           th Name
-          th(colspan='4') Members
-          th Paid
-      div.page-header
-        h1 Registered Individuals
-      button.btn.btn-primary#individual-team Make Team
-      table#individuals_list.table
-        tr
-          th Coach
-          th Name
-          th Paid
-          th Select
+          th Id
+          th(colspan=4) Member Ids
     script(src='//code.jquery.com/jquery-1.11.0.min.js')
     script(src='//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js')
-    script(src='build/admin.js')
+    script(src='jquery.tooltipster.min.js')
+    script(src='build/assign_ids.js')

@@ -60,11 +60,11 @@ addTeam.click ->
             newTeamDiv = $ '<div class="form-group">'
 
             input.group.css('margin-left', '30px') for input in memberInputs
-            
+
             newTeamDiv.append nameInput.group
             newTeamDiv.append input.group for input in memberInputs
             newTeamDiv.append deleteButton
-            
+
             teamsDiv.append newTeamDiv
 
 addIndividual.click ->
@@ -159,9 +159,9 @@ $.ajax
 
             teamsDiv.append newTeamDiv
 
-        for individualName in data.individuals
+        for individual in data.individuals
             input = createLabelledInput 'Individual', 'John Smith'
-            input.input.val individualName
+            input.input.val individual.name
             input.input.on 'input', invalidate
 
             individualInputs.push input.input

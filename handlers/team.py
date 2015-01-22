@@ -134,15 +134,13 @@ class AdminListHandler(BaseHandler):
                         'members': [member.serialize()]
                     }
             else:
-                individuals.append({
-                    'name': member.serialize(),
-                    'user': member.user
-                })
+                individuals.append(member.serialize())
 
         for team_id in teams:
             record = Team.get_by_id(team_id)
             teams[team_id]['name'] = record.name
             teams[team_id]['id'] = int(team_id)
+            teams[team_id]['assigned_id'] = record.assigned_id
             teams[team_id]['paid'] = record.paid
             teams[team_id]['user'] = record.user
 
@@ -340,11 +338,12 @@ class GradeHandler(BaseHandler):
             problem = 'password'
         else:
             rnd = self.request.get('round')
-            _id = int(self.request.get('id'))
+            _id = self.request.get('id')
             score = self.request.get('score')
             if rnd in ('speed', 'accuracy'):
                 ind = Individual.query(Individual.assigned_id == _id)
                 if ind.count() != 0:
+                    ind = ind.fetch()[0]
                     if rnd == 'speed':
                         ind.speed_scores = score
                     else:
@@ -354,10 +353,9 @@ class GradeHandler(BaseHandler):
                     success = False
                     problem = 'id'
             else:
-                #team = Team.query(Team.assigned_id == _id).fetch()[0]
-                teams = Team.query().fetch()
-                if len(teams) != 0:
-                    team = teams[0]
+                team = Team.query(Team.assigned_id == _id)
+                if team.count() != 0:
+                    team = team.fetch()[0]
                     if rnd == 'team':
                         team.team_scores = score
                     else:
@@ -381,11 +379,12 @@ class CheckHandler(BaseHandler):
 
     def get(self):
         rnd = self.request.get('round')
-        _id = int(self.request.get('id'))
+        _id = self.request.get('id')
         ret = '[]'
         if rnd in ('speed', 'accuracy'):
             ind = Individual.query(Individual.assigned_id == _id)
             if ind.count() > 0:
+                ind = ind.fetch()[0]
                 if rnd == 'speed':
                     ret = ind.speed_scores
                 else:
@@ -433,3 +432,108 @@ class GutsTimeSyncHandler(BaseHandler):
         self.response.headers['Content-Type'] = 'application/json'
         self.response.write(json.dumps(ret))
 
+class ListScoresHandler(BaseHandler):
+    def get(self):
+        teams = Team.query(Team.year == get_year()).fetch() # TODO CHANGE
+        individuals = Individual.query(Individual.year == get_year()).fetch() # TODO CHANGE
+        teamsDict = {}
+
+        for team in teams:
+            teamsDict[team.key.id()] = {
+                'id': team.assigned_id,
+                'name': team.name,
+                'team_scores': json.loads(team.team_scores if team.team_scores is not None else 'null'),
+                'guts_scores': json.loads(team.guts_scores if team.guts_scores is not None else 'null'),
+                'members': []
+            }
+
+        for individual in individuals:
+            if individual.team > 0:
+                print(individual.speed_scores is not None)
+                teamsDict[individual.team]["members"].append({
+                    'name': individual.name,
+                    'id': individual.assigned_id,
+                    'speed_scores': json.loads(individual.speed_scores if (individual.speed_scores is not None) else 'null'),
+                    'accuracy_scores': json.loads(individual.accuracy_scores if (individual.accuracy_scores is not None) else 'null')
+                })
+
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.write(json.dumps(teamsDict))
+
+'''
+# Obsoleted autoassign
+
+class AssignIdsHandler(BaseHandler):
+    def get(self):
+        teams = Team.query(Team.year == get_year()).fetch()
+        individuals = Individual.query(Individual.year == get_year()).fetch()
+
+        ids = json.loads(self.request.get('room_ids'))
+        assignationDict = {}
+
+        for team in teams:
+            team.assigned_id = ids.pop()
+            assignationDict[team.key.id()] = {
+                'id': str(team.assigned_id),
+                'n': 0
+            }
+            team.put()
+
+        for individual in individuals:
+            if individual.team > 0:
+                individual.assigned_id = str(assignationDict[individual.team]['id']) + '-' + str(assignationDict[individual.team]['n'])
+                assignationDict[individual.team]['n'] += 1
+                individual.put()
+
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.write(json.dumps(assignationDict))
+'''
+
+class AssignIdHandler(BaseHandler):
+    def get(self):
+        old_id = int(self.request.get('primary_id'))
+        new_id = self.request.get('assigned_id')
+        team = Team.get_by_id(old_id)
+        team.assigned_id = new_id
+        team.put()
+
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.write(json.dumps({'success': True}))
+
+class AssignIndivIdHandler(BaseHandler):
+    def get(self):
+        old_id = int(self.request.get('primary_id'))
+        new_id = self.request.get('assigned_id')
+        individual = Individual.get_by_id(old_id)
+        individual.assigned_id = new_id
+        individual.put()
+
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.write(json.dumps({'success': True}))
+
+class AdminEditHandler(BaseHandler):
+    def get(self):
+        individual = Individual.get_by_id(int(self.request.get('id')))
+        individual.name = self.request.get('name')
+        individual.put()
+
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.write(json.dumps(individual.serialize()))
+
+class IndivTeamHandler(BaseHandler):
+    def get(self):
+        ids = json.loads(self.request.get('ids'))
+        record = Team(
+            user = -1,
+            paid = False,
+            name = "Individual Team",
+            year = get_year()
+        )
+        record.put()
+        for i in ids:
+            indiv = Individual.get_by_id(i)
+            indiv.team = record.key.id()
+            indiv.put()
+
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.write(json.dumps({"success": True}))

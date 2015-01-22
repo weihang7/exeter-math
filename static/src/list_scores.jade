@@ -13,22 +13,21 @@ html(lang='en')
     include navbar.jade
     div.container
       div.page-header
-        h1 Registered Teams
+        h1 Teams
       table#teams_list.table
         tr
-          th Coach
           th Name
-          th(colspan='4') Members
-          th Paid
+          th Id
+          th Team
+          th Guts
       div.page-header
-        h1 Registered Individuals
-      button.btn.btn-primary#individual-team Make Team
+        h1 Individuals
       table#individuals_list.table
         tr
-          th Coach
           th Name
-          th Paid
-          th Select
+          th Id
+          th Speed
+          th Accuracy
     script(src='//code.jquery.com/jquery-1.11.0.min.js')
     script(src='//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js')
-    script(src='build/admin.js')
+    script(src='build/list_scores.js')
