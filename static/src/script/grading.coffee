@@ -32,7 +32,7 @@ serialize = ->
     ($ "input[type=checkbox]").map( (i, el) ->
         ret.push el.checked
     )
-    return JSON.stringify(ret)
+    return ret
 
 grade = ->
     if verify(password.val(), id.val())
@@ -44,7 +44,7 @@ grade = ->
                 round: round.val()
                 id: id.val()
                 guts_round: guts_round.val()
-                score: serialize()
+                score: JSON.stringify(serialize())
             }
             dataType: 'json'
             success: (data) ->
@@ -90,8 +90,13 @@ check = ->
             guts_round: guts_round.val()
         }
         success: (data) ->
-            if data.length > 0
-                ($ '#graded').text 'Graded'
+            cur = serialize()
+            ($ '#diff').clear()
+            for i in [0...data.scores.length]
+                if data.scores[i] isnt cur[i]
+                    ($ '#diff').append(i + 1)
+            if data.scores.length > 0
+                ($ '#graded').text data.name
             else
                 ($ '#graded').text ''
 

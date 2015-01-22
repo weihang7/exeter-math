@@ -49,7 +49,7 @@
     ($("input[type=checkbox]")).map(function(i, el) {
       return ret.push(el.checked);
     });
-    return JSON.stringify(ret);
+    return ret;
   };
 
   grade = function() {
@@ -62,7 +62,7 @@
           round: round.val(),
           id: id.val(),
           guts_round: guts_round.val(),
-          score: serialize()
+          score: JSON.stringify(serialize())
         },
         dataType: 'json',
         success: function(data) {
@@ -119,8 +119,16 @@
         guts_round: guts_round.val()
       },
       success: function(data) {
-        if (data.length > 0) {
-          return ($('#graded')).text('Graded');
+        var cur, i, _i, _ref;
+        cur = serialize();
+        ($('#diff')).clear();
+        for (i = _i = 0, _ref = data.scores.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
+          if (data.scores[i] !== cur[i]) {
+            ($('#diff')).append(i + 1);
+          }
+        }
+        if (data.scores.length > 0) {
+          return ($('#graded')).text(data.name);
         } else {
           return ($('#graded')).text('');
         }
