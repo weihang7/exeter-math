@@ -1,6 +1,10 @@
 (function() {
   var addIndividual, addTeam, createLabelledInput, individualInputs, individualsDiv, invalidate, submit, teamInputs, teamsDiv, userInput;
 
+  if (localStorage.isAdmin === 'true') {
+    $('#register-buttons').show();
+  }
+
   individualInputs = [];
 
   teamInputs = [];
@@ -139,7 +143,7 @@
     url: '/list',
     dataType: 'json',
     success: function(data) {
-      var deleteButton, i, individual, input, memberInputs, memberName, nameInput, newTeamDiv, team, team_id, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2, _results;
+      var deleteButton, i, individual, input, member, memberInputs, nameInput, newTeamDiv, team, team_id, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2, _results;
       _ref = data.teams;
       for (team_id in _ref) {
         team = _ref[team_id];
@@ -148,10 +152,10 @@
         memberInputs = [];
         _ref1 = team.members;
         for (i = _i = 0, _len = _ref1.length; _i < _len; i = ++_i) {
-          memberName = _ref1[i];
+          member = _ref1[i];
           memberInputs.push(input = createLabelledInput((i + 1).toString(), 'John Smith'));
-          if (memberName != null) {
-            input.input.val(memberName);
+          if (member != null) {
+            input.input.val(member.name);
           }
           input.input.on('input', invalidate);
         }

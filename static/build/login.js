@@ -24,6 +24,7 @@
       dataType: 'json',
       success: function(data) {
         if (data.success) {
+          localStorage.isAdmin = (email === 'admin@exeter-math.appspot.com').toString();
           return location.href = '/register_team.html';
         } else if (data.problem.indexOf('Password') > -1) {
           submit.prop('disabled', false);

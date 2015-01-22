@@ -16,6 +16,7 @@ login = (email, password) ->
         dataType: 'json'
         success: (data) ->
             if data.success
+                localStorage.isAdmin = (email is 'admin@exeter-math.appspot.com').toString() # TODO change
                 location.href = '/register_team.html'
             else if data.problem.indexOf('Password') > -1
                 submit.prop('disabled', false)

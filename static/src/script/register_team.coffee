@@ -1,3 +1,6 @@
+if localStorage.isAdmin is 'true' # TODO change
+    $('#register-buttons').show()
+
 individualInputs = []
 teamInputs = []
 
@@ -121,12 +124,12 @@ $.ajax
 
             memberInputs = []
 
-            for memberName, i in team.members
+            for member, i in team.members
                 memberInputs.push input =
                   createLabelledInput((i + 1).toString(),
                     'John Smith')
-                if memberName?
-                    input.input.val memberName
+                if member?
+                    input.input.val member.name
 
                 input.input.on 'input', invalidate
 
