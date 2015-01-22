@@ -363,7 +363,7 @@ class GradeHandler(BaseHandler):
                         if team.guts_scores is None:
                             team.guts_scores = '[]'
                         loaded = json.loads(team.guts_scores)
-                        loaded[guts_round*3-3:guts_round*3-1] = json.loads(score)
+                        loaded[guts_round*3-3:guts_round*3] = json.loads(score)
                         team.guts_scores = json.dumps(loaded)
                     team.put()
                 else:
@@ -405,10 +405,11 @@ class GutsRoundUpdateHandler(BaseHandler):
         teams = Team.query(Team.year == get_year()).fetch()
         ret = []
         for team in teams:
-            ret.append({
-                'name': team.name,
-                'scores': team.guts_scores
-            })
+            if team.name is not None and team.assigned_id is not None and team.assigned_id is not '':
+                ret.append({
+                    'name': team.name,
+                    'scores': team.guts_scores
+                    })
         self.response.headers['Content-Type'] = 'application/json'
         self.response.write(json.dumps({
             'teams': ret
