@@ -402,7 +402,7 @@ class CheckHandler(BaseHandler):
 
 class GutsRoundUpdateHandler(BaseHandler):
     def get(self):
-        teams = Team.query().fetch()
+        teams = Team.query(Team.year == get_year()).fetch()
         ret = []
         for team in teams:
             ret.append({
@@ -434,8 +434,8 @@ class GutsTimeSyncHandler(BaseHandler):
 
 class ListScoresHandler(BaseHandler):
     def get(self):
-        teams = Team.query(Team.year == get_year()).fetch() # TODO CHANGE
-        individuals = Individual.query(Individual.year == get_year()).fetch() # TODO CHANGE
+        teams = Team.query(Team.year == get_year()).fetch()
+        individuals = Individual.query(Individual.year == get_year()).fetch()
         teamsDict = {}
 
         for team in teams:
