@@ -121,7 +121,7 @@
       success: function(data) {
         var cur, i, _i, _ref;
         cur = serialize();
-        ($('#diff')).clear();
+        ($('#diff')).text('');
         for (i = _i = 0, _ref = data.scores.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
           if (data.scores[i] !== cur[i]) {
             ($('#diff')).append(i + 1);

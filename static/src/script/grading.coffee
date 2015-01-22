@@ -91,7 +91,7 @@ check = ->
         }
         success: (data) ->
             cur = serialize()
-            ($ '#diff').clear()
+            ($ '#diff').text ''
             for i in [0...data.scores.length]
                 if data.scores[i] isnt cur[i]
                     ($ '#diff').append(i + 1)
