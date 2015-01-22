@@ -30,9 +30,9 @@
       success: function(data) {
         var a = [4,4,4,5,5,5,6,6,6,7,7,7,8,8,8,9,9,9,10,10,10,11,11,11];
         for (var i = 0; i < data.teams.length; ++i) {
+          data.teams[i].score = 0;
+          data.teams[i].progress = 0;
           if (data.teams[i].scores) {
-            data.teams[i].score = 0;
-            data.teams[i].progress = 0;
             data.teams[i].scores = JSON.parse(data.teams[i].scores);
             console.log(data.teams[i].scores);
             for(var j = 0; j < data.teams[i].scores.length; ++j) {
