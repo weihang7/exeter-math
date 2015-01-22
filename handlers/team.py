@@ -363,7 +363,7 @@ class GradeHandler(BaseHandler):
                         if team.guts_scores is None:
                             team.guts_scores = '[]'
                         loaded = json.loads(team.guts_scores)
-                        loaded[guts_round*3-3:guts_round*3-1] = json.loads(score)
+                        loaded[guts_round*3-3:guts_round*3] = json.loads(score)
                         team.guts_scores = json.dumps(loaded)
                     team.put()
                 else:
