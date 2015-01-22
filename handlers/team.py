@@ -143,6 +143,7 @@ class AdminListHandler(BaseHandler):
             record = Team.get_by_id(team_id)
             teams[team_id]['name'] = record.name
             teams[team_id]['id'] = int(team_id)
+            teams[team_id]['assigned_id'] = record.assigned_id
             teams[team_id]['paid'] = record.paid
             teams[team_id]['user'] = record.user
 
@@ -512,3 +513,29 @@ class AssignIndivIdHandler(BaseHandler):
 
         self.response.headers['Content-Type'] = 'application/json'
         self.response.write(json.dumps({'success': True}))
+
+class AdminEditHandler(BaseHandler):
+    def get(self):
+        individual = Individual.get_by_id(int(self.request.get('id')))
+        individual.name = self.request.get('name')
+        individual.put()
+
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.write(json.dumps(individual.serialize()))
+
+class IndivTeamHandler(BaseHandler):
+    def get(self):
+        ids = json.loads(self.request.get('ids'))
+        record = Team(
+            user = -1,
+            paid = False,
+            year = get_year()
+        )
+        record.put()
+        for i in ids:
+            indiv = Individual.get_by_id(i)
+            indiv.team = record.key.id()
+            indiv.put()
+
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.write(json.dumps({"success": True}))
