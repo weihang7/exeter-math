@@ -71,6 +71,11 @@ handlers:
   upload: static/admin.html
   login: admin
   secure: always
+- url: /assign_ids.html
+  static_files: static/assign_ids.html
+  upload: static/assign_ids.html
+  login: admin
+  secure: always
 - url: /
   static_files: static/index.html
   upload: static/index.html
