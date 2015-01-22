@@ -20,9 +20,9 @@
   checkboxes = $('#checkboxes');
 
   map = {
-    'speed': 25,
-    'accuracy': 8,
-    'team': 10
+    'speed': 20,
+    'accuracy': 10,
+    'team': 15
   };
 
   verify = function(password, id) {
