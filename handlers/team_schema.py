@@ -30,6 +30,7 @@ class Individual(ndb.Model):
 
     def serialize(self):
         return {
+            'user': self.user,
             'name': self.name,
             'id': self.key.id(),
             'assigned_id': self.assigned_id

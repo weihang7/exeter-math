@@ -134,10 +134,7 @@ class AdminListHandler(BaseHandler):
                         'members': [member.serialize()]
                     }
             else:
-                individuals.append({
-                    'name': member.serialize(),
-                    'user': member.user
-                })
+                individuals.append(member.serialize())
 
         for team_id in teams:
             record = Team.get_by_id(team_id)
@@ -529,6 +526,7 @@ class IndivTeamHandler(BaseHandler):
         record = Team(
             user = -1,
             paid = False,
+            name = "Individual Team",
             year = get_year()
         )
         record.put()
