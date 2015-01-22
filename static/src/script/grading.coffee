@@ -91,10 +91,11 @@ check = ->
         }
         success: (data) ->
             cur = serialize()
-            ($ '#diff').text ''
+            data.scores = JSON.parse(data.scores)
+            ($ '#diff').text 'Conflicts: '
             for i in [0...data.scores.length]
                 if data.scores[i] isnt cur[i]
-                    ($ '#diff').append(i + 1)
+                    ($ '#diff').append (i + 1) + ', '
             if data.scores.length > 0
                 ($ '#graded').text data.name
             else

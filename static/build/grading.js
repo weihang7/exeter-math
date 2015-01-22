@@ -121,10 +121,11 @@
       success: function(data) {
         var cur, i, _i, _ref;
         cur = serialize();
-        ($('#diff')).text('');
+        data.scores = JSON.parse(data.scores);
+        ($('#diff')).text('Conflicts: ');
         for (i = _i = 0, _ref = data.scores.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
           if (data.scores[i] !== cur[i]) {
-            ($('#diff')).append(i + 1);
+            ($('#diff')).append((i + 1) + ', ');
           }
         }
         if (data.scores.length > 0) {
