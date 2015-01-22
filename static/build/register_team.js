@@ -1,6 +1,10 @@
 (function() {
   var addIndividual, addTeam, createLabelledInput, individualInputs, individualsDiv, invalidate, submit, teamInputs, teamsDiv, userInput;
 
+  if (localStorage.isAdmin === 'true') {
+    $('#register-buttons').show();
+  }
+
   individualInputs = [];
 
   teamInputs = [];

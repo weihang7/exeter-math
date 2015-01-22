@@ -44,15 +44,12 @@
     <div class="col-md-6 col-xs-12">
       <div id="teams_list"></div>
       <div id="individuals_list" class="form-group"></div>
-      <!--
-      .form-group
-        button#add_team.btn.btn-secondary.btn-sm
-          span.glyphicon.glyphicon-plus
-          | team
-        button#add_individual.btn.btn-secondary.btn-sm
-          span.glyphicon.glyphicon-plus
-          | individual
-      -->
+      <div id="register-buttons" style="display:none">
+        <div class="form-group">
+          <button id="add_team" class="btn btn-secondary btn-sm"><span class="glyphicon glyphicon-plus"></span>team</button>
+          <button id="add_individual" class="btn btn-secondary btn-sm"><span class="glyphicon glyphicon-plus"></span>individual</button>
+        </div>
+      </div>
       <div class="form-group">
         <button id="submit" disabled="disabled" class="btn btn-primary btn-lg">Saved</button>
       </div>

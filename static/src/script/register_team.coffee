@@ -1,3 +1,6 @@
+if localStorage.isAdmin is 'true' # TODO change
+    $('#register-buttons').show()
+
 individualInputs = []
 teamInputs = []
 
