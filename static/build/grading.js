@@ -1,7 +1,7 @@
 (function() {
-  var check, checkboxes, cur_scores, grade, guts_round, guts_round_control, id, id_control, map, password, password_control, refresh, refresh_guts, round, serialize, submit, validate, verify;
+  var check, checkboxes, cur_scores, grade, guts_round, guts_round_control, id, id_control, map, password_control, refresh, refresh_guts, round, serialize, submit, uassword, validate, verify;
 
-  password = $('#password');
+  uassword = $('#password');
 
   round = $('#round');
 
@@ -109,11 +109,13 @@
       for (i = _i = 1, _ref = map[round.val()]; 1 <= _ref ? _i <= _ref : _i >= _ref; i = 1 <= _ref ? ++_i : --_i) {
         checkboxes.append($("<div class='checkbox'> <label>" + i + "<input type='checkbox'></label> </div>"));
       }
-      return guts_round_control.addClass('hidden');
+      guts_round_control.addClass('hidden');
     } else {
       guts_round_control.removeClass('hidden');
-      return refresh_guts();
+      refresh_guts();
     }
+    ($('#graded')).text('');
+    return cur_scores = [];
   };
 
   refresh_guts = function() {
@@ -138,12 +140,10 @@
       success: function(data) {
         var scores;
         scores = JSON.parse(data.scores);
-        if (scores.length > 0) {
+        if (scores && scores.length > 0) {
           ($('#graded')).text(data.name);
           cur_scores = scores;
           return validate();
-        } else {
-          return ($('#graded')).text('');
         }
       }
     });

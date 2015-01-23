@@ -1,4 +1,4 @@
-password = $ '#password'
+uassword = $ '#password'
 round = $ '#round'
 id = $ '#id'
 guts_round = $ '#guts-round'
@@ -80,6 +80,8 @@ refresh = ->
     else
         guts_round_control.removeClass 'hidden'
         refresh_guts()
+    ($ '#graded').text ''
+    cur_scores = []
 
 refresh_guts = ->
     checkboxes.empty()
@@ -99,12 +101,10 @@ check = ->
         }
         success: (data) ->
             scores = JSON.parse(data.scores)
-            if scores.length > 0
+            if scores and scores.length > 0
                 ($ '#graded').text data.name
                 cur_scores = scores
                 validate()
-            else
-                ($ '#graded').text ''
 
 refresh()
 round.change refresh
