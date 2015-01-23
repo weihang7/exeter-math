@@ -7,6 +7,7 @@ password_control  = $ '#password-control'
 id_control = $ '#id-control'
 guts_round_control = $ '#guts-round-control'
 checkboxes = $ '#checkboxes'
+cur_scores = []
 map = {
     'speed': 20
     'accuracy': 10
@@ -33,6 +34,13 @@ serialize = ->
         ret.push el.checked
     )
     return ret
+
+validate = (scores) ->
+    cur = serialize()
+    ($ '#diff').text 'Conflicts: '
+    for i in [0...cur_scores.length]
+        if cur_scores[i] isnt cur[i]
+            ($ '#diff').append (i + 1) + ', '
 
 grade = ->
     if verify(password.val(), id.val())
@@ -90,13 +98,9 @@ check = ->
             guts_round: guts_round.val()
         }
         success: (data) ->
-            cur = serialize()
-            data.scores = JSON.parse(data.scores)
-            ($ '#diff').text 'Conflicts: '
-            for i in [0...data.scores.length]
-                if data.scores[i] isnt cur[i]
-                    ($ '#diff').append (i + 1) + ', '
-            if data.scores.length > 0
+            cur_scores = JSON.parse(data.scores)
+            validate()
+            if cur_scores.length > 0
                 ($ '#graded').text data.name
             else
                 ($ '#graded').text ''
@@ -105,3 +109,4 @@ refresh()
 round.change refresh
 guts_round.change refresh_guts
 id.keyup check
+checkboxes.change validate
