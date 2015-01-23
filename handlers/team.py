@@ -386,7 +386,7 @@ class CheckHandler(BaseHandler):
             ind = Individual.query(Individual.assigned_id == _id)
             if ind.count() > 0:
                 ind = ind.fetch()[0]
-                name = ind.name
+                name = ind.name + '|' + Team.get_by_id(ind.team).name
                 if rnd == 'speed':
                     ret = ind.speed_scores
                 else:
