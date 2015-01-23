@@ -98,9 +98,10 @@ check = ->
             guts_round: guts_round.val()
         }
         success: (data) ->
-            if cur_scores.length > 0
+            scores = JSON.parse(data.scores)
+            if scores.length > 0
                 ($ '#graded').text data.name
-                cur_scores = JSON.parse(data.scores)
+                cur_scores = scores
                 validate()
             else
                 ($ '#graded').text ''
