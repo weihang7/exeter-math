@@ -136,9 +136,11 @@
         guts_round: guts_round.val()
       },
       success: function(data) {
-        if (cur_scores.length > 0) {
+        var scores;
+        scores = JSON.parse(data.scores);
+        if (scores.length > 0) {
           ($('#graded')).text(data.name);
-          cur_scores = JSON.parse(data.scores);
+          cur_scores = scores;
           return validate();
         } else {
           return ($('#graded')).text('');
