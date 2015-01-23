@@ -18,13 +18,19 @@ $.ajax
     dataType: 'json'
     success: (data) ->
         number = 0
-        for id, team of data.teams
+        for id, team of data.teams then do (id, team) ->
             team_tr = $ '<tr></tr>'
             if team.user > -1
                 team_tr.append $ "<td><a href='mailto:#{data.users[team.user]}'>#{data.users[team.user]}</a></td>"
             else
                 team_tr.append $ "<td>(admin)</td>"
-            team_tr.append $ "<td>#{team.name}</td>"
+            team_tr.append $("<td></td>").append $("<input class='form-control'>").val(team.name).on 'change', ->
+                $.ajax
+                    url: '/admin_edit_name'
+                    data: {
+                        'id': id
+                        'name': @value
+                    }
             for member in team.members then do (member) ->
                 team_tr.append $("<td></td>").append $("<input class='form-control'>").val(member.name).on 'change', ->
                     $.ajax

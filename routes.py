@@ -34,6 +34,7 @@ application = webapp2.WSGIApplication([
     Route('/guts_time_sync', 'handlers.team.GutsTimeSyncHandler'),
     Route('/guts_round_update', 'handlers.team.GutsRoundUpdateHandler'),
     Route('/admin_edit', 'handlers.team.AdminEditHandler'),
+    Route('/admin_edit_name', 'handlers.team.EditNameHandler'),
     Route('/individual_team', 'handlers.team.IndivTeamHandler'),
     Route('/start_guts', 'handlers.team.StartGutsHandler')
 ], debug=True, config=config)

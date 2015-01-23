@@ -447,16 +447,17 @@ class ListScoresHandler(BaseHandler):
         teamsDict = {}
 
         for team in teams:
-            teamsDict[team.key.id()] = {
-                'id': team.assigned_id,
-                'name': team.name,
-                'team_scores': json.loads(team.team_scores if team.team_scores is not None else 'null'),
-                'guts_scores': json.loads(team.guts_scores if team.guts_scores is not None else 'null'),
-                'members': []
-            }
+            if team.assigned_id is not None and len(team.assigned_id) > 0:
+                teamsDict[team.key.id()] = {
+                    'id': team.assigned_id,
+                    'name': team.name,
+                    'team_scores': json.loads(team.team_scores if team.team_scores is not None else 'null'),
+                    'guts_scores': json.loads(team.guts_scores if team.guts_scores is not None else 'null'),
+                    'members': []
+                }
 
         for individual in individuals:
-            if individual.team > 0:
+            if individual.team > 0 and individual.team in teamsDict:
                 print(individual.speed_scores is not None)
                 teamsDict[individual.team]["members"].append({
                     'name': individual.name,
@@ -527,6 +528,15 @@ class AdminEditHandler(BaseHandler):
 
         self.response.headers['Content-Type'] = 'application/json'
         self.response.write(json.dumps(individual.serialize()))
+
+class EditNameHandler(BaseHandler):
+    def get(self):
+        team = Team.get_by_id(int(self.request.get('id')))
+        team.name = self.request.get('name')
+        team.put()
+
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.write(json.dumps({'success': True}))
 
 class IndivTeamHandler(BaseHandler):
     def get(self):
