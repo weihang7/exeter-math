@@ -1,4 +1,4 @@
-uassword = $ '#password'
+password = $ '#password'
 round = $ '#round'
 id = $ '#id'
 guts_round = $ '#guts-round'

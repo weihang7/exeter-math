@@ -1,7 +1,7 @@
 (function() {
-  var check, checkboxes, cur_scores, grade, guts_round, guts_round_control, id, id_control, map, password_control, refresh, refresh_guts, round, serialize, submit, uassword, validate, verify;
+  var check, checkboxes, cur_scores, grade, guts_round, guts_round_control, id, id_control, map, password, password_control, refresh, refresh_guts, round, serialize, submit, validate, verify;
 
-  uassword = $('#password');
+  password = $('#password');
 
   round = $('#round');
 
