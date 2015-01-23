@@ -380,13 +380,13 @@ class CheckHandler(BaseHandler):
     def get(self):
         rnd = self.request.get('round')
         _id = self.request.get('id')
-        name = 'No Face'
+        name = ''
         ret = '[]'
         if rnd in ('speed', 'accuracy'):
             ind = Individual.query(Individual.assigned_id == _id)
             if ind.count() > 0:
                 ind = ind.fetch()[0]
-                name = ind.name
+                name = ind.name + '|' + Team.get_by_id(ind.team).name
                 if rnd == 'speed':
                     ret = ind.speed_scores
                 else:

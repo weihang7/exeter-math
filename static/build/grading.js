@@ -1,7 +1,7 @@
 (function() {
-  var check, checkboxes, grade, guts_round, guts_round_control, id, id_control, map, password, password_control, refresh, refresh_guts, round, serialize, submit, verify;
+  var check, checkboxes, cur_scores, grade, guts_round, guts_round_control, id, id_control, map, password_control, refresh, refresh_guts, round, serialize, submit, uassword, validate, verify;
 
-  password = $('#password');
+  uassword = $('#password');
 
   round = $('#round');
 
@@ -18,6 +18,8 @@
   guts_round_control = $('#guts-round-control');
 
   checkboxes = $('#checkboxes');
+
+  cur_scores = [];
 
   map = {
     'speed': 20,
@@ -50,6 +52,21 @@
       return ret.push(el.checked);
     });
     return ret;
+  };
+
+  validate = function(scores) {
+    var cur, i, _i, _ref, _results;
+    cur = serialize();
+    ($('#diff')).text('Conflicts: ');
+    _results = [];
+    for (i = _i = 0, _ref = cur_scores.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
+      if (cur_scores[i] !== cur[i]) {
+        _results.push(($('#diff')).append((i + 1) + ', '));
+      } else {
+        _results.push(void 0);
+      }
+    }
+    return _results;
   };
 
   grade = function() {
@@ -92,11 +109,13 @@
       for (i = _i = 1, _ref = map[round.val()]; 1 <= _ref ? _i <= _ref : _i >= _ref; i = 1 <= _ref ? ++_i : --_i) {
         checkboxes.append($("<div class='checkbox'> <label>" + i + "<input type='checkbox'></label> </div>"));
       }
-      return guts_round_control.addClass('hidden');
+      guts_round_control.addClass('hidden');
     } else {
       guts_round_control.removeClass('hidden');
-      return refresh_guts();
+      refresh_guts();
     }
+    ($('#graded')).text('');
+    return cur_scores = [];
   };
 
   refresh_guts = function() {
@@ -119,18 +138,12 @@
         guts_round: guts_round.val()
       },
       success: function(data) {
-        var cur, i, _i, _ref;
-        cur = serialize();
-        ($('#diff')).clear();
-        for (i = _i = 0, _ref = data.scores.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
-          if (data.scores[i] !== cur[i]) {
-            ($('#diff')).append(i + 1);
-          }
-        }
-        if (data.scores.length > 0) {
-          return ($('#graded')).text(data.name);
-        } else {
-          return ($('#graded')).text('');
+        var scores;
+        scores = JSON.parse(data.scores);
+        if (scores && scores.length > 0) {
+          ($('#graded')).text(data.name);
+          cur_scores = scores;
+          return validate();
         }
       }
     });
@@ -143,5 +156,7 @@
   guts_round.change(refresh_guts);
 
   id.keyup(check);
+
+  checkboxes.change(validate);
 
 }).call(this);
