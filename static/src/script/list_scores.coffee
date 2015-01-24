@@ -5,7 +5,7 @@ individuals_list = $ '#individuals_list'
 SPEED = 3
 ACCURACY = 9
 TEAM = 20
-GUTS = [3,3,3,5,5,5,7,7,7,9,9,9,11,11,11,13,13,13,15,15,15,18,18,18,22,22,22]
+GUTS = [5,5,5,7,7,7,9,9,9,11,11,11,13,13,13,15,15,15,18,18,18,22,22,22]
 
 reload = (sortfun) ->
     $.ajax
@@ -41,9 +41,15 @@ reload = (sortfun) ->
 
                     individuals_list.append individual_tr
             teams_list.tablesorter
-                sorter: 'digit'
+                headers:
+                    2: {sorter: 'digit'}
+                    3: {sorter: 'digit'}
+                    4: {sorter: 'digit'}
             individuals_list.tablesorter
-                sorter: 'digit'
+                headers:
+                    3: {sorter: 'digit'}
+                    4: {sorter: 'digit'}
+                    5: {sorter: 'digit'}
 formatScore = (arr) ->
     if arr?
         correct = []
@@ -55,7 +61,7 @@ formatScore = (arr) ->
         else
             return "#{correct.length} (missed #{incorrect.join(', ')})"
     else
-        return "n/a"
+        return "0 (not scored)"
 
 formatGuts = (arr) ->
     total = 0
