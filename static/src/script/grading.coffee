@@ -82,6 +82,7 @@ refresh = ->
         refresh_guts()
     ($ '#graded').text ''
     cur_scores = []
+    validate()
 
 refresh_guts = ->
     checkboxes.empty()
@@ -101,10 +102,10 @@ check = ->
         }
         success: (data) ->
             scores = JSON.parse(data.scores)
+            ($ '#graded').text data.name
             if scores and scores.length > 0
-                ($ '#graded').text data.name
                 cur_scores = scores
-                validate()
+            validate()
 
 refresh()
 round.change refresh

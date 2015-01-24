@@ -115,7 +115,8 @@
       refresh_guts();
     }
     ($('#graded')).text('');
-    return cur_scores = [];
+    cur_scores = [];
+    return validate();
   };
 
   refresh_guts = function() {
@@ -140,11 +141,11 @@
       success: function(data) {
         var scores;
         scores = JSON.parse(data.scores);
+        ($('#graded')).text(data.name);
         if (scores && scores.length > 0) {
-          ($('#graded')).text(data.name);
           cur_scores = scores;
-          return validate();
         }
+        return validate();
       }
     });
   };
