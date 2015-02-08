@@ -49,6 +49,7 @@ module.exports = (grunt) ->
                     'forgot.html': 'src/forgot.jade'
                     'reset.html': 'src/reset.jade'
                     'grading.html': 'src/grading.jade'
+                    'archive/2015results.html': 'src/archive/2015results.jade'
                 }
 
     grunt.loadNpmTasks 'grunt-coffeelint'

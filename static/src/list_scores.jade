@@ -6,6 +6,7 @@ html(lang='en')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     title Registered Teams | Exeter Math Club Competition
     link(href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css', rel='stylesheet')
+    link(href='tablesorter-theme.default.css', rel='stylesheet')
     link(href='main.css', rel='stylesheet')
     script(src='respond.min.js')
     link(rel='shortcut icon', href='favicon.ico')
@@ -15,19 +16,26 @@ html(lang='en')
       div.page-header
         h1 Teams
       table#teams_list.table
-        tr
-          th Name
-          th Id
-          th Team
-          th Guts
+        thead
+          tr
+            th Name
+            th Id
+            th.sorter-digit Team
+            th.sorter-digit Guts
+            th Sweepstakes
       div.page-header
         h1 Individuals
       table#individuals_list.table
-        tr
-          th Name
-          th Id
-          th Speed
-          th Accuracy
+        thead
+          tr
+            th Team
+            th Name
+            th Id
+            th.sorter-digit Speed
+            th.sorter-digit Accuracy
+            th.sorter-digit Total
     script(src='//code.jquery.com/jquery-1.11.0.min.js')
     script(src='//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js')
-    script(src='build/list_scores.js')
+    script(src='jquery.tablesorter.min.js')
+    script(src='jquery.tablesorter.widgets.min.js')
+    script(src='build/list_scores.min.js')

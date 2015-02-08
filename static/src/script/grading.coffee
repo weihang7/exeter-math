@@ -1,4 +1,4 @@
-uassword = $ '#password'
+password = $ '#password'
 round = $ '#round'
 id = $ '#id'
 guts_round = $ '#guts-round'
@@ -42,8 +42,11 @@ validate = (scores) ->
         if cur_scores[i] isnt cur[i]
             ($ '#diff').append (i + 1) + ', '
 
+request_id = 0
+last_received = 0
 grade = ->
     if verify(password.val(), id.val())
+        request_id++
         $.ajax
             url: '/grade'
             method: 'POST'
@@ -55,17 +58,20 @@ grade = ->
                 score: JSON.stringify(serialize())
             }
             dataType: 'json'
-            success: (data) ->
-                if data.success
-                    ($ "input[type=checkbox]").prop('checked', false)
-                    id.val('')
-                else
-                    if data.problem is 'password'
-                        password.val('')
-                        password_control.addClass 'has-error'
-                    else if data.problem is 'id'
+            success: do (request_id) -> (data) ->
+                if request_id > last_received
+                    if data.success
+                        ($ "input[type=checkbox]").prop('checked', false)
+                        refresh()
                         id.val('')
-                        id_control.addClass 'has-error'
+                    else
+                        if data.problem is 'password'
+                            password.val('')
+                            password_control.addClass 'has-error'
+                        else if data.problem is 'id'
+                            id.val('')
+                            id_control.addClass 'has-error'
+                    last_received = request_id
 
 submit.click grade
 
@@ -105,6 +111,8 @@ check = ->
             ($ '#graded').text data.name
             if scores and scores.length > 0
                 cur_scores = scores
+            else
+                cur_scores = []
             validate()
 
 refresh()
