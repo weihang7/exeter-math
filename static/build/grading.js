@@ -55,18 +55,18 @@
   };
 
   validate = function(scores) {
-    var cur, i, _i, _ref, _results;
+    var cur, i, j, ref, results;
     cur = serialize();
     ($('#diff')).text('Conflicts: ');
-    _results = [];
-    for (i = _i = 0, _ref = cur_scores.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
+    results = [];
+    for (i = j = 0, ref = cur_scores.length; 0 <= ref ? j < ref : j > ref; i = 0 <= ref ? ++j : --j) {
       if (cur_scores[i] !== cur[i]) {
-        _results.push(($('#diff')).append((i + 1) + ', '));
+        results.push(($('#diff')).append((i + 1) + ', '));
       } else {
-        _results.push(void 0);
+        results.push(void 0);
       }
     }
-    return _results;
+    return results;
   };
 
   request_id = 0;
@@ -114,10 +114,10 @@
   submit.click(grade);
 
   refresh = function() {
-    var i, _i, _ref;
+    var i, j, ref;
     checkboxes.empty();
     if (round.val() !== 'guts') {
-      for (i = _i = 1, _ref = map[round.val()]; 1 <= _ref ? _i <= _ref : _i >= _ref; i = 1 <= _ref ? ++_i : --_i) {
+      for (i = j = 1, ref = map[round.val()]; 1 <= ref ? j <= ref : j >= ref; i = 1 <= ref ? ++j : --j) {
         checkboxes.append($("<div class='checkbox'> <label>" + i + "<input type='checkbox'></label> </div>"));
       }
       guts_round_control.addClass('hidden');
@@ -131,13 +131,13 @@
   };
 
   refresh_guts = function() {
-    var i, _i, _ref, _ref1, _results;
+    var i, j, ref, ref1, results;
     checkboxes.empty();
-    _results = [];
-    for (i = _i = _ref = parseInt(guts_round.val()) * 3 - 2, _ref1 = parseInt(guts_round.val()) * 3; _ref <= _ref1 ? _i <= _ref1 : _i >= _ref1; i = _ref <= _ref1 ? ++_i : --_i) {
-      _results.push(checkboxes.append($("<div class='checkbox'> <label>" + i + "<input type='checkbox'></label> </div>")));
+    results = [];
+    for (i = j = ref = parseInt(guts_round.val()) * 3 - 2, ref1 = parseInt(guts_round.val()) * 3; ref <= ref1 ? j <= ref1 : j >= ref1; i = ref <= ref1 ? ++j : --j) {
+      results.push(checkboxes.append($("<div class='checkbox'> <label>" + i + "<input type='checkbox'></label> </div>")));
     }
-    return _results;
+    return results;
   };
 
   check = function() {
