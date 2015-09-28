@@ -51,3 +51,5 @@ coverage.xml
 docs/_build/
 
 .DS_Store
+*.min.js
+*.min.js.map

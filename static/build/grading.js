@@ -1,5 +1,5 @@
 (function() {
-  var check, checkboxes, cur_scores, grade, guts_round, guts_round_control, id, id_control, map, password, password_control, refresh, refresh_guts, round, serialize, submit, validate, verify;
+  var check, checkboxes, cur_scores, grade, guts_round, guts_round_control, id, id_control, last_received, map, password, password_control, refresh, refresh_guts, request_id, round, serialize, submit, validate, verify;
 
   password = $('#password');
 
@@ -69,8 +69,13 @@
     return _results;
   };
 
+  request_id = 0;
+
+  last_received = 0;
+
   grade = function() {
     if (verify(password.val(), id.val())) {
+      request_id++;
       return $.ajax({
         url: '/grade',
         method: 'POST',
@@ -82,20 +87,26 @@
           score: JSON.stringify(serialize())
         },
         dataType: 'json',
-        success: function(data) {
-          if (data.success) {
-            ($("input[type=checkbox]")).prop('checked', false);
-            return id.val('');
-          } else {
-            if (data.problem === 'password') {
-              password.val('');
-              return password_control.addClass('has-error');
-            } else if (data.problem === 'id') {
-              id.val('');
-              return id_control.addClass('has-error');
+        success: (function(request_id) {
+          return function(data) {
+            if (request_id > last_received) {
+              if (data.success) {
+                ($("input[type=checkbox]")).prop('checked', false);
+                refresh();
+                id.val('');
+              } else {
+                if (data.problem === 'password') {
+                  password.val('');
+                  password_control.addClass('has-error');
+                } else if (data.problem === 'id') {
+                  id.val('');
+                  id_control.addClass('has-error');
+                }
+              }
+              return last_received = request_id;
             }
-          }
-        }
+          };
+        })(request_id)
       });
     }
   };
@@ -115,7 +126,8 @@
       refresh_guts();
     }
     ($('#graded')).text('');
-    return cur_scores = [];
+    cur_scores = [];
+    return validate();
   };
 
   refresh_guts = function() {
@@ -140,11 +152,13 @@
       success: function(data) {
         var scores;
         scores = JSON.parse(data.scores);
+        ($('#graded')).text(data.name);
         if (scores && scores.length > 0) {
-          ($('#graded')).text(data.name);
           cur_scores = scores;
-          return validate();
+        } else {
+          cur_scores = [];
         }
+        return validate();
       }
     });
   };
