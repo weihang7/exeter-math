@@ -70,13 +70,27 @@ addTeam.click ->
 
             teamsDiv.append newTeamDiv
 
-addIndividual.click ->
+newIndividual = (name) ->
     input = createLabelledInput 'Individual', 'John Smith'
     input.input.on 'input', invalidate
+    input.input.val name
 
     individualInputs.push input.input
 
+    deleteButton = $ "<span class='input-group-addon btn btn-danger'>
+        <span class='glyphicon glyphicon-remove'></span>
+    </span>"
+    deleteButton.click (event) ->
+        id = ($ event.target).attr('id')
+        individualInputs.splice(id, 1)
+        ($ event.target).parent().parent().remove()
+        invalidate()
+    input.group.attr('id', individualInputs.length)
+    input.group.prepend deleteButton
     individualsDiv.append input.group
+
+addIndividual.click () ->
+    newIndividual()
 
 submit.click ->
     members = []
@@ -163,12 +177,6 @@ $.ajax
             teamsDiv.append newTeamDiv
 
         for individual in data.individuals
-            input = createLabelledInput 'Individual', 'John Smith'
-            input.input.val individual.name
-            input.input.on 'input', invalidate
-
-            individualInputs.push input.input
-
-            individualsDiv.append input.group
+            newIndividual individual.name
     error: ->
         location.href = 'login.html'
