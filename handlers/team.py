@@ -15,7 +15,7 @@ import datetime
 import time
 
 def get_year():
-    return datetime.datetime.today().year
+    return 2016 #datetime.datetime.today().year
 
 # CreateTeamHandler
 # The handler that listens on /register
@@ -412,7 +412,7 @@ class GutsRoundUpdateHandler(BaseHandler):
         teams = Team.query(Team.year == get_year()).fetch()
         ret = []
         for team in teams:
-            if team.name is not None and team.assigned_id is not None and team.assigned_id is not '':
+            if team.name is not None and team.assigned_id is not None and len(team.assigned_id) > 0:
                 ret.append({
                     'name': team.name,
                     'scores': team.guts_scores

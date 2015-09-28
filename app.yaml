@@ -4,6 +4,8 @@ runtime: python27
 api_version: 1
 threadsafe: true
 
+default_expiration: "0h"
+
 handlers:
 - url: /create_team
   script: routes.application

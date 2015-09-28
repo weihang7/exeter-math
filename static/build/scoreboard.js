@@ -2,7 +2,7 @@
 (function() {
   var MAX_SCORE, doc_body, formatTeam, formatTime, highlighted, position, refreshTeams, refresh_search, remaining_time, searchTeamExact, searchTeamPrefix, search_found, syncTime, teams, zeroPad, cycleIndex;
 
-  MAX_SCORE = 180;
+  MAX_SCORE = 300;
 
   remaining_time = 0;
 
@@ -161,8 +161,8 @@
           if (!search_found) {
             //position += animation_interval;
             var max = 0;
-            position = $(".team_wrapper").each(function(el) {
-                if ($(this).offset().top < $(window).height() + position) max = Math.max($(this).offset().top, max);
+            $(".team_wrapper").each(function(el) {
+                if ($(this).offset().top < window.innerHeight + position) max = Math.max($(this).offset().top, max);
             });
             position = max;
           }
@@ -209,7 +209,7 @@
         }, team));
       }
       refresh_search();
-      animation_limit = body.height() - $(window).height();
+      animation_limit = body.height() - window.innerHeight;
       //animation_interval = $(window).height(); //animation_limit / 10;
       return tick(cont, (new Date()).getTime());
     });

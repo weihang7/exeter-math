@@ -76,7 +76,7 @@ getScore = (arr) ->
     return count
 
 getSweepstakes = (team) ->
-    total = getScore(team.team_scores) * TEAM + (team.guts ? 0)
+    total = getScore(team.team_scores) * TEAM + formatGuts(team.guts_scores)
     for individual in team.members
         total += getScore(individual.speed_scores) * SPEED + getScore(individual.accuracy_scores) * ACCURACY
     return total
