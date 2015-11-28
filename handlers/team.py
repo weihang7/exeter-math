@@ -39,7 +39,7 @@ class CreateTeamHandler(BaseHandler):
         }))
 
 class EditInfoHandler(BaseHandler):
-    def get(self):
+    def post(self):
 
         # Create and insert a record
         # for this registration.
