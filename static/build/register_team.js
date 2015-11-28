@@ -139,6 +139,7 @@
     }
     return $.ajax({
       url: '/edit_info',
+      method: 'POST',
       data: {
         'user': userInput.val(),
         'teams': JSON.stringify(teams),
