@@ -107,7 +107,7 @@ check = ->
             guts_round: guts_round.val()
         }
         success: (data) ->
-            scores = JSON.parse(data.scores)
+            scores = data.scores
             ($ '#graded').text data.name
             if scores and scores.length > 0
                 cur_scores = scores

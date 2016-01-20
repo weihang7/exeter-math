@@ -399,6 +399,8 @@ class CheckHandler(BaseHandler):
                 if rnd == 'team':
                     ret = team.team_scores
                 else:
+		    if team.guts_scores is None:
+                        team.guts_scores = '[]'
                     guts_round = int(self.request.get('guts_round'))
                     ret = parse_or_none(team.guts_scores)[guts_round * 3 - 3 : guts_round * 3 - 1]
         self.response.headers['Content-Type'] = 'application/json'

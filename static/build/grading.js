@@ -151,7 +151,7 @@
       },
       success: function(data) {
         var scores;
-        scores = JSON.parse(data.scores);
+        scores = data.scores;
         ($('#graded')).text(data.name);
         if (scores && scores.length > 0) {
           cur_scores = scores;
