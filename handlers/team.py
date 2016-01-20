@@ -212,7 +212,7 @@ class AddLegacyTeamHandler(BaseHandler):
 
 def parse_or_none(string):
     if string is None:
-        return string
+        return []
     else:
         return json.loads(string)
 
