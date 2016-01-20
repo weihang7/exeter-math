@@ -8,7 +8,7 @@ from google.appengine.ext import ndb
 import datetime
 
 class Team(ndb.Model):
-    name = ndb.StringProperty(indexed=False)
+    name = ndb.StringProperty(indexed=True)
     user = ndb.IntegerProperty(indexed=True)
     paid = ndb.BooleanProperty(indexed=True)
     year = ndb.IntegerProperty(indexed=True)
@@ -18,7 +18,7 @@ class Team(ndb.Model):
     team_scores = ndb.StringProperty()
 
 class Individual(ndb.Model):
-    name = ndb.StringProperty(indexed=False)
+    name = ndb.StringProperty(indexed=True)
     team = ndb.IntegerProperty(indexed=True)
     user = ndb.IntegerProperty(indexed=True)
     paid = ndb.BooleanProperty(indexed=True)
