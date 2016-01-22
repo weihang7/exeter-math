@@ -212,7 +212,7 @@ class AddLegacyTeamHandler(BaseHandler):
 
 def parse_or_none(string):
     if string is None:
-        return string
+        return []
     else:
         return json.loads(string)
 
@@ -399,7 +399,10 @@ class CheckHandler(BaseHandler):
                 if rnd == 'team':
                     ret = team.team_scores
                 else:
-                    ret = team.guts_scores
+		    if team.guts_scores is None:
+                        ret = []
+                    else:
+                        ret = team.guts_scores
         self.response.headers['Content-Type'] = 'application/json'
         self.response.write(json.dumps({
             'scores': ret,
@@ -450,8 +453,8 @@ class ListScoresHandler(BaseHandler):
                 teamsDict[team.key.id()] = {
                     'id': team.assigned_id,
                     'name': team.name,
-                    'team_scores': json.loads(team.team_scores if team.team_scores is not None else 'null'),
-                    'guts_scores': json.loads(team.guts_scores if team.guts_scores is not None else 'null'),
+                    'team_scores': parse_or_none(team.team_scores),
+                    'guts_scores': parse_or_none(team.guts_scores),
                     'members': []
                 }
 

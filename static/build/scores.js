@@ -88,7 +88,8 @@
             return results1;
           })()).join('')) + "\n  </table>\n  </div>"));
         }
-        if (team.team_scores != null) {
+        if (team.team_scores != null && team.team_scores.length > 0) {
+	  console.log(team.team_scores);
           showedAnyScores = true;
           team_div.append($("<div>\n  <h3>Team</h3>\n  <table class='table table-bordered'>\n    <tr>" + (((function() {
             var l, ref2, results1;

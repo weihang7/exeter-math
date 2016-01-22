@@ -65,7 +65,7 @@ $.ajax
                     </div>
                 """
 
-            if team.team_scores?
+            if team.team_scores? and team.team_scores.length > 0
                 showedAnyScores = true
                 team_div.append $ """
                   <div>
