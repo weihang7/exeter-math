@@ -38,9 +38,15 @@ serialize = ->
 validate = (scores) ->
     cur = serialize()
     ($ '#diff').text 'Conflicts: '
-    for i in [0...cur_scores.length]
-        if cur_scores[i] isnt cur[i]
-            ($ '#diff').append (i + 1) + ', '
+    if round.val() isnt 'guts'
+        for i in [0...cur_scores.length]
+            if cur_scores[i] isnt cur[i]
+                ($ '#diff').append (i + 1) + ', '
+    else
+        seg = cur_scores[guts_round * 3 - 3...guts_round * 3 - 1]
+        for i in [0...seg.length]
+            if seg[i] isnt cur[i]
+                ($ '#diff').append (i + 1) + ', '
 
 request_id = 0
 last_received = 0
@@ -104,7 +110,6 @@ check = ->
         data: {
             round: round.val()
             id: id.val()
-            guts_round: guts_round.val()
         }
         success: (data) ->
             scores = JSON.parse(data.scores)

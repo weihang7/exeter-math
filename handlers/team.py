@@ -399,8 +399,7 @@ class CheckHandler(BaseHandler):
                 if rnd == 'team':
                     ret = team.team_scores
                 else:
-                    guts_round = int(self.request.get('guts_round'))
-                    ret = json.loads(team.guts_scores)[guts_round * 3 - 3 : guts_round * 3 - 1]
+                    ret = team.guts_scores
         self.response.headers['Content-Type'] = 'application/json'
         self.response.write(json.dumps({
             'scores': ret,
