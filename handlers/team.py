@@ -14,6 +14,8 @@ from google.appengine.ext import ndb
 import datetime
 import time
 
+YEAR = 2016
+
 def get_year():
     return 2016 #datetime.datetime.today().year
 
@@ -44,7 +46,8 @@ class EditInfoHandler(BaseHandler):
         # Create and insert a record
         # for this registration.
         user_id = int(self.auth.get_user_by_session()['user_id'])
-        query = Individual.query(Individual.user == user_id, Individual.year == get_year())
+	yr = get_year()
+        query = Individual.query(Individual.user == user_id, Individual.year == yr)
 
         for member in query:
             member.key.delete()
