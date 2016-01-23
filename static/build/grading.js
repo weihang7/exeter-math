@@ -161,12 +161,13 @@
         round: round.val(),
         id: id.val()
       },
+      dataType: 'json',
       success: function(data) {
         var scores;
         scores = data.scores;
         ($('#graded')).text(data.name);
         if (scores && scores.length > 0) {
-          cur_scores = scores;
+          cur_scores = JSON.parse(scores);
         } else {
           cur_scores = [];
         }

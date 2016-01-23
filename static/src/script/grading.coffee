@@ -111,11 +111,12 @@ check = ->
             round: round.val()
             id: id.val()
         }
+        dataType: 'json'
         success: (data) ->
             scores = data.scores
             ($ '#graded').text data.name
             if scores and scores.length > 0
-                cur_scores = scores
+                cur_scores = JSON.parse(scores)
             else
                 cur_scores = []
             validate()
