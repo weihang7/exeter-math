@@ -341,7 +341,7 @@ class GradeHandler(BaseHandler):
             _id = self.request.get('id')
             score = self.request.get('score')
             if rnd in ('speed', 'accuracy'):
-                ind = Individual.query(Individual.assigned_id == _id)
+                ind = Individual.query(Individual.assigned_id == _id, Individual.year == get_year())
                 if ind.count() != 0:
                     ind = ind.fetch()[0]
                     if rnd == 'speed':
@@ -383,7 +383,7 @@ class CheckHandler(BaseHandler):
         name = ''
         ret = '[]'
         if rnd in ('speed', 'accuracy'):
-            ind = Individual.query(Individual.assigned_id == _id)
+            ind = Individual.query(Individual.assigned_id == _id, Individual.year == get_year())
             if ind.count() > 0:
                 ind = ind.fetch()[0]
                 name = ind.name + '|' + Team.get_by_id(ind.team).name
