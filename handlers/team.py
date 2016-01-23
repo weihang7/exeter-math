@@ -28,9 +28,9 @@ class CreateTeamHandler(BaseHandler):
         # Create and insert a record
         # for this registration.
         record = Team(
-            user=self.auth.get_user_by_session()['user_id'],
-            paid=False,
-            year = get_year()
+            user = self.auth.get_user_by_session()['user_id'],
+            paid = False,
+            year = YEAR
         )
         record.put()
 
@@ -46,8 +46,7 @@ class EditInfoHandler(BaseHandler):
         # Create and insert a record
         # for this registration.
         user_id = int(self.auth.get_user_by_session()['user_id'])
-	yr = get_year()
-        query = Individual.query(Individual.user == user_id, Individual.year == yr)
+        query = Individual.query(Individual.user == user_id, Individual.year == YEAR)
 
         for member in query:
             member.key.delete()
@@ -60,7 +59,7 @@ class EditInfoHandler(BaseHandler):
                     team = individual['team'],
                     user = user_id,
                     paid = (individual['paid'] if 'paid' in individual else False),
-                    year = get_year()
+                    year = YEAR
             )
             record.put()
 
@@ -92,7 +91,7 @@ class ListHandler(BaseHandler):
         user_dict = self.auth.get_user_by_session()
         if user_dict:
             user = user_dict['user_id']
-            query = Individual.query(Individual.user == user, Individual.year == get_year())
+            query = Individual.query(Individual.user == user, Individual.year == YEAR)
 
             for member in query:
                 if member.team != -1:
@@ -126,7 +125,7 @@ class AdminListHandler(BaseHandler):
         individuals = []
 
         # Query all users registered this year.
-        query = Individual.query(Individual.year == get_year())
+        query = Individual.query(Individual.year == YEAR)
 
         for member in query:
             if member.team != -1:
@@ -285,7 +284,7 @@ class SendEmailHandler(BaseHandler):
             teams = {}
             individuals = []
 
-            query = Individual.query(Individual.user == user.key.id(), Individual.year == get_year())
+            query = Individual.query(Individual.user == user.key.id(), Individual.year == YEAR)
 
             for member in query:
                 if member.team != -1:
@@ -344,7 +343,7 @@ class GradeHandler(BaseHandler):
             _id = self.request.get('id')
             score = self.request.get('score')
             if rnd in ('speed', 'accuracy'):
-                ind = Individual.query(Individual.assigned_id == _id, Individual.year == get_year())
+                ind = Individual.query(Individual.assigned_id == _id, Individual.year == YEAR)
                 if ind.count() != 0:
                     ind = ind.fetch()[0]
                     if rnd == 'speed':
@@ -386,7 +385,7 @@ class CheckHandler(BaseHandler):
         name = ''
         ret = '[]'
         if rnd in ('speed', 'accuracy'):
-            ind = Individual.query(Individual.assigned_id == _id, Individual.year == get_year())
+            ind = Individual.query(Individual.assigned_id == _id, Individual.year == YEAR)
             if ind.count() > 0:
                 ind = ind.fetch()[0]
                 name = ind.name + '|' + Team.get_by_id(ind.team).name
@@ -463,7 +462,6 @@ class ListScoresHandler(BaseHandler):
 
         for individual in individuals:
             if individual.team > 0 and individual.team in teamsDict:
-                print(individual.speed_scores is not None)
                 teamsDict[individual.team]["members"].append({
                     'name': individual.name,
                     'id': individual.assigned_id,
