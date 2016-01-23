@@ -55,7 +55,7 @@
   };
 
   validate = function(scores) {
-    var cur, i, j, k, ref, ref1, results, results1, seg;
+    var cur, i, j, k, ref, ref1, ref2, results, results1, rnd;
     cur = serialize();
     ($('#diff')).text('Conflicts: ');
     if (round.val() !== 'guts') {
@@ -69,11 +69,11 @@
       }
       return results;
     } else {
-      seg = cur_scores.slice(guts_round * 3 - 3, guts_round * 3 - 1);
+      rnd = parseInt(guts_round.val());
       results1 = [];
-      for (i = k = 0, ref1 = seg.length; 0 <= ref1 ? k < ref1 : k > ref1; i = 0 <= ref1 ? ++k : --k) {
-        if (seg[i] !== cur[i]) {
-          results1.push(($('#diff')).append((i + 1) + ', '));
+      for (i = k = ref1 = rnd * 3 - 3, ref2 = rnd * 3; ref1 <= ref2 ? k < ref2 : k > ref2; i = ref1 <= ref2 ? ++k : --k) {
+        if (cur_scores[i] !== cur[i - (rnd * 3 - 3)]) {
+          results1.push(($('#diff')).append((i + 1) + (i !== rnd * 3 - 1 ? ', ' : '')));
         } else {
           results1.push(void 0);
         }
@@ -144,13 +144,12 @@
   };
 
   refresh_guts = function() {
-    var i, j, ref, ref1, results;
+    var i, j, ref, ref1;
     checkboxes.empty();
-    results = [];
     for (i = j = ref = parseInt(guts_round.val()) * 3 - 2, ref1 = parseInt(guts_round.val()) * 3; ref <= ref1 ? j <= ref1 : j >= ref1; i = ref <= ref1 ? ++j : --j) {
-      results.push(checkboxes.append($("<div class='checkbox'> <label>" + i + "<input type='checkbox'></label> </div>")));
+      checkboxes.append($("<div class='checkbox'> <label>" + i + "<input type='checkbox'></label> </div>"));
     }
-    return results;
+    return validate();
   };
 
   check = function() {

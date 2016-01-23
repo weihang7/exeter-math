@@ -4,7 +4,7 @@ module.exports = (grunt) ->
         coffeelint:
             all:
                 files:
-                    src: ['src/script/*.coffee']
+                    src: ['src/*.coffee']
                 options:
                     'indentation':
                         'value': 4
@@ -13,7 +13,7 @@ module.exports = (grunt) ->
         coffee:
             build:
                 expand: true
-                cwd: 'src/script/'
+                cwd: 'src/'
                 src: ['**/*.coffee']
                 dest: 'build'
                 ext: '.js'
