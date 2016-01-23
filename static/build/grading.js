@@ -159,8 +159,7 @@
       method: 'GET',
       data: {
         round: round.val(),
-        id: id.val(),
-        guts_round: guts_round.val()
+        id: id.val()
       },
       success: function(data) {
         var scores;

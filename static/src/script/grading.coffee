@@ -43,7 +43,7 @@ validate = (scores) ->
             if cur_scores[i] isnt cur[i]
                 ($ '#diff').append (i + 1) + ', '
     else
-        seg = cur_scores[guts_round * 3 - 3...guts_round * 3 - 1]
+        seg = cur_scores[(guts_round * 3 - 3)...(guts_round * 3 - 1)]
         for i in [0...seg.length]
             if seg[i] isnt cur[i]
                 ($ '#diff').append (i + 1) + ', '
