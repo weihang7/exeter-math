@@ -403,9 +403,9 @@ class CheckHandler(BaseHandler):
                     ret = team.team_scores
                 else:
 		    if team.guts_scores is None:
-                        team.guts_scores = '[]'
-                    guts_round = int(self.request.get('guts_round'))
-                    ret = parse_or_none(team.guts_scores)[guts_round * 3 - 3 : guts_round * 3 - 1]
+                        ret = []
+                    else:
+                        ret = team.guts_scores
         self.response.headers['Content-Type'] = 'application/json'
         self.response.write(json.dumps({
             'scores': ret,

@@ -55,18 +55,31 @@
   };
 
   validate = function(scores) {
-    var cur, i, j, ref, results;
+    var cur, i, j, k, ref, ref1, results, results1, seg;
     cur = serialize();
     ($('#diff')).text('Conflicts: ');
-    results = [];
-    for (i = j = 0, ref = cur_scores.length; 0 <= ref ? j < ref : j > ref; i = 0 <= ref ? ++j : --j) {
-      if (cur_scores[i] !== cur[i]) {
-        results.push(($('#diff')).append((i + 1) + ', '));
-      } else {
-        results.push(void 0);
+    if (round.val() !== 'guts') {
+      results = [];
+      for (i = j = 0, ref = cur_scores.length; 0 <= ref ? j < ref : j > ref; i = 0 <= ref ? ++j : --j) {
+        if (cur_scores[i] !== cur[i]) {
+          results.push(($('#diff')).append((i + 1) + ', '));
+        } else {
+          results.push(void 0);
+        }
       }
+      return results;
+    } else {
+      seg = cur_scores.slice(guts_round * 3 - 3, guts_round * 3 - 1);
+      results1 = [];
+      for (i = k = 0, ref1 = seg.length; 0 <= ref1 ? k < ref1 : k > ref1; i = 0 <= ref1 ? ++k : --k) {
+        if (seg[i] !== cur[i]) {
+          results1.push(($('#diff')).append((i + 1) + ', '));
+        } else {
+          results1.push(void 0);
+        }
+      }
+      return results1;
     }
-    return results;
   };
 
   request_id = 0;
