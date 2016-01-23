@@ -62,7 +62,7 @@
       results = [];
       for (i = j = 0, ref = cur_scores.length; 0 <= ref ? j < ref : j > ref; i = 0 <= ref ? ++j : --j) {
         if (cur_scores[i] !== cur[i]) {
-          results.push(($('#diff')).append((i + 1) + ', '));
+          results.push(($('#diff')).append((i + 1) + (i !== cur_scores.length - 1 ? ', ' : '')));
         } else {
           results.push(void 0);
         }

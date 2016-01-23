@@ -41,7 +41,7 @@ validate = (scores) ->
     if round.val() isnt 'guts'
         for i in [0...cur_scores.length]
             if cur_scores[i] isnt cur[i]
-                ($ '#diff').append (i + 1) + ', '
+                ($ '#diff').append (i + 1) + (if i isnt cur_scores.length - 1 then ', ' else '')
     else
         rnd = parseInt(guts_round.val())
         for i in [(rnd * 3 - 3)...(rnd * 3)]
