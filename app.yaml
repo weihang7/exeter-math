@@ -40,8 +40,8 @@ handlers:
   script: routes.application
 - url: /forgot
   script: routes.application
-- url: /script
-  reset: routes.application
+- url: /reset
+  script: routes.application
 - url: /reset/(.+)
   static_files: static/reset.html
   upload: static/reset.html
